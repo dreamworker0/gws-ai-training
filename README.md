@@ -106,6 +106,25 @@ index.html              화면 뼈대
 style.css               모양 (밝은 화면·어두운 화면 모두 대응)
 data.js                 ← 내용은 전부 여기
 app.js                  화면 그리기
+favicon.svg             브라우저 탭과 북마크용 드림워크 표식
+img/dreamwork-archive-hero.png  홈 대표 이미지
+img/dreamwork-og.png    링크 공유용 1200×630 미리보기
+scripts/build-social-assets.py 대표 이미지에서 공유 이미지를 다시 만드는 도구
+scripts/design-contract.test.mjs 디자인·메타데이터 계약 점검
 scripts/check.mjs       링크 생존 점검
 .github/workflows/      주간 자동 점검
 ```
+
+## 디자인 자산과 점검
+
+홈은 드림워크의 교육 분야, 학습 아카이브, 관점과 문의를 한 흐름으로 보여 줍니다.
+대표 이미지가 바뀌면 아래 명령으로 오픈 그래프 이미지를 다시 만들 수 있습니다.
+
+```bash
+python scripts/build-social-assets.py
+node scripts/design-contract.test.mjs
+node scripts/check.mjs
+```
+
+`index.html`의 Open Graph와 Twitter 메타데이터는 GitHub Pages의 공개 주소와
+`img/dreamwork-og.png`를 사용합니다.

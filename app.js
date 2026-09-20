@@ -114,8 +114,8 @@
            (body ? "&body=" + encodeURIComponent(body) : "");
   }
 
-  function askBox(topic, note) {
-    return '<div class="ask"><div><b>' + (topic ? "이 주제가 막히시나요?" : "복습하다 막히셨나요?") +
+  function askBox(topic, note, heading) {
+    return '<div class="ask"><div><b>' + esc(heading || (topic ? "이 주제가 막히시나요?" : "복습하다 막히셨나요?")) +
       "</b><span>" + esc(note) + "</span></div>" +
       '<a class="askbtn" href="' + mailHref(topic) + '">' + esc(CONTACT.label) + " →</a></div>";
   }
@@ -187,6 +187,13 @@
   }).join("");
   if ($("ask-home")) {
     $("ask-home").innerHTML = askBox("", "여기에 없는 것이 궁금하시면 강사님께 바로 물어보셔도 됩니다.");
+  }
+  if ($("ask-education")) {
+    $("ask-education").innerHTML = askBox(
+      "교육 문의",
+      "기관의 상황과 참여자를 알려 주시면 알맞은 교육 흐름을 함께 살펴봅니다.",
+      "교육을 함께 준비하시나요?"
+    );
   }
 
   /* ── 항목 페이지 ────────────────────────────────── */

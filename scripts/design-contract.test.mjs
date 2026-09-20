@@ -27,6 +27,17 @@ assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
 assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
 assert.doesNotMatch(html, /기관별 진행 상황/);
+assert.match(html, /<link\s+rel=["']icon["']\s+href=["']favicon\.svg["']\s+type=["']image\/svg\+xml["']/);
+assert.match(html, /<link\s+rel=["']canonical["']\s+href=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);
+assert.match(html, /property=["']og:type["']\s+content=["']website["']/);
+assert.match(html, /property=["']og:title["']\s+content=["']드림워크 교육 아카이브["']/);
+assert.match(html, /property=["']og:description["']\s+content=["'][^"']+["']/);
+assert.match(html, /property=["']og:url["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);
+assert.match(html, /property=["']og:image["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/img\/dreamwork-og\.png["']/);
+assert.match(html, /property=["']og:image:width["']\s+content=["']1200["']/);
+assert.match(html, /property=["']og:image:height["']\s+content=["']630["']/);
+assert.match(html, /name=["']twitter:card["']\s+content=["']summary_large_image["']/);
+assert.match(html, /name=["']theme-color["']\s+content=["']#17362f["']/);
 
 const appSource = await readFile(new URL("app.js", root), "utf8");
 for (const functionName of ["renderEducationFields", "renderArchivePreview", "renderAbout"]) {
@@ -36,6 +47,8 @@ for (const routePattern of ["raw === \"graph\"", "raw === \"slides\"", "/^slides
   assert.equal(appSource.includes(routePattern), true, `기존 해시 처리 누락: ${routePattern}`);
 }
 assert.match(appSource, /findItem\(raw\)/);
+assert.match(appSource, /ask-education/);
+assert.match(appSource, /교육을 함께 준비하시나요\?/);
 
 const css = await readFile(new URL("style.css", root), "utf8");
 for (const token of ["--forest", "--terracotta", "--paper", "--sage", "--ink"]) {
