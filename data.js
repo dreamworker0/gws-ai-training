@@ -25,27 +25,6 @@ const META = {
   updated: "2026-09-20",
 };
 
-const EDUCATION_FIELDS = [
-  {
-    id: "workspace",
-    title: "Google Workspace",
-    description: "개인 도구를 조직의 협업 환경으로 바꿉니다.",
-    itemIds: ["a01", "a02", "a03", "a04", "a05", "a06", "a07", "a08", "a09", "a10", "a11", "a12"],
-  },
-  {
-    id: "automation",
-    title: "데이터와 업무 자동화",
-    description: "반복 업무를 데이터로 쌓고 다시 쓰는 흐름을 만듭니다.",
-    itemIds: ["b03", "b05", "b09", "b12", "b13"],
-  },
-  {
-    id: "agents",
-    title: "생성형 AI와 에이전트",
-    description: "말로 시키는 단계를 넘어 일을 나눠 맡는 시스템을 배웁니다.",
-    itemIds: ["b01", "b02", "b04", "b06", "b07", "b08", "b10", "b11"],
-  },
-];
-
 const ABOUT_DREAMWORK = {
   name: "드림워크",
   description: "현장의 작은 변화가 조직의 일하는 문화를 바꾸도록 돕는 교육 아카이브입니다.",

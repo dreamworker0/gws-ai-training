@@ -54,24 +54,6 @@
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
 
-  /* ── 설치 영상 (접혀 있다가 펼칠 때 불러옵니다) ──── */
-  $("intro-desc").textContent = INTRO_VIDEO.desc;
-  var setupBox = $("setup-box");
-  setupBox.addEventListener("toggle", function () {
-    var slot = $("intro-video");
-    if (!setupBox.open || slot.firstChild) return;
-    slot.innerHTML =
-      '<iframe src="https://www.youtube-nocookie.com/embed/' + esc(INTRO_VIDEO.id) + '"' +
-      ' title="' + esc(INTRO_VIDEO.t) + '" allowfullscreen' +
-      ' allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe>';
-  });
-
-  /* ── 인용 ───────────────────────────────────────── */
-  $("quotes").innerHTML = QUOTES.map(function (q) {
-    return '<figure class="quote"><p>“' + esc(q.text) + '”</p>' +
-           '<cite>' + esc(q.where) + '</cite></figure>';
-  }).join("");
-
   /* ═══ 발표자료 공통 ═══════════════════════════════
      슬라이드 한 장은 "덱id:쪽번호" 로 가리킵니다. 예) "smart:12" */
 
@@ -150,22 +132,6 @@
     return CURRICULUM.filter(function (x) { return x.id === id; })[0];
   }
 
-  function renderEducationFields(fields, curriculum) {
-    return fields.map(function (field) {
-      var linked = field.itemIds.map(findItem).filter(Boolean);
-      return '<article class="field-card" id="field-' + esc(field.id) + '">' +
-        '<p class="field-count">' + linked.length + '개 주제</p>' +
-        '<h3>' + esc(field.title) + '</h3>' +
-        '<p>' + esc(field.description) + '</p>' +
-        '<a href="#' + esc(linked[0] ? linked[0].id : 'curriculum') + '">대표 주제 보기 →</a>' +
-        '</article>';
-    }).join('');
-  }
-
-  function renderArchivePreview(curriculum) {
-    return curriculum.slice(0, 6).map(itemRow).join('');
-  }
-
   function renderAbout(about) {
     return '<div class="about-copy"><p class="eyebrow">' + esc(about.name) + '</p>' +
       '<h2 id="education-title">현장의 작은 변화부터 시작합니다.</h2>' +
@@ -181,12 +147,6 @@
   }
   $("track-a").innerHTML = trackA.map(itemRow).join("");
   $("track-b").innerHTML = trackB.map(itemRow).join("");
-  if ($("education-fields-list")) {
-    $("education-fields-list").innerHTML = renderEducationFields(EDUCATION_FIELDS, CURRICULUM);
-  }
-  if ($("archive-preview-list")) {
-    $("archive-preview-list").innerHTML = renderArchivePreview(CURRICULUM);
-  }
   if ($("education-about")) {
     $("education-about").innerHTML = renderAbout(ABOUT_DREAMWORK);
   }
@@ -452,11 +412,9 @@
 
     var HOME_ANCHORS = {
       hero: true,
-      "education-fields": true,
       education: true,
       curriculum: true,
       "slides-home": true,
-      viewpoint: true,
       faq: true,
       contact: true,
     };

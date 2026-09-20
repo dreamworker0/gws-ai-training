@@ -4,15 +4,15 @@ import { readFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url);
 const dataSource = await readFile(new URL("data.js", root), "utf8");
 const data = new Function(
-  dataSource + "\nreturn { META, EDUCATION_FIELDS, ABOUT_DREAMWORK, CURRICULUM };"
+  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM };"
 )();
 
 assert.equal(data.META.brand, "드림워크");
 assert.equal(data.META.title, "드림워크 교육 아카이브");
 assert.equal(data.META.tagline, "도구보다, 일하는 방식의 변화");
 assert.equal(data.META.lecturer, "교육자 김종원 · 소셜프리즘");
-assert.deepEqual(data.EDUCATION_FIELDS.map((field) => field.id), ["workspace", "automation", "agents"]);
 assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
+assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
 
 const publicText = JSON.stringify(data);
 for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관", "강감찬관악종합사회복지관"]) {
@@ -20,9 +20,20 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
 }
 
 const html = await readFile(new URL("index.html", root), "utf8");
-for (const id of ["hero", "audience-paths", "education-fields", "archive-preview", "viewpoint", "education", "contact", "hero-image"]) {
+for (const id of ["hero", "education", "curriculum", "contact", "hero-image"]) {
   assert.match(html, new RegExp(`id=["']${id}["']`), `필수 홈 영역 누락: ${id}`);
 }
+for (const removedId of ["audience-paths", "education-fields", "archive-preview", "start", "viewpoint"]) {
+  assert.doesNotMatch(html, new RegExp(`id=["']${removedId}["']`), `제거 대상 홈 영역이 남아 있음: ${removedId}`);
+}
+for (const removedText of ["어떤 마음으로 오셨나요?", "Education fields", "Learning archive", "아직 기관 계정이 없으신가요?", "Dreamwork viewpoint"]) {
+  assert.equal(html.includes(removedText), false, `제거 대상 문구가 남아 있음: ${removedText}`);
+}
+assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
+for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
+  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-trim`), `캐시 버전 누락: ${asset}`);
+}
+assert.equal(html.includes("20260921-archive"), false, "이전 캐시 버전이 남아 있음");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
 assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
@@ -40,9 +51,10 @@ assert.match(html, /name=["']twitter:card["']\s+content=["']summary_large_image[
 assert.match(html, /name=["']theme-color["']\s+content=["']#17362f["']/);
 
 const appSource = await readFile(new URL("app.js", root), "utf8");
-for (const functionName of ["renderEducationFields", "renderArchivePreview", "renderAbout"]) {
+for (const functionName of ["renderAbout"]) {
   assert.match(appSource, new RegExp(`function\\s+${functionName}\\s*\\(`), `렌더러 누락: ${functionName}`);
 }
+assert.doesNotMatch(appSource, /renderEducationFields|renderArchivePreview|setupBox|\$\(["']quotes["']\)/);
 for (const routePattern of ["raw === \"graph\"", "raw === \"slides\"", "/^slides-", "/^slide-"]) {
   assert.equal(appSource.includes(routePattern), true, `기존 해시 처리 누락: ${routePattern}`);
 }
