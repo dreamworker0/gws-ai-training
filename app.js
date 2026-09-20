@@ -1,4 +1,4 @@
-/* 열매똑똑 스마트워크 — 화면 그리기
+/* 구글 워크스페이스와 AI 교육 — 화면 그리기
    데이터는 전부 data.js 에 있습니다. 내용을 바꾸실 때는 이 파일이 아니라
    data.js 를 고치세요. */
 
@@ -13,15 +13,23 @@
     });
   }
 
-  var taught = {};
-  TAUGHT.forEach(function (id) { taught[id] = true; });
+  /* **굵게** 와 줄바꿈만 살려 둡니다. 나머지는 그대로 글자로 보입니다. */
+  function rich(s) {
+    return esc(s)
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\n/g, "<br>");
+  }
+
+  var TRACK_NAME = {
+    A: "A트랙 · 구글 워크스페이스 기초",
+    B: "B트랙 · 에이전트 기반 업무 자동화",
+  };
 
   /* ── 머리말 ─────────────────────────────────────── */
   $("site-title").textContent = META.title;
   $("site-sub").textContent = META.subtitle;
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
-  document.title = META.title + " — " + META.subtitle;
 
   /* ── 설치 영상 ──────────────────────────────────── */
   $("intro-video").innerHTML =
@@ -36,76 +44,61 @@
            '<cite>' + esc(q.where) + '</cite></figure>';
   }).join("");
 
-  /* ── 유형 ───────────────────────────────────────── */
-  $("types").innerHTML = TYPES.map(function (t) {
-    return '<div class="type"><b>' + esc(t.name) + ' · ' + t.n + '회기</b>' +
-           '<span>' + esc(t.desc) + '</span></div>';
-  }).join("");
-
-  /* ── 진도 ───────────────────────────────────────── */
-  var totalItems = CURRICULUM.length;
-  var doneItems = CURRICULUM.filter(function (it) { return taught[it.id]; }).length;
-  var pct = Math.round((doneItems / totalItems) * 100);
-  $("progress-bar").style.width = pct + "%";
-  $("progress-label").textContent = doneItems + " / " + totalItems + "항목";
-  $("progress-note").textContent = doneItems === 0
-    ? "아직 본교육이 시작되지 않았습니다."
-    : "회차가 진행될 때마다 채워집니다. 지금까지 다룬 항목에는 「진행함」 표시가 붙습니다.";
-
-  /* ── 일정표 ─────────────────────────────────────── */
+  /* ── 목차 ───────────────────────────────────────── */
   function itemRow(it) {
     var flags = [];
-    if (taught[it.id]) flags.push('<span class="chip done">진행함</span>');
+    if (it.lesson && it.lesson.length) flags.push('<span class="chip done">강의 정리</span>');
     if (it.status === "own") flags.push('<span class="chip own">현장 실습</span>');
     if (it.status === "check") flags.push('<span class="chip chk">확인 중</span>');
     if (it.videos.length) flags.push('<span class="chip vid">영상 ' + it.videos.length + '</span>');
 
-    return '<li><button class="item ' + it.track.toLowerCase() + '" data-id="' + it.id + '">' +
+    return '<li><a class="item ' + it.track.toLowerCase() + '" href="#' + it.id + '">' +
       '<span class="num">' + it.no + '</span>' +
       '<span class="ti"><b>' + esc(it.title) + '</b><small>' + esc(it.blurb) + '</small></span>' +
       '<span class="flags">' + flags.join("") + '</span>' +
-      '</button></li>';
+      '</a></li>';
   }
 
-  $("track-a").innerHTML = CURRICULUM.filter(function (i) { return i.track === "A"; }).map(itemRow).join("");
-  $("track-b").innerHTML = CURRICULUM.filter(function (i) { return i.track === "B"; }).map(itemRow).join("");
-
-  /* ── 기관 ───────────────────────────────────────── */
-  $("org-list").innerHTML = ORGS.map(function (o) {
-    return '<div class="org"><b>' + esc(o.name) + '</b><div class="meta">' +
-      '<span class="chip">' + esc(o.type) + '</span>' +
-      '<span class="chip">총 ' + o.quota + '회기</span>' +
-      '<span class="chip' + (o.stage === "본교육" ? " done" : "") + '">' + esc(o.stage) + '</span>' +
-      '</div></div>';
-  }).join("");
+  var trackA = CURRICULUM.filter(function (i) { return i.track === "A"; });
+  var trackB = CURRICULUM.filter(function (i) { return i.track === "B"; });
+  $("track-a").innerHTML = trackA.map(itemRow).join("");
+  $("track-b").innerHTML = trackB.map(itemRow).join("");
 
   /* ── FAQ ────────────────────────────────────────── */
   $("faq-list").innerHTML = FAQ.map(function (f) {
     return '<details><summary>' + esc(f.q) + '</summary><p>' + esc(f.a) + '</p></details>';
   }).join("");
 
-  /* ── 항목 상세 ──────────────────────────────────── */
-  var modal = $("modal");
-  var modalBody = $("modal-body");
-  var lastFocus = null;
+  /* ── 항목 페이지 ────────────────────────────────── */
+  var home = $("home");
+  var page = $("itempage");
 
-  function openItem(id) {
-    var it = CURRICULUM.filter(function (x) { return x.id === id; })[0];
-    if (!it) return;
-
+  function renderItem(it) {
     var h = "";
-    h += '<p class="kicker">' + (it.track === "A" ? "A트랙 · 구글 워크스페이스 기초" : "B트랙 · 에이전트 기반 업무 자동화") +
-         ' · ' + it.no + '번</p>';
-    h += "<h3>" + esc(it.title) + "</h3>";
-    h += "<p>" + esc(it.blurb) + "</p>";
+    h += '<p class="kicker">' + TRACK_NAME[it.track] + " · " + it.no + "번</p>";
+    h += "<h2 class='item-title'>" + esc(it.title) + "</h2>";
+    h += '<p class="lede">' + esc(it.blurb) + "</p>";
+
+    if (it.lesson && it.lesson.length) {
+      h += '<div class="lesson">';
+      h += "<h3>강의에서 다룬 내용</h3>";
+      it.lesson.forEach(function (s) {
+        h += "<section class='ls'>";
+        h += "<h4>" + rich(s.h) + "</h4>";
+        h += "<p>" + rich(s.p) + "</p>";
+        if (s.said) h += '<blockquote class="said">“' + esc(s.said) + '”</blockquote>';
+        h += "</section>";
+      });
+      h += "</div>";
+    }
 
     if (it.notes && it.notes.length) {
-      h += "<h4>강사님이 하신 말씀</h4><div class='note-box'><ul>";
-      it.notes.forEach(function (n) { h += "<li>" + esc(n) + "</li>"; });
+      h += "<h3>강사님이 하신 말씀</h3><div class='note-box'><ul>";
+      it.notes.forEach(function (n) { h += "<li>" + rich(n) + "</li>"; });
       h += "</ul></div>";
     }
 
-    h += "<h4>영상으로 보기</h4>";
+    h += "<h3>영상으로 보기</h3>";
     if (it.videos && it.videos.length) {
       h += '<div class="vids">';
       it.videos.forEach(function (v) {
@@ -119,42 +112,66 @@
     }
 
     if (it.docs && it.docs.length) {
-      h += "<h4>공식 문서</h4><ul>";
+      h += "<h3>공식 문서</h3><ul class='docs'>";
       it.docs.forEach(function (d) {
         h += '<li><a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></li>";
       });
       h += "</ul>";
     }
 
-    if (!taught[it.id]) {
-      h += '<p class="empty" style="margin-top:22px">아직 강의하지 않은 항목입니다. 회차가 끝나면 강사님 설명 정리가 여기에 추가됩니다.</p>';
+    if (!it.lesson || !it.lesson.length) {
+      h += '<p class="empty" style="margin-top:26px">이 항목의 강의 정리는 아직 준비 중입니다. 회차가 끝나는 대로 채워집니다.</p>';
     }
-
-    modalBody.innerHTML = h;
-    lastFocus = document.activeElement;
-    modal.hidden = false;
-    document.body.style.overflow = "hidden";
-    modal.querySelector(".modal-x").focus();
-    if (location.hash !== "#" + it.id) history.replaceState(null, "", "#" + it.id);
+    return h;
   }
 
-  function closeModal() {
-    modal.hidden = true;
-    document.body.style.overflow = "";
-    if (lastFocus) lastFocus.focus();
-    if (/^#[ab]\d\d$/.test(location.hash)) history.replaceState(null, "", location.pathname);
+  /* 같은 트랙 안에서 앞뒤로 넘기기 */
+  function renderPager(it) {
+    var list = it.track === "A" ? trackA : trackB;
+    var i = list.indexOf(it);
+    var prev = list[i - 1];
+    var next = list[i + 1];
+    var h = "";
+    h += prev
+      ? '<a class="pg prev" href="#' + prev.id + '"><span>이전</span><b>' + esc(prev.title) + "</b></a>"
+      : '<span class="pg empty-pg"></span>';
+    h += next
+      ? '<a class="pg next" href="#' + next.id + '"><span>다음</span><b>' + esc(next.title) + "</b></a>"
+      : '<span class="pg empty-pg"></span>';
+    return h;
   }
 
-  document.addEventListener("click", function (e) {
-    var btn = e.target.closest ? e.target.closest(".item") : null;
-    if (btn) { openItem(btn.getAttribute("data-id")); return; }
-    if (e.target.hasAttribute && e.target.hasAttribute("data-close")) closeModal();
-  });
+  function showHome() {
+    page.hidden = true;
+    home.hidden = false;
+    document.title = META.title + " — " + META.subtitle;
+  }
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !modal.hidden) closeModal();
-  });
+  function showItem(it) {
+    $("itembody").innerHTML = renderItem(it);
+    $("pager").innerHTML = renderPager(it);
+    home.hidden = true;
+    page.hidden = false;
+    document.title = it.title + " — " + META.title;
+    window.scrollTo(0, 0);
+  }
 
-  /* 주소에 항목이 적혀 있으면 바로 열기 (#a04 처럼 공유 가능) */
-  if (/^#[ab]\d\d$/.test(location.hash)) openItem(location.hash.slice(1));
+  function route() {
+    var id = location.hash.replace(/^#/, "");
+    var it = CURRICULUM.filter(function (x) { return x.id === id; })[0];
+    if (it) {
+      showItem(it);
+    } else {
+      var wasItem = !page.hidden;
+      showHome();
+      /* 목록으로 돌아올 때 원래 보던 자리로 */
+      if (wasItem && id) {
+        var el = document.getElementById(id);
+        if (el) el.scrollIntoView();
+      }
+    }
+  }
+
+  window.addEventListener("hashchange", route);
+  route();
 })();

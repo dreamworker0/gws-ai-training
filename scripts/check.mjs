@@ -15,7 +15,7 @@ const UA = "Mozilla/5.0 (compatible; yeolmae-link-check)";
 /* data.js 를 브라우저와 같은 방식으로 읽어 들입니다. */
 const src = await readFile(new URL("../data.js", import.meta.url), "utf8");
 const D = new Function(
-  src + "\nreturn { META, INTRO_VIDEO, QUOTES, TAUGHT, TYPES, CURRICULUM, ORGS, FAQ };"
+  src + "\nreturn { META, INTRO_VIDEO, QUOTES, CURRICULUM, FAQ };"
 )();
 
 const fails = [];
@@ -70,11 +70,6 @@ async function checkDoc(url, label) {
 /* ── 데이터 자체의 앞뒤가 맞는지 ──────────────────────────────── */
 const ids = new Set(D.CURRICULUM.map((i) => i.id));
 
-for (const t of D.TAUGHT) {
-  if (!ids.has(t)) {
-    note(fails, "데이터", "TAUGHT", `"${t}" 는 CURRICULUM 에 없는 항목 id 입니다.`);
-  }
-}
 if (ids.size !== D.CURRICULUM.length) {
   note(fails, "데이터", "CURRICULUM", "항목 id 가 중복되었습니다.");
 }

@@ -22,14 +22,24 @@
     </div>
     <nav class="nav" aria-label="주요 메뉴">
       <a href="#start">시작하기</a>
-      <a href="#curriculum">일정표</a>
-      <a href="#orgs">기관별</a>
+      <a href="#curriculum">배우는 것</a>
       <a href="#faq">자주 묻는 것</a>
     </nav>
   </div>
 </header>
 
 <main id="main">
+
+  <!-- ── 항목 페이지 (주소가 #a01 같은 항목일 때만 보입니다) ───── -->
+  <article id="itempage" class="band" hidden>
+    <div class="wrap">
+      <a class="back" href="#curriculum">← 목록으로</a>
+      <div id="itembody"></div>
+      <nav class="pager" id="pager"></nav>
+    </div>
+  </article>
+
+  <div id="home">
 
   <!-- ── 시작하기 : 설치 영상 (고정) ───────────────────────────── -->
   <section id="start" class="band">
@@ -63,29 +73,18 @@
   <!-- ── 일정표 ────────────────────────────────────────────────── -->
   <section id="curriculum" class="band">
     <div class="wrap">
-      <h2>일정표</h2>
+      <h2>배우는 것</h2>
       <p class="section-note">
         항목을 누르면 그 주제의 영상과 공식 문서가 열립니다.
-        일정은 기관 사정에 따라 바뀌며, 바뀌면 이 표도 함께 고쳐집니다.
+        순서대로 보셔도 되고, 필요한 것만 골라 보셔도 됩니다.
       </p>
-
-      <div class="progress-box">
-        <div class="progress-head">
-          <span>전체 진도</span>
-          <strong id="progress-label"></strong>
-        </div>
-        <div class="bar"><div class="bar-fill" id="progress-bar"></div></div>
-        <p class="hint" id="progress-note"></p>
-      </div>
-
-      <div class="types" id="types"></div>
 
       <div class="tracks">
         <div class="track">
           <h3 class="track-head">
             <span class="tag a">A트랙</span>
             구글 워크스페이스 기초
-            <em>전체 인원 참여 · 12항목</em>
+            <em>업무에 컴퓨터를 쓰는 분이라면 · 12항목</em>
           </h3>
           <ol class="items" id="track-a"></ol>
         </div>
@@ -93,22 +92,11 @@
           <h3 class="track-head">
             <span class="tag b">B트랙</span>
             에이전트 기반 업무 자동화
-            <em>일부 인원 참여 · 11항목</em>
+            <em>한 걸음 더 · 11항목</em>
           </h3>
           <ol class="items" id="track-b"></ol>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- ── 기관별 ────────────────────────────────────────────────── -->
-  <section id="orgs" class="band alt">
-    <div class="wrap">
-      <h2>기관별 진행 상황</h2>
-      <p class="section-note">
-        1회기는 2시간입니다. 신청하신 유형에 따라 총 회기가 정해집니다.
-      </p>
-      <div class="orgs" id="org-list"></div>
     </div>
   </section>
 
@@ -119,6 +107,8 @@
       <div class="faq" id="faq-list"></div>
     </div>
   </section>
+
+  </div><!-- /#home -->
 
 </main>
 
@@ -131,15 +121,6 @@
     </p>
   </div>
 </footer>
-
-<!-- ── 항목 상세 (모달) ────────────────────────────────────────── -->
-<div class="modal" id="modal" hidden>
-  <div class="modal-bg" data-close></div>
-  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <button class="modal-x" data-close aria-label="닫기">✕</button>
-    <div class="modal-body" id="modal-body"></div>
-  </div>
-</div>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
