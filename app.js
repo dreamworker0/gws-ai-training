@@ -24,6 +24,7 @@
     A: "A트랙 · 구글 워크스페이스 기초",
     B: "B트랙 · 에이전트 기반 업무 자동화",
   };
+  var INLINE_SLIDES = 8;   /* 항목 페이지에 바로 보이는 장수 */
 
   /* ── 머리말 ─────────────────────────────────────── */
   $("site-title").textContent = META.title;
@@ -31,9 +32,7 @@
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
 
-  /* ── 설치 영상 ──────────────────────────────────────
-     접혀 있으므로, 펼칠 때 비로소 불러옵니다.
-     (닫힌 채로 iframe 을 두면 첫 화면이 느려집니다) */
+  /* ── 설치 영상 (접혀 있다가 펼칠 때 불러옵니다) ──── */
   $("intro-desc").textContent = INTRO_VIDEO.desc;
   var setupBox = $("setup-box");
   setupBox.addEventListener("toggle", function () {
@@ -51,19 +50,57 @@
            '<cite>' + esc(q.where) + '</cite></figure>';
   }).join("");
 
+  /* ═══ 발표자료 공통 ═══════════════════════════════
+     슬라이드 한 장은 "덱id:쪽번호" 로 가리킵니다. 예) "smart:12" */
+
+  var DECK = {};
+  DECKS.forEach(function (d) { DECK[d.id] = d; });
+
+  function parseRef(ref) {
+    var p = String(ref).split(":");
+    return { deck: p[0], n: parseInt(p[1], 10) };
+  }
+  function pad(n) { return (n < 10 ? "0" : "") + n; }
+  function thumbSrc(r) { return "img/slides/" + r.deck + "/thumb/p" + pad(r.n) + ".jpg"; }
+  function bigSrc(r) { return "img/slides/" + r.deck + "/p" + pad(r.n) + ".jpg"; }
+  function slideHash(ref) { return "#slide-" + String(ref).replace(":", "-"); }
+  function slideTitle(ref) { return SLIDE_TITLES[ref] || ""; }
+
+  function slideTile(ref) {
+    var r = parseRef(ref);
+    var t = slideTitle(ref);
+    var deckName = DECK[r.deck] ? DECK[r.deck].title : r.deck;
+    return '<a class="sl" href="' + slideHash(ref) + '">' +
+      '<img loading="lazy" src="' + thumbSrc(r) + '" alt="' + esc(deckName) + " " + r.n + '쪽">' +
+      '<span class="sl-cap"><b>' + r.n + "</b>" + (t ? " " + esc(t) : "") + "</span></a>";
+  }
+
+  /* 「배우는 것」 절에 강사님 일정표 슬라이드 한 장 */
+  if (typeof CURRICULUM_SLIDE === "string" && $("curriculum-slide")) {
+    var cr = parseRef(CURRICULUM_SLIDE);
+    $("curriculum-slide").innerHTML =
+      '<a class="timetable" href="' + slideHash(CURRICULUM_SLIDE) + '">' +
+      '<img loading="lazy" src="' + bigSrc(cr) + '" alt="교육 일정표"></a>';
+  }
+
+  var totalPages = DECKS.reduce(function (a, d) { return a + d.pages; }, 0);
+  $("slide-count-note").textContent =
+    "자료 " + DECKS.length + "종 · 모두 " + totalPages + "쪽";
+
   /* ── 목차 ───────────────────────────────────────── */
   function itemRow(it) {
     var flags = [];
+    var sl = ITEM_SLIDES[it.id] || [];
     if (it.lesson && it.lesson.length) flags.push('<span class="chip done">강의 정리</span>');
+    if (sl.length) flags.push('<span class="chip sld">자료 ' + sl.length + "</span>");
     if (it.status === "own") flags.push('<span class="chip own">현장 실습</span>');
-    if (it.status === "check") flags.push('<span class="chip chk">확인 중</span>');
-    if (it.videos.length) flags.push('<span class="chip vid">영상 ' + it.videos.length + '</span>');
+    if (it.videos.length) flags.push('<span class="chip vid">영상 ' + it.videos.length + "</span>");
 
     return '<li><a class="item ' + it.track.toLowerCase() + '" href="#' + it.id + '">' +
-      '<span class="num">' + it.no + '</span>' +
-      '<span class="ti"><b>' + esc(it.title) + '</b><small>' + esc(it.blurb) + '</small></span>' +
-      '<span class="flags">' + flags.join("") + '</span>' +
-      '</a></li>';
+      '<span class="num">' + it.no + "</span>" +
+      '<span class="ti"><b>' + esc(it.title) + "</b><small>" + esc(it.blurb) + "</small></span>" +
+      '<span class="flags">' + flags.join("") + "</span>" +
+      "</a></li>";
   }
 
   var trackA = CURRICULUM.filter(function (i) { return i.track === "A"; });
@@ -73,47 +110,8 @@
 
   /* ── FAQ ────────────────────────────────────────── */
   $("faq-list").innerHTML = FAQ.map(function (f) {
-    return '<details><summary>' + esc(f.q) + '</summary><p>' + esc(f.a) + '</p></details>';
+    return "<details><summary>" + esc(f.q) + "</summary><p>" + esc(f.a) + "</p></details>";
   }).join("");
-
-  /* ── 발표자료 ───────────────────────────────────── */
-  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
-  var slideThumb = function (n) { return "img/slides/thumb/p" + pad(n) + ".jpg"; };
-  var slideBig = function (n) { return "img/slides/p" + pad(n) + ".jpg"; };
-
-  $("slide-count-note").textContent = "전체 " + SLIDE_COUNT + "쪽 · 강사 " + META.lecturer;
-
-  function renderDeck() {
-    var h = '<p class="kicker">발표자료</p>';
-    h += "<h2 class='item-title'>스마트워커는 관계를 꿈꾼다</h2>";
-    h += '<p class="lede">전체 ' + SLIDE_COUNT + "쪽 · 강사 " + esc(META.lecturer) +
-         " 제작. 쪽을 누르면 크게 봅니다.</p>";
-    h += '<div class="deck">';
-    for (var i = 1; i <= SLIDE_COUNT; i++) {
-      var t = SLIDE_TITLES[i] || "";
-      h += '<a class="sl" href="#slide-' + i + '">' +
-           '<img loading="lazy" src="' + slideThumb(i) + '" alt="' + i + '쪽">' +
-           '<span class="sl-cap"><b>' + i + '</b>' + (t ? " " + esc(t) : "") + "</span></a>";
-    }
-    h += "</div>";
-    return h;
-  }
-
-  function renderSlide(n) {
-    var t = SLIDE_TITLES[n] || "";
-    var h = '<p class="kicker"><a href="#slides">발표자료</a> · ' + n + " / " + SLIDE_COUNT + "쪽</p>";
-    h += "<h2 class='item-title'>" + (t ? esc(t) : n + "쪽") + "</h2>";
-    h += '<figure class="fig slide-one"><img src="' + slideBig(n) + '" alt="' + n + '쪽"></figure>';
-    h += '<nav class="pager">';
-    h += n > 1
-      ? '<a class="pg prev" href="#slide-' + (n - 1) + '"><span>이전</span><b>' + (n - 1) + "쪽</b></a>"
-      : '<span class="pg empty-pg"></span>';
-    h += n < SLIDE_COUNT
-      ? '<a class="pg next" href="#slide-' + (n + 1) + '"><span>다음</span><b>' + (n + 1) + "쪽</b></a>"
-      : '<span class="pg empty-pg"></span>';
-    h += "</nav>";
-    return h;
-  }
 
   /* ── 항목 페이지 ────────────────────────────────── */
   var home = $("home");
@@ -126,8 +124,18 @@
     h += "<h2 class='item-title'>" + esc(it.title) + "</h2>";
     h += '<p class="lede">' + esc(it.blurb) + "</p>";
 
+    /* 발표자료 — 이 주제에 해당하는 슬라이드 */
+    var sl = ITEM_SLIDES[it.id] || [];
+    if (sl.length) {
+      h += "<h3>발표자료</h3>";
+      h += '<div class="deck">' + sl.slice(0, INLINE_SLIDES).map(slideTile).join("") + "</div>";
+      if (sl.length > INLINE_SLIDES) {
+        h += '<p class="more"><a href="#slides-' + it.id + '">이 주제 자료 ' +
+             sl.length + "쪽 모두 보기 →</a></p>";
+      }
+    }
+
     if (it.lesson && it.lesson.length) {
-      h += '<div class="lesson">';
       h += "<h3>강의에서 다룬 내용</h3>";
       it.lesson.forEach(function (s) {
         h += "<section class='ls'>";
@@ -136,10 +144,9 @@
         /* svg 는 data.js 안에서 우리가 직접 쓴 것이므로 그대로 넣습니다 */
         if (s.svg) h += '<figure class="fig">' + s.svg + "</figure>";
         if (s.after) h += "<p>" + rich(s.after) + "</p>";
-        if (s.said) h += '<blockquote class="said">“' + esc(s.said) + '”</blockquote>';
+        if (s.said) h += '<blockquote class="said">“' + esc(s.said) + "”</blockquote>";
         h += "</section>";
       });
-      h += "</div>";
     }
 
     if (it.notes && it.notes.length) {
@@ -154,7 +161,7 @@
       it.videos.forEach(function (v) {
         h += '<a class="vid" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener">' +
              '<span class="thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg"></span>' +
-             '<span>' + esc(v.t) + '</span></a>';
+             "<span>" + esc(v.t) + "</span></a>";
       });
       h += "</div>";
     } else {
@@ -169,28 +176,92 @@
       h += "</ul>";
     }
 
-    if (!it.lesson || !it.lesson.length) {
+    if ((!it.lesson || !it.lesson.length) && !sl.length) {
       h += '<p class="empty" style="margin-top:26px">이 항목의 강의 정리는 아직 준비 중입니다. 회차가 끝나는 대로 채워집니다.</p>';
     }
     return h;
   }
 
-  /* 같은 트랙 안에서 앞뒤로 넘기기 */
   function renderPager(it) {
     var list = it.track === "A" ? trackA : trackB;
     var i = list.indexOf(it);
-    var prev = list[i - 1];
-    var next = list[i + 1];
+    var prev = list[i - 1], next = list[i + 1];
     var h = "";
-    h += prev
-      ? '<a class="pg prev" href="#' + prev.id + '"><span>이전</span><b>' + esc(prev.title) + "</b></a>"
-      : '<span class="pg empty-pg"></span>';
-    h += next
-      ? '<a class="pg next" href="#' + next.id + '"><span>다음</span><b>' + esc(next.title) + "</b></a>"
-      : '<span class="pg empty-pg"></span>';
+    h += prev ? '<a class="pg prev" href="#' + prev.id + '"><span>이전</span><b>' + esc(prev.title) + "</b></a>"
+              : '<span class="pg empty-pg"></span>';
+    h += next ? '<a class="pg next" href="#' + next.id + '"><span>다음</span><b>' + esc(next.title) + "</b></a>"
+              : '<span class="pg empty-pg"></span>';
     return h;
   }
 
+  /* ── 발표자료 화면 ──────────────────────────────── */
+
+  /* 전체 — 덱별로 나눠 보여 줍니다 */
+  function renderAllDecks() {
+    var h = '<p class="kicker">발표자료</p>';
+    h += "<h2 class='item-title'>발표자료 전체</h2>";
+    h += '<p class="lede">모두 ' + totalPages + "쪽 · 강사 " + esc(META.lecturer) +
+         " 제작. 쪽을 누르면 크게 봅니다.</p>";
+    h += '<p class="more">주제별로 보시려면 <a href="#curriculum">배우는 것</a>에서 항목을 고르세요 — ' +
+         "질문이 튀어도 그 주제 자료만 모여 있습니다.</p>";
+    DECKS.forEach(function (d) {
+      h += "<h3>" + esc(d.title) + " · " + d.pages + "쪽</h3>";
+      if (d.note) h += '<p class="deck-note">⚠️ ' + esc(d.note) + "</p>";
+      h += '<div class="deck">';
+      for (var i = 1; i <= d.pages; i++) h += slideTile(d.id + ":" + i);
+      h += "</div>";
+    });
+    return h;
+  }
+
+  /* 한 주제의 자료만 */
+  function renderItemDeck(it) {
+    var sl = ITEM_SLIDES[it.id] || [];
+    var h = '<p class="kicker"><a href="#' + it.id + '">' + esc(it.title) + "</a> · 발표자료</p>";
+    h += "<h2 class='item-title'>" + esc(it.title) + " — 자료 " + sl.length + "쪽</h2>";
+    h += '<p class="lede">이 주제에서 쓰는 슬라이드입니다. 쓸모 있는 순서로 놓았습니다.</p>';
+    h += '<div class="deck">' + sl.map(slideTile).join("") + "</div>";
+    return h;
+  }
+
+  /* 한 장 크게 — 같은 주제 안에서 앞뒤로 넘깁니다 */
+  function renderSlide(ref, fromItem) {
+    var r = parseRef(ref);
+    var d = DECK[r.deck];
+    if (!d || !(r.n >= 1 && r.n <= d.pages)) return null;
+
+    var list = fromItem && ITEM_SLIDES[fromItem] ? ITEM_SLIDES[fromItem] : null;
+    if (!list) {
+      list = [];
+      for (var i = 1; i <= d.pages; i++) list.push(d.id + ":" + i);
+    }
+    var idx = list.indexOf(ref);
+    var t = slideTitle(ref);
+
+    var back = fromItem
+      ? '<a href="#slides-' + fromItem + '">' + esc((CURRICULUM.filter(function (x) { return x.id === fromItem; })[0] || {}).title || "목록") + "</a>"
+      : '<a href="#slides">' + esc(d.title) + "</a>";
+
+    var h = '<p class="kicker">' + back + " · " + r.n + " / " + d.pages + "쪽</p>";
+    h += "<h2 class='item-title'>" + esc(t || r.n + "쪽") + "</h2>";
+    h += '<figure class="fig slide-one"><img src="' + bigSrc(r) + '" alt="' + esc(d.title) + " " + r.n + '쪽"></figure>';
+
+    if (idx >= 0) {
+      var prev = list[idx - 1], next = list[idx + 1];
+      var q = fromItem ? "?from=" + fromItem : "";
+      h += '<nav class="pager">';
+      h += prev ? '<a class="pg prev" href="' + slideHash(prev) + q + '"><span>이전</span><b>' +
+                  esc(slideTitle(prev) || parseRef(prev).n + "쪽") + "</b></a>"
+                : '<span class="pg empty-pg"></span>';
+      h += next ? '<a class="pg next" href="' + slideHash(next) + q + '"><span>다음</span><b>' +
+                  esc(slideTitle(next) || parseRef(next).n + "쪽") + "</b></a>"
+                : '<span class="pg empty-pg"></span>';
+      h += "</nav>";
+    }
+    return h;
+  }
+
+  /* ── 오가기 ─────────────────────────────────────── */
   function only(which) {
     home.hidden = which !== "home";
     page.hidden = which !== "item";
@@ -217,34 +288,58 @@
     window.scrollTo(0, 0);
   }
 
+  function findItem(id) {
+    return CURRICULUM.filter(function (x) { return x.id === id; })[0];
+  }
+
   function route() {
-    var id = location.hash.replace(/^#/, "");
+    var raw = location.hash.replace(/^#/, "");
+    var from = null;
+    var qi = raw.indexOf("?from=");
+    if (qi > -1) { from = raw.slice(qi + 6); raw = raw.slice(0, qi); }
 
-    if (id === "slides") {
-      showDeck(renderDeck(), "발표자료");
-      return;
-    }
-    var m = /^slide-(\d+)$/.exec(id);
-    if (m) {
-      var n = Math.min(Math.max(parseInt(m[1], 10), 1), SLIDE_COUNT);
-      showDeck(renderSlide(n), "발표자료 " + n + "쪽");
+    /* #slides — 전체 */
+    if (raw === "slides") { showDeck(renderAllDecks(), "발표자료"); return; }
+
+    /* #slides-a01 — 한 주제 */
+    var mi = /^slides-([ab]\d\d)$/.exec(raw);
+    if (mi && findItem(mi[1])) {
+      var it0 = findItem(mi[1]);
+      showDeck(renderItemDeck(it0), it0.title + " 자료");
       return;
     }
 
-    var it = CURRICULUM.filter(function (x) { return x.id === id; })[0];
-    if (it) {
-      showItem(it);
-      return;
+    /* #slide-smart-12 — 한 장 */
+    var ms = /^slide-([a-z]+)-(\d+)$/.exec(raw);
+    if (ms) {
+      var html = renderSlide(ms[1] + ":" + parseInt(ms[2], 10), from && findItem(from) ? from : null);
+      if (html) { showDeck(html, "발표자료 " + ms[2] + "쪽"); return; }
     }
+
+    /* #a01 — 목차 항목 */
+    var it = findItem(raw);
+    if (it) { showItem(it); return; }
 
     var wasSub = !page.hidden || !deck.hidden;
     showHome();
-    /* 목록으로 돌아올 때 원래 보던 자리로 */
-    if (wasSub && id) {
-      var el = document.getElementById(id);
+    if (wasSub && raw) {
+      var el = document.getElementById(raw);
       if (el) el.scrollIntoView();
     }
   }
+
+  /* 항목 페이지에서 슬라이드를 누르면 그 주제 안에서 넘어가도록 from 을 붙입니다 */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest ? e.target.closest("a.sl") : null;
+    if (!a) return;
+    var cur = location.hash.replace(/^#/, "").split("?")[0];
+    var owner = /^([ab]\d\d)$/.test(cur) ? cur
+              : (/^slides-([ab]\d\d)$/.exec(cur) || [])[1];
+    if (owner) {
+      e.preventDefault();
+      location.hash = a.getAttribute("href").slice(1) + "?from=" + owner;
+    }
+  });
 
   window.addEventListener("hashchange", route);
   route();

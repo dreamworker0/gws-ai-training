@@ -247,6 +247,16 @@ a { color: var(--brand); }
   padding: 7px 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .sl-cap b { color: var(--brand); margin-right: 3px; }
+.chip.sld { color: var(--b); border-color: var(--b); }
+
+.timetable-wrap { max-width: 720px; margin: 0 0 24px; padding: 10px; }
+.timetable { display: block; }
+.timetable img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.timetable:hover { opacity: .9; }
+
+.more { font-size: 14.5px; margin: 12px 0 0; }
+#itempage .deck { margin-top: 0; }
+.deck-note { font-size: 13px; color: var(--warn); margin: 0 0 12px; }
 .said {
   margin: 12px 0 0; padding: 10px 0 10px 16px;
   border-left: 3px solid var(--brand);
