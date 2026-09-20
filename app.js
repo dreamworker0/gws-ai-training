@@ -93,6 +93,9 @@
         h += "<section class='ls'>";
         h += "<h4>" + rich(s.h) + "</h4>";
         h += "<p>" + rich(s.p) + "</p>";
+        /* svg 는 data.js 안에서 우리가 직접 쓴 것이므로 그대로 넣습니다 */
+        if (s.svg) h += '<figure class="fig">' + s.svg + "</figure>";
+        if (s.after) h += "<p>" + rich(s.after) + "</p>";
         if (s.said) h += '<blockquote class="said">“' + esc(s.said) + '”</blockquote>';
         h += "</section>";
       });

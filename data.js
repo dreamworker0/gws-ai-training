@@ -62,6 +62,82 @@ const QUOTES = [
   },
 ];
 
+/* ───────────────────────────────────────────────────────────────────
+   연결 3단계 그림 (기초 설명)
+   발표자료 「스마트워커는 관계를 꿈꾼다 4」 33~49쪽의 뼈대를 옮긴 것입니다.
+   색은 CSS 변수를 쓰므로 밝은 화면·어두운 화면 모두에서 읽힙니다.
+   ─────────────────────────────────────────────────────────────────── */
+const CONNECT_SVG = `
+<svg viewBox="0 0 720 300" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="연결의 세 단계: 기기 간의 연결, 사람 간의 느슨한 연결, 조직 내의 긴밀한 연결">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="var(--fg-soft)"/>
+    </marker>
+  </defs>
+
+  <!-- 1단계 : 기기 -->
+  <g>
+    <rect x="8" y="42" width="212" height="180" rx="14" fill="var(--bg-alt)" stroke="var(--line)"/>
+    <text x="114" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="var(--brand)">1단계</text>
+    <rect x="62" y="74" width="44" height="58" rx="5" fill="none" stroke="var(--fg-soft)" stroke-width="2"/>
+    <rect x="128" y="88" width="28" height="44" rx="5" fill="none" stroke="var(--fg-soft)" stroke-width="2"/>
+    <line x1="106" y1="103" x2="128" y2="110" stroke="var(--brand)" stroke-width="2"/>
+    <text x="114" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="var(--fg)">기기 간의 연결</text>
+    <text x="114" y="182" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">한 사람당 최소 2대</text>
+    <text x="114" y="201" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">바탕은 클라우드</text>
+  </g>
+
+  <!-- 2단계 : 사람 -->
+  <g>
+    <rect x="254" y="42" width="212" height="180" rx="14" fill="var(--bg-alt)" stroke="var(--line)"/>
+    <text x="360" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="var(--brand)">2단계</text>
+    <g stroke="var(--fg-soft)" stroke-width="1.6" stroke-dasharray="4 4" fill="none">
+      <line x1="300" y1="82" x2="360" y2="112"/>
+      <line x1="360" y1="112" x2="422" y2="80"/>
+      <line x1="300" y1="82" x2="330" y2="130"/>
+      <line x1="422" y1="80" x2="398" y2="132"/>
+    </g>
+    <g fill="var(--bg)" stroke="var(--fg-soft)" stroke-width="2">
+      <circle cx="300" cy="82" r="9"/><circle cx="422" cy="80" r="9"/>
+      <circle cx="330" cy="130" r="9"/><circle cx="398" cy="132" r="9"/>
+    </g>
+    <circle cx="360" cy="112" r="11" fill="var(--brand)"/>
+    <text x="360" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="var(--fg)">사람 간의 느슨한 연결</text>
+    <text x="360" y="182" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">인터넷에서 만나는 모든 사람</text>
+    <text x="360" y="201" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">구속은 없고 끊기지도 않는다</text>
+  </g>
+
+  <!-- 3단계 : 조직 -->
+  <g>
+    <rect x="500" y="42" width="212" height="180" rx="14" fill="var(--brand-soft)" stroke="var(--brand)"/>
+    <text x="606" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="var(--brand)">3단계</text>
+    <g stroke="var(--brand)" stroke-width="1.8" fill="none">
+      <line x1="566" y1="80" x2="646" y2="80"/><line x1="566" y1="130" x2="646" y2="130"/>
+      <line x1="566" y1="80" x2="566" y2="130"/><line x1="646" y1="80" x2="646" y2="130"/>
+      <line x1="566" y1="80" x2="646" y2="130"/><line x1="646" y1="80" x2="566" y2="130"/>
+      <line x1="566" y1="80" x2="606" y2="105"/><line x1="646" y1="130" x2="606" y2="105"/>
+    </g>
+    <g fill="var(--brand)">
+      <circle cx="566" cy="80" r="9"/><circle cx="646" cy="80" r="9"/>
+      <circle cx="566" cy="130" r="9"/><circle cx="646" cy="130" r="9"/>
+      <circle cx="606" cy="105" r="9"/>
+    </g>
+    <text x="606" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="var(--fg)">조직 내의 긴밀한 연결</text>
+    <text x="606" y="182" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">소통이 빈번하다</text>
+    <text x="606" y="201" text-anchor="middle" font-size="12.5" fill="var(--fg-soft)">업무 메신저를 따로 두는 이유</text>
+  </g>
+
+  <!-- 단계 사이 화살표 -->
+  <line x1="226" y1="132" x2="246" y2="132" stroke="var(--fg-soft)" stroke-width="2" marker-end="url(#ar)"/>
+  <line x1="472" y1="132" x2="492" y2="132" stroke="var(--fg-soft)" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 아래 축 : 느슨함 → 긴밀함 -->
+  <line x1="60" y1="252" x2="660" y2="252" stroke="var(--line)" stroke-width="2"/>
+  <text x="60"  y="275" font-size="12.5" fill="var(--fg-soft)">느슨하다</text>
+  <text x="660" y="275" font-size="12.5" fill="var(--fg-soft)" text-anchor="end">촘촘해진다</text>
+</svg>`;
+
 /* ===================================================================
    목차 23항목
    status: "ready"  = 영상·문서가 채워짐
@@ -94,9 +170,19 @@ const CURRICULUM = [
         said: "우리는 장애인이 있고 지역이 있고 주민이 있는데 어떻게 해? 요런 생각 들 수 있어요. 당연한 생각이에요.",
       },
       {
-        h: "연결의 단계 — 기기, 사람, 그리고 조직",
-        p: "1단계는 기기끼리의 연결입니다. 한 사람이 컴퓨터와 휴대폰을 함께 쓰는 세상이라, 어느 기기를 잡든 하던 일을 이어갈 수 있어야 합니다. 2단계는 사람과의 연결입니다. 상대가 어디에 있든 메일이 오가고 화상으로 만날 수 있는, 구속은 없지만 끊기지도 않는 '느슨한 연결'입니다. 그 위에 3단계, 조직 단위의 연결이 얹힙니다.",
-        said: "2단계 다른 사람과의 연결인데, 한마디로 말하면 느슨한 연결이에요. 느슨해요. 뭐 구속은 없어. 하지만 연결은 돼요.",
+        h: "연결의 세 단계 — 기기 → 사람 → 조직",
+        p: "이 강의 전체를 꿰는 뼈대입니다. **연결은 세 단계로 올라가고, 올라갈수록 촘촘해집니다.**",
+        svg: CONNECT_SVG,
+        after: "**1단계 · 기기 간의 연결.** 한 사람이 최소 두 개 이상의 기기를 쓰는 세상입니다. 어느 것을 잡든 하던 일을 이어갈 수 있어야 합니다. 그 바탕이 **클라우드**입니다. 자료가 이 컴퓨터 안에만 있으면 1단계에서 막힙니다.\n\n**2단계 · 사람 간의 느슨한 연결.** 상대가 북극에 있어도 됩니다. 메일을 보내면 답이 오고, 시간을 맞추면 화상으로 만납니다. **구속은 없는데 끊기지도 않는** 상태 — 인터넷을 쓰는 것 자체가 이미 이 환경에 들어와 있는 것입니다.\n\n**3단계 · 조직 내의 긴밀한 연결.** 여기가 다릅니다. 조직 안에서는 **소통이 빈번합니다.** 느슨해도 되는 앞 두 단계와 달리 촘촘히 맞물려야 합니다. 구글 워크스페이스가 필요해지는 자리, 그리고 **업무 메신저를 따로 두어야 하는 이유**가 바로 여기입니다.\n\n개인 메신저 하나로 세 단계를 다 감당하려 하면 3단계에서 탈이 납니다. 휴가 중에 알림이 울리는 것이 그 증상입니다.",
+        said: "1단계 기기 간의 연결. 한 사람이 두 개 이상 쓰는 세상에 연결해야 이 컴퓨터를 쓰든 저 컴퓨터를 쓰든 계속 일을 할 수 있는 거죠. 2단계 다른 사람과의 연결인데 그 사람이 북극에 있어도 되고 뉴질랜드에 있어도 돼요. 한마디로 말하면 느슨한 연결이에요. 구속은 없어. 하지만 연결은 돼요.",
+      },
+      {
+        h: "스마트워크의 전제 두 가지",
+        p: "시간과 공간을 푸는 데에는 조건이 붙습니다. **하나, 명확한 작업 범위 합의. 둘, 실시간 과정의 확인.** 이 둘이 없으면 스마트워크는 그냥 관리가 안 되는 상태가 됩니다. 도구를 먼저 깔 일이 아니라 이 합의를 먼저 해야 합니다.",
+      },
+      {
+        h: "탁상업무에서 현장중심업무로",
+        p: "스마트워크가 향하는 지점은 「서류 위주의 탁상업무」에서 「현장 중심 업무」로의 이동입니다. 장소를 불문하고 — 이동 중이든, 현장이든, 집이든, 직장이든 — 그 자리에서 일이 되게 하는 것입니다.",
       },
       {
         h: "휴대폰을 꺼내 최근 대화 다섯 사람을 보십시오",

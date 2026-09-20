@@ -209,7 +209,15 @@ a { color: var(--brand); }
 #itempage p { max-width: 62ch; }
 
 .ls { margin-bottom: 30px; }
-.ls p { margin: 0; }
+.ls p { margin: 0 0 12px; }
+.ls p:last-of-type { margin-bottom: 0; }
+
+.fig {
+  margin: 18px 0; padding: 14px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--bg); max-width: 760px;
+}
+.fig svg { display: block; width: 100%; height: auto; }
 .said {
   margin: 12px 0 0; padding: 10px 0 10px 16px;
   border-left: 3px solid var(--brand);
