@@ -28,4 +28,13 @@ assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
 assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
 assert.doesNotMatch(html, /기관별 진행 상황/);
 
+const appSource = await readFile(new URL("app.js", root), "utf8");
+for (const functionName of ["renderEducationFields", "renderArchivePreview", "renderAbout"]) {
+  assert.match(appSource, new RegExp(`function\\s+${functionName}\\s*\\(`), `렌더러 누락: ${functionName}`);
+}
+for (const routePattern of ["raw === \"graph\"", "raw === \"slides\"", "/^slides-", "/^slide-"]) {
+  assert.equal(appSource.includes(routePattern), true, `기존 해시 처리 누락: ${routePattern}`);
+}
+assert.match(appSource, /findItem\(raw\)/);
+
 console.log("design data contract: ok");

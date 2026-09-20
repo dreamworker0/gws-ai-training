@@ -1,4 +1,4 @@
-/* 구글 워크스페이스와 AI 교육 — 화면 그리기
+/* 드림워크 교육 아카이브 — 화면 그리기
    데이터는 전부 data.js 에 있습니다. 내용을 바꾸실 때는 이 파일이 아니라
    data.js 를 고치세요. */
 
@@ -31,7 +31,7 @@
 
   /* ── 머리말 ─────────────────────────────────────── */
   $("site-title").textContent = META.title;
-  $("site-sub").textContent = META.subtitle;
+  $("site-sub").textContent = META.tagline;
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
 
@@ -120,6 +120,32 @@
       "</a></li>";
   }
 
+  function findItem(id) {
+    return CURRICULUM.filter(function (x) { return x.id === id; })[0];
+  }
+
+  function renderEducationFields(fields, curriculum) {
+    return fields.map(function (field) {
+      var linked = field.itemIds.map(findItem).filter(Boolean);
+      return '<article class="field-card" id="field-' + esc(field.id) + '">' +
+        '<p class="field-count">' + linked.length + '개 주제</p>' +
+        '<h3>' + esc(field.title) + '</h3>' +
+        '<p>' + esc(field.description) + '</p>' +
+        '<a href="#' + esc(linked[0] ? linked[0].id : 'curriculum') + '">대표 주제 보기 →</a>' +
+        '</article>';
+    }).join('');
+  }
+
+  function renderArchivePreview(curriculum) {
+    return curriculum.slice(0, 6).map(itemRow).join('');
+  }
+
+  function renderAbout(about) {
+    return '<div class="about-copy"><p class="eyebrow">' + esc(about.name) + '</p>' +
+      '<h2 id="education-title">현장의 작은 변화부터 시작합니다.</h2>' +
+      '<p>' + esc(about.description) + '</p><p class="educator">' + esc(about.educator) + '</p></div>';
+  }
+
   var trackS = CURRICULUM.filter(function (i) { return i.track === "S"; });
   var trackA = CURRICULUM.filter(function (i) { return i.track === "A"; });
   var trackB = CURRICULUM.filter(function (i) { return i.track === "B"; });
@@ -129,6 +155,15 @@
   }
   $("track-a").innerHTML = trackA.map(itemRow).join("");
   $("track-b").innerHTML = trackB.map(itemRow).join("");
+  if ($("education-fields-list")) {
+    $("education-fields-list").innerHTML = renderEducationFields(EDUCATION_FIELDS, CURRICULUM);
+  }
+  if ($("archive-preview-list")) {
+    $("archive-preview-list").innerHTML = renderArchivePreview(CURRICULUM);
+  }
+  if ($("education-about")) {
+    $("education-about").innerHTML = renderAbout(ABOUT_DREAMWORK);
+  }
 
   /* ── FAQ ────────────────────────────────────────── */
   $("faq-list").innerHTML = FAQ.map(function (f) {
@@ -352,10 +387,6 @@
     window.scrollTo(0, 0);
   }
 
-  function findItem(id) {
-    return CURRICULUM.filter(function (x) { return x.id === id; })[0];
-  }
-
   function renderGraph() {
     var h = '<p class="kicker">관계도</p>';
     h += "<h2 class='item-title'>주제 관계도</h2>";
@@ -382,6 +413,26 @@
 
   function route() {
     var raw = location.hash.replace(/^#/, "");
+
+    var HOME_ANCHORS = {
+      hero: true,
+      "education-fields": true,
+      education: true,
+      curriculum: true,
+      "slides-home": true,
+      viewpoint: true,
+      faq: true,
+      contact: true,
+    };
+
+    if (HOME_ANCHORS[raw]) {
+      showHome();
+      requestAnimationFrame(function () {
+        var target = document.getElementById(raw);
+        if (target) target.scrollIntoView();
+      });
+      return;
+    }
 
     if (raw === "graph") { showGraph(); return; }
     var from = null;
