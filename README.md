@@ -108,6 +108,7 @@ data.js                 ← 내용은 전부 여기
 app.js                  화면 그리기
 favicon.svg             브라우저 탭과 북마크용 드림워크 표식
 img/dreamwork-archive-hero.png  홈 대표 이미지
+img/dreamwork-archive-hero.webp 브라우저 전송용 최적화 대표 이미지
 img/dreamwork-og.png    링크 공유용 1200×630 미리보기
 scripts/build-social-assets.py 대표 이미지에서 공유 이미지를 다시 만드는 도구
 scripts/design-contract.test.mjs 디자인·메타데이터 계약 점검

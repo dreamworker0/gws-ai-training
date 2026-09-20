@@ -24,7 +24,8 @@
     (root || document).querySelectorAll("img").forEach(function (img) {
       if (img.dataset.fallbackReady) return;
       img.dataset.fallbackReady = "true";
-      img.addEventListener("error", function () {
+      function handleError() {
+        if (!img.isConnected) return;
         var fallback = document.createElement("span");
         fallback.className = "media-fallback";
         fallback.textContent = img.id === "hero-image"
@@ -32,7 +33,9 @@
           : (img.alt || "이미지를 불러오지 못했습니다");
         img.classList.add("is-missing");
         img.replaceWith(fallback);
-      }, { once: true });
+      }
+      img.addEventListener("error", handleError, { once: true });
+      if (img.complete && img.naturalWidth === 0) handleError();
     });
   }
 
@@ -104,7 +107,14 @@
     var to = CONTACT.user + "@" + CONTACT.host;
     var subj = CONTACT.subjectPrefix + (topic ? " " + topic : "");
     var NL = String.fromCharCode(10);
-    var body = topic
+    var isEducationInquiry = topic === "교육 문의";
+    var body = isEducationInquiry
+      ? "드림워크 교육을 함께 준비하기 위해 아래 내용을 알려 주세요." + NL + NL +
+        "· 기관명:" + NL +
+        "· 참여 대상과 인원:" + NL +
+        "· 기대하는 변화 또는 다루고 싶은 주제:" + NL +
+        "· 희망 일정:" + NL
+      : topic
       ? "복습하다 막힌 것을 적어 주세요." + NL + NL +
         "· 어느 주제: " + topic + NL +
         "· 어디까지 해보셨는지:" + NL +
@@ -114,10 +124,10 @@
            (body ? "&body=" + encodeURIComponent(body) : "");
   }
 
-  function askBox(topic, note, heading) {
+  function askBox(topic, note, heading, label) {
     return '<div class="ask"><div><b>' + esc(heading || (topic ? "이 주제가 막히시나요?" : "복습하다 막히셨나요?")) +
       "</b><span>" + esc(note) + "</span></div>" +
-      '<a class="askbtn" href="' + mailHref(topic) + '">' + esc(CONTACT.label) + " →</a></div>";
+      '<a class="askbtn" href="' + mailHref(topic) + '">' + esc(label || CONTACT.label) + " →</a></div>";
   }
 
   /* ── 목차 ───────────────────────────────────────── */
@@ -192,7 +202,8 @@
     $("ask-education").innerHTML = askBox(
       "교육 문의",
       "기관의 상황과 참여자를 알려 주시면 알맞은 교육 흐름을 함께 살펴봅니다.",
-      "교육을 함께 준비하시나요?"
+      "교육을 함께 준비하시나요?",
+      "교육 문의하기"
     );
   }
 

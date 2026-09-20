@@ -49,6 +49,8 @@ for (const routePattern of ["raw === \"graph\"", "raw === \"slides\"", "/^slides
 assert.match(appSource, /findItem\(raw\)/);
 assert.match(appSource, /ask-education/);
 assert.match(appSource, /교육을 함께 준비하시나요\?/);
+assert.match(appSource, /교육 문의하기/);
+assert.match(appSource, /기관명/);
 
 const css = await readFile(new URL("style.css", root), "utf8");
 for (const token of ["--forest", "--terracotta", "--paper", "--sage", "--ink"]) {
@@ -67,6 +69,12 @@ assert.ok(heroWidth >= 1200, `히어로 이미지 폭 부족: ${heroWidth}`);
 assert.ok(heroHeight >= 800, `히어로 이미지 높이 부족: ${heroHeight}`);
 assert.ok(heroWidth > heroHeight, `히어로 이미지는 가로형이어야 함: ${heroWidth}x${heroHeight}`);
 
+const heroWebp = await readFile(new URL("img/dreamwork-archive-hero.webp", root));
+assert.equal(heroWebp.subarray(0, 4).toString("ascii"), "RIFF");
+assert.equal(heroWebp.subarray(8, 12).toString("ascii"), "WEBP");
+assert.ok(heroWebp.length < 500_000, `히어로 WebP가 너무 큼: ${heroWebp.length}`);
+assert.match(html, /<source[^>]+srcset=["']img\/dreamwork-archive-hero\.webp["'][^>]+type=["']image\/webp["']/);
+
 const ogImage = await readFile(new URL("img/dreamwork-og.png", root));
 assert.deepEqual([...ogImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
 assert.equal(ogImage.readUInt32BE(16), 1200, "오픈 그래프 이미지 폭은 1200이어야 함");
@@ -78,6 +86,7 @@ assert.match(favicon, /#17362f/);
 
 assert.match(appSource, /function\s+installImageFallbacks\s*\(/);
 assert.match(appSource, /addEventListener\(["']error["']/);
+assert.match(appSource, /naturalWidth\s*===\s*0/);
 assert.match(appSource, /media-fallback/);
 assert.match(css, /\.media-fallback/);
 

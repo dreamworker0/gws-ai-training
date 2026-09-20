@@ -8,10 +8,12 @@ from PIL import Image, ImageEnhance, ImageOps
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / "img" / "dreamwork-archive-hero.png"
 OUTPUT = ROOT / "img" / "dreamwork-og.png"
+HERO_WEBP = ROOT / "img" / "dreamwork-archive-hero.webp"
 
 
 with Image.open(SOURCE) as source:
     artwork = source.convert("RGB")
+    artwork.save(HERO_WEBP, format="WEBP", quality=84, method=6)
     artwork = ImageEnhance.Color(artwork).enhance(0.94)
     social = ImageOps.fit(
         artwork,
@@ -21,4 +23,5 @@ with Image.open(SOURCE) as source:
     )
     social.save(OUTPUT, format="PNG", optimize=True)
 
+print(f"wrote {HERO_WEBP} ({artwork.width}x{artwork.height})")
 print(f"wrote {OUTPUT} (1200x630)")
