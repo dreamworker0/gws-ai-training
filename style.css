@@ -218,6 +218,35 @@ a { color: var(--brand); }
   background: var(--bg); max-width: 760px;
 }
 .fig svg { display: block; width: 100%; height: auto; }
+.fig img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.slide-one { max-width: 980px; }
+
+/* ── 발표자료 ─────────────────────────────────────── */
+.bigbtn {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px 20px; background: var(--bg); max-width: 520px;
+}
+.bigbtn:hover { border-color: var(--brand); }
+.bigbtn b { display: block; font-size: 16px; }
+.bigbtn span { font-size: 13.5px; color: var(--fg-soft); }
+
+.deck {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px; margin-top: 22px;
+}
+.sl {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  background: var(--bg-alt);
+}
+.sl:hover { border-color: var(--brand); }
+.sl img { display: block; width: 100%; height: auto; background: #fff; }
+.sl-cap {
+  display: block; font-size: 12px; line-height: 1.45; color: var(--fg-soft);
+  padding: 7px 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sl-cap b { color: var(--brand); margin-right: 3px; }
 .said {
   margin: 12px 0 0; padding: 10px 0 10px 16px;
   border-left: 3px solid var(--brand);

@@ -76,9 +76,49 @@
     return '<details><summary>' + esc(f.q) + '</summary><p>' + esc(f.a) + '</p></details>';
   }).join("");
 
+  /* ── 발표자료 ───────────────────────────────────── */
+  var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+  var slideThumb = function (n) { return "img/slides/thumb/p" + pad(n) + ".jpg"; };
+  var slideBig = function (n) { return "img/slides/p" + pad(n) + ".jpg"; };
+
+  $("slide-count-note").textContent = "전체 " + SLIDE_COUNT + "쪽 · 강사 " + META.lecturer;
+
+  function renderDeck() {
+    var h = '<p class="kicker">발표자료</p>';
+    h += "<h2 class='item-title'>스마트워커는 관계를 꿈꾼다</h2>";
+    h += '<p class="lede">전체 ' + SLIDE_COUNT + "쪽 · 강사 " + esc(META.lecturer) +
+         " 제작. 쪽을 누르면 크게 봅니다.</p>";
+    h += '<div class="deck">';
+    for (var i = 1; i <= SLIDE_COUNT; i++) {
+      var t = SLIDE_TITLES[i] || "";
+      h += '<a class="sl" href="#slide-' + i + '">' +
+           '<img loading="lazy" src="' + slideThumb(i) + '" alt="' + i + '쪽">' +
+           '<span class="sl-cap"><b>' + i + '</b>' + (t ? " " + esc(t) : "") + "</span></a>";
+    }
+    h += "</div>";
+    return h;
+  }
+
+  function renderSlide(n) {
+    var t = SLIDE_TITLES[n] || "";
+    var h = '<p class="kicker"><a href="#slides">발표자료</a> · ' + n + " / " + SLIDE_COUNT + "쪽</p>";
+    h += "<h2 class='item-title'>" + (t ? esc(t) : n + "쪽") + "</h2>";
+    h += '<figure class="fig slide-one"><img src="' + slideBig(n) + '" alt="' + n + '쪽"></figure>';
+    h += '<nav class="pager">';
+    h += n > 1
+      ? '<a class="pg prev" href="#slide-' + (n - 1) + '"><span>이전</span><b>' + (n - 1) + "쪽</b></a>"
+      : '<span class="pg empty-pg"></span>';
+    h += n < SLIDE_COUNT
+      ? '<a class="pg next" href="#slide-' + (n + 1) + '"><span>다음</span><b>' + (n + 1) + "쪽</b></a>"
+      : '<span class="pg empty-pg"></span>';
+    h += "</nav>";
+    return h;
+  }
+
   /* ── 항목 페이지 ────────────────────────────────── */
   var home = $("home");
   var page = $("itempage");
+  var deck = $("slidespage");
 
   function renderItem(it) {
     var h = "";
@@ -151,34 +191,58 @@
     return h;
   }
 
+  function only(which) {
+    home.hidden = which !== "home";
+    page.hidden = which !== "item";
+    deck.hidden = which !== "deck";
+  }
+
   function showHome() {
-    page.hidden = true;
-    home.hidden = false;
+    only("home");
     document.title = META.title + " — " + META.subtitle;
   }
 
   function showItem(it) {
     $("itembody").innerHTML = renderItem(it);
     $("pager").innerHTML = renderPager(it);
-    home.hidden = true;
-    page.hidden = false;
+    only("item");
     document.title = it.title + " — " + META.title;
+    window.scrollTo(0, 0);
+  }
+
+  function showDeck(html, title) {
+    $("slidesbody").innerHTML = html;
+    only("deck");
+    document.title = title + " — " + META.title;
     window.scrollTo(0, 0);
   }
 
   function route() {
     var id = location.hash.replace(/^#/, "");
+
+    if (id === "slides") {
+      showDeck(renderDeck(), "발표자료");
+      return;
+    }
+    var m = /^slide-(\d+)$/.exec(id);
+    if (m) {
+      var n = Math.min(Math.max(parseInt(m[1], 10), 1), SLIDE_COUNT);
+      showDeck(renderSlide(n), "발표자료 " + n + "쪽");
+      return;
+    }
+
     var it = CURRICULUM.filter(function (x) { return x.id === id; })[0];
     if (it) {
       showItem(it);
-    } else {
-      var wasItem = !page.hidden;
-      showHome();
-      /* 목록으로 돌아올 때 원래 보던 자리로 */
-      if (wasItem && id) {
-        var el = document.getElementById(id);
-        if (el) el.scrollIntoView();
-      }
+      return;
+    }
+
+    var wasSub = !page.hidden || !deck.hidden;
+    showHome();
+    /* 목록으로 돌아올 때 원래 보던 자리로 */
+    if (wasSub && id) {
+      var el = document.getElementById(id);
+      if (el) el.scrollIntoView();
     }
   }
 
