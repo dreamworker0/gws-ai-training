@@ -20,9 +20,15 @@
         <p id="site-sub">수강생 학습 페이지</p>
       </div>
     </div>
+    <div class="searchbox">
+      <input id="q" type="search" autocomplete="off" placeholder="찾기 — 주제·자료·영상  (/)"
+             aria-label="사이트 안에서 찾기">
+      <div id="qres" class="qres" hidden></div>
+    </div>
     <nav class="nav" aria-label="주요 메뉴">
       <a href="#curriculum">배우는 것</a>
       <a href="#slides">발표자료</a>
+      <a href="#graph">관계도</a>
       <a href="#faq">자주 묻는 것</a>
     </nav>
   </div>
@@ -44,6 +50,14 @@
     <div class="wrap">
       <a class="back" href="#curriculum">← 목록으로</a>
       <div id="slidesbody"></div>
+    </div>
+  </article>
+
+  <!-- ── 관계도 (주소가 #graph 일 때만 보입니다) ──────────────── -->
+  <article id="graphpage" class="band" hidden>
+    <div class="wrap">
+      <a class="back" href="#curriculum">← 목록으로</a>
+      <div id="graphbody"></div>
     </div>
   </article>
 
@@ -160,6 +174,7 @@
 </footer>
 
 <script src="data.js"></script>
+<script src="find.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

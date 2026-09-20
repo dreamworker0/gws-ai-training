@@ -125,12 +125,18 @@
   var home = $("home");
   var page = $("itempage");
   var deck = $("slidespage");
+  var graph = $("graphpage");
 
   function renderItem(it) {
     var h = "";
     h += '<p class="kicker">' + TRACK_NAME[it.track] + " · " + it.no + "번</p>";
     h += "<h2 class='item-title'>" + esc(it.title) + "</h2>";
     h += '<p class="lede">' + esc(it.blurb) + "</p>";
+    if (it.tags && it.tags.length) {
+      h += '<p class="tags">' + it.tags.map(function (t) {
+        return '<a class="tg" href="#graph">' + esc(t) + "</a>";
+      }).join("") + "</p>";
+    }
 
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
     var sl = ITEM_SLIDES[it.id] || [];
@@ -182,6 +188,23 @@
         h += '<li><a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></li>";
       });
       h += "</ul>";
+    }
+
+    /* 관련 항목 — 태그가 겹치는 것 */
+    var rel = Find.relatedItems(it, 4);
+    if (rel.length) {
+      h += "<h3>이어서 보면 좋은 것</h3>";
+      h += '<div class="rels">';
+      rel.forEach(function (r) {
+        var nv = (r.it.videos || []).length;
+        h += '<a class="rel" href="#' + r.it.id + '">' +
+             '<b>' + esc(r.it.title) + "</b>" +
+             '<span class="rel-why">' + r.shared.map(esc).join(" · ") + "</span>" +
+             '<span class="rel-meta">' + (nv ? "영상 " + nv + "편 · " : "") +
+             ((ITEM_SLIDES[r.it.id] || []).length ? "자료 " + ITEM_SLIDES[r.it.id].length + "쪽" : "") +
+             "</span></a>";
+      });
+      h += "</div>";
     }
 
     if ((!it.lesson || !it.lesson.length) && !sl.length) {
@@ -284,6 +307,7 @@
     home.hidden = which !== "home";
     page.hidden = which !== "item";
     deck.hidden = which !== "deck";
+    if (graph) graph.hidden = which !== "graph";
   }
 
   function showHome() {
@@ -310,8 +334,28 @@
     return CURRICULUM.filter(function (x) { return x.id === id; })[0];
   }
 
+  function renderGraph() {
+    var h = '<p class="kicker">관계도</p>';
+    h += "<h2 class='item-title'>주제 관계도</h2>";
+    h += '<p class="lede">항목이 어떤 주제로 서로 묶이는지 보여 줍니다. ' +
+         "가운데 동그라미를 누르면 그 항목으로 갑니다.</p>";
+    h += '<figure class="fig graph-wrap">' + Find.graphSVG(2) + "</figure>";
+    h += '<p class="more">바깥쪽 큰 동그라미가 주제, 안쪽 작은 것이 목차 항목입니다. ' +
+         "여러 주제에 걸친 항목은 가운데로 모입니다.</p>";
+    return h;
+  }
+
+  function showGraph() {
+    $("graphbody").innerHTML = renderGraph();
+    only("graph");
+    document.title = "주제 관계도 — " + META.title;
+    window.scrollTo(0, 0);
+  }
+
   function route() {
     var raw = location.hash.replace(/^#/, "");
+
+    if (raw === "graph") { showGraph(); return; }
     var from = null;
     var qi = raw.indexOf("?from=");
     if (qi > -1) { from = raw.slice(qi + 6); raw = raw.slice(0, qi); }
@@ -357,6 +401,39 @@
       e.preventDefault();
       location.hash = a.getAttribute("href").slice(1) + "?from=" + owner;
     }
+  });
+
+  /* ── 찾기 ───────────────────────────────────────── */
+  var qEl = $("q"), qRes = $("qres");
+  var KINDS = { "항목": "k-item", "자료": "k-slide", "영상": "k-vid", "문서": "k-doc" };
+
+  function runSearch() {
+    var v = qEl.value.trim();
+    if (!v) { qRes.hidden = true; qRes.innerHTML = ""; return; }
+    var hits = Find.search(v);
+    if (!hits.length) {
+      qRes.innerHTML = '<p class="qempty">「' + esc(v) + "」 에 걸리는 것이 없습니다.</p>";
+    } else {
+      qRes.innerHTML = hits.map(function (e) {
+        return '<a class="qr" href="' + e.hash + '">' +
+          '<span class="qk ' + (KINDS[e.kind] || "") + '">' + e.kind + "</span>" +
+          '<span class="qt"><b>' + esc(e.label) + "</b><small>" + esc(e.sub) + "</small></span></a>";
+      }).join("");
+    }
+    qRes.hidden = false;
+  }
+
+  qEl.addEventListener("input", runSearch);
+  qEl.addEventListener("focus", function () { if (qEl.value.trim()) runSearch(); });
+  qRes.addEventListener("click", function (e) {
+    if (e.target.closest("a")) { qRes.hidden = true; qEl.value = ""; qEl.blur(); }
+  });
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".searchbox")) qRes.hidden = true;
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "/" && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
+    if (e.key === "Escape") { qRes.hidden = true; qEl.blur(); }
   });
 
   window.addEventListener("hashchange", route);

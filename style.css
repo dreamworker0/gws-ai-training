@@ -300,3 +300,77 @@ a.pg:hover { border-color: var(--brand); }
   .pager { grid-template-columns: 1fr; }
   .pg.next { text-align: left; }
 }
+
+/* ── 찾기 ─────────────────────────────────────────── */
+.searchbox { position: relative; flex: 1 1 260px; max-width: 360px; order: 3; }
+@media (min-width: 861px) { .searchbox { order: 0; } }
+#q {
+  width: 100%; font: inherit; font-size: 14px;
+  padding: 7px 12px; border-radius: 9px;
+  border: 1px solid var(--line); background: var(--bg-alt); color: var(--fg);
+}
+#q:focus { outline: none; border-color: var(--brand); background: var(--bg); }
+#q::placeholder { color: var(--fg-soft); }
+
+.qres {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 30;
+  max-height: 60vh; overflow-y: auto;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 11px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.14);
+}
+.qr {
+  display: flex; gap: 9px; align-items: baseline;
+  padding: 9px 12px; text-decoration: none; color: inherit;
+  border-bottom: 1px solid var(--line);
+}
+.qr:last-child { border-bottom: 0; }
+.qr:hover { background: var(--bg-alt); }
+.qk {
+  flex: none; font-size: 10.5px; font-weight: 700; padding: 2px 6px;
+  border-radius: 99px; background: var(--bg-alt); color: var(--fg-soft);
+}
+.qk.k-item  { background: var(--brand-soft); color: var(--brand); }
+.qk.k-slide { background: var(--b-soft); color: var(--b); }
+.qt { min-width: 0; }
+.qt b { display: block; font-size: 14px; font-weight: 600; }
+.qt small { color: var(--fg-soft); font-size: 12px; }
+.qempty { padding: 14px; margin: 0; font-size: 14px; color: var(--fg-soft); }
+
+/* ── 태그 · 관련 항목 ─────────────────────────────── */
+.tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 0 0 6px; }
+.tg {
+  font-size: 12px; text-decoration: none; color: var(--fg-soft);
+  border: 1px solid var(--line); border-radius: 99px; padding: 2px 10px;
+}
+.tg:hover { border-color: var(--brand); color: var(--brand); }
+
+.rels { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.rel {
+  display: block; text-decoration: none; color: inherit;
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px;
+  background: var(--bg);
+}
+.rel:hover { border-color: var(--brand); }
+.rel b { display: block; font-size: 14.5px; font-weight: 600; margin-bottom: 4px; }
+.rel-why { display: block; font-size: 12px; color: var(--brand); }
+.rel-meta { display: block; font-size: 12px; color: var(--fg-soft); }
+
+/* ── 관계도 ───────────────────────────────────────── */
+.graph-wrap { max-width: 920px; }
+.graph { width: 100%; height: auto; display: block; }
+.graph .ge { stroke: var(--line); stroke-width: 1.2; }
+.graph .gt circle { fill: var(--bg-alt); stroke: var(--line); stroke-width: 1.5; }
+.graph .gt text {
+  text-anchor: middle; font-size: 11.5px; font-weight: 700; fill: var(--fg-soft);
+  pointer-events: none;
+}
+.graph .gn circle { fill: var(--bg); stroke: var(--fg-soft); stroke-width: 1.6; cursor: pointer; }
+.graph .gn text {
+  text-anchor: middle; font-size: 11px; font-weight: 700; fill: var(--fg);
+  pointer-events: none;
+}
+.graph .gn.tA circle { fill: var(--a-soft); stroke: var(--a); }
+.graph .gn.tB circle { fill: var(--b-soft); stroke: var(--b); }
+.graph .gn.tS circle { fill: var(--brand); stroke: var(--brand); }
+.graph .gn.tS text { fill: #fff; }
+.graph .gn:hover circle { stroke-width: 3; }

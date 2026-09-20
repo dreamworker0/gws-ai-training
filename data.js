@@ -394,6 +394,7 @@ const CURRICULUM = [
   /* ---------- 먼저 보기 : 무엇을 만들 수 있나 ---------- */
   {
     id: "s01", track: "S", no: 1, title: "무엇을 만들 수 있나 — 현장 사례", status: "ready",
+    tags: ["사례", "자동화", "데이터", "동기부여"],
     blurb: "다른 기관이 이미 만들어 쓰고 있는 것들. 배우기 전에 먼저 보십시오.",
     lesson: [
       {
@@ -418,6 +419,7 @@ const CURRICULUM = [
   /* ---------- A트랙 : 구글 워크스페이스 기초 (전체 인원) ---------- */
   {
     id: "a01", track: "A", no: 1, title: "기초 설명", status: "ready",
+    tags: ["기초", "계정·보안", "협업", "클라우드"],
     blurb: "스마트워크가 무엇인지, 왜 개인 계정과 업무 계정을 나눠야 하는지부터 시작합니다.",
 
     /* lesson — 강의 녹음에서 옮긴 내용.
@@ -485,6 +487,7 @@ const CURRICULUM = [
   },
   {
     id: "a02", track: "A", no: 2, title: "구글 드라이브 (데스크톱용)", status: "ready",
+    tags: ["클라우드", "자료관리", "협업", "기초"],
     blurb: "내 PC 탐색기에서 바로 구글 드라이브를 쓰는 방법. 공유 드라이브가 핵심입니다.",
     videos: [
       { t: "구글 드라이브와 데스크톱용 드라이브의 활용", id: "O6ZGJrWxs38" },
@@ -501,6 +504,7 @@ const CURRICULUM = [
   },
   {
     id: "a03", track: "A", no: 3, title: "구글 문서 편집기", status: "ready",
+    tags: ["문서", "협업", "기초"],
     blurb: "문서·스프레드시트·프레젠테이션을 여럿이 동시에 고치는 방법.",
     videos: [
       { t: "누구나 쉽게 배우는 구글 오피스 (문서·시트·프레젠테이션)", id: "ajAIItxxTcg" },
@@ -513,6 +517,7 @@ const CURRICULUM = [
   },
   {
     id: "a04", track: "A", no: 4, title: "구글 캘린더", status: "ready",
+    tags: ["일정", "협업", "기초"],
     blurb: "일정을 모두 캘린더에 올려 함께 보는 것. 회의실·차량 같은 리소스 예약도 여기서 합니다.",
     videos: [
       { t: "구글 캘린더 핵심 사용법 10가지", id: "6YkR-dOJQFE" },
@@ -529,6 +534,7 @@ const CURRICULUM = [
   },
   {
     id: "a05", track: "A", no: 5, title: "관리 콘솔", status: "ready",
+    tags: ["계정·보안", "관리", "기초"],
     blurb: "기관 계정 전체를 관리하는 곳. 강사님이 교육을 관리 콘솔 설정부터 시작하시는 이유입니다.",
     videos: [
       { t: "Google Workspace 초기 환경 구성 — 관리 콘솔 개요", id: "LvUWamu8dDc" },
@@ -545,6 +551,7 @@ const CURRICULUM = [
   },
   {
     id: "a06", track: "A", no: 6, title: "구글 킵, 구글 지도", status: "ready",
+    tags: ["메모", "현장", "기초"],
     blurb: "메모를 흘리지 않는 법(킵)과 기관·이용자 위치를 지도로 관리하는 법(내 지도).",
     videos: [
       { t: "메모장 끝판왕! 구글 Keep 사용법", id: "aEBqz58aNqo" },
@@ -559,6 +566,7 @@ const CURRICULUM = [
   },
   {
     id: "a07", track: "A", no: 7, title: "사이트 도구", status: "ready",
+    tags: ["웹사이트", "공유", "사례"],
     blurb: "코딩 없이 기관 홈페이지·내부 안내 페이지를 만드는 도구.",
     videos: [
       { t: "Google Workspace 시작하기 — 홈페이지 제작도구 사이트 도구", id: "-zQDpm0env0" },
@@ -571,6 +579,7 @@ const CURRICULUM = [
   },
   {
     id: "a08", track: "A", no: 8, title: "구글 미트, 구글 비즈(Vids)", status: "ready",
+    tags: ["회의", "영상", "협업"],
     blurb: "화상회의(미트)와 AI 동영상 제작(비즈). 기관 소개·교육 영상을 직접 만들 수 있습니다.",
     videos: [
       { t: "구글 미트 무료 사용법 (PC 기초)", id: "LBH9AW74j5U" },
@@ -586,6 +595,7 @@ const CURRICULUM = [
   },
   {
     id: "a09", track: "A", no: 9, title: "지메일", status: "ready",
+    tags: ["메일", "자료관리", "기초"],
     blurb: "라벨과 필터로 받은편지함을 정리하는 법.",
     videos: [
       { t: "지메일 라벨 만들기 / 필터 적용하기", id: "4NxaRkKzbw8" },
@@ -599,6 +609,7 @@ const CURRICULUM = [
   },
   {
     id: "a10", track: "A", no: 10, title: "구글 설문지", status: "ready",
+    tags: ["데이터수집", "설문", "데이터"],
     blurb: "만족도 조사·신청서·내부 취합. 응답이 바로 스프레드시트로 쌓입니다.",
     videos: [
       { t: "구글 설문지 Google Forms 완벽 해부", id: "SniQA3lziLo" },
@@ -611,6 +622,7 @@ const CURRICULUM = [
   },
   {
     id: "a11", track: "A", no: 11, title: "구글 포토", status: "ready",
+    tags: ["사진", "자료관리", "데이터"],
     blurb: "행사 사진을 개인 휴대폰에 묵히지 않고 기관 자산으로 모으는 법.",
     videos: [
       { t: "구글 포토 사용법", id: "I5R2Fxt7fA8" },
@@ -624,6 +636,7 @@ const CURRICULUM = [
   },
   {
     id: "a12", track: "A", no: 12, title: "구글 챗, 슬랙", status: "ready",
+    tags: ["메신저", "협업", "계정·보안"],
     blurb: "업무 연락을 개인 메신저에서 분리하는 일. 현장에서 가장 많이 찾으시는 주제입니다.",
     videos: [
       { t: "2024년 최신 구글 Chat 스페이스 사용방법", id: "_dCNTk0fbew" },
@@ -642,6 +655,7 @@ const CURRICULUM = [
   /* ---------- B트랙 : 에이전트 기반 업무 자동화 (일부 인원) ---------- */
   {
     id: "b01", track: "B", no: 1, title: "구글 AI 스튜디오 바이브 코딩", status: "ready",
+    tags: ["바이브코딩", "AI도구", "앱만들기"],
     blurb: "말로 설명하면 앱이 만들어집니다. 무료로 시작할 수 있는 입구입니다.",
     videos: [
       { t: "확 달라진 구글 AI 스튜디오로 바이브 코딩하기 (초보자용)", id: "DQV06YYH9Ck" },
@@ -654,6 +668,7 @@ const CURRICULUM = [
   },
   {
     id: "b02", track: "B", no: 2, title: "깃허브 + 버셀 배포", status: "ready",
+    tags: ["배포", "깃허브", "앱만들기"],
     blurb: "만든 것을 남이 볼 수 있는 주소로 올리는 일. 지금 보고 계신 이 페이지도 이 방법으로 올라갑니다.",
     videos: [
       { t: "프론트엔드 앱을 GitHub와 Vercel에 무료로 호스팅하기", id: "cpzeO67w4oc" },
@@ -667,6 +682,7 @@ const CURRICULUM = [
   },
   {
     id: "b12", track: "B", no: 3, title: "데이터란 무엇인가", status: "ready",
+    tags: ["데이터", "스프레드시트", "기초"],
     blurb: "정형·반정형·비정형. 파일로 쌓을 것인가, 데이터로 쌓을 것인가.",
     lesson: [
       {
@@ -699,6 +715,7 @@ const CURRICULUM = [
   },
   {
     id: "b03", track: "B", no: 4, title: "구글 스프레드시트 기초 (앱스 스크립트)", status: "ready",
+    tags: ["스프레드시트", "데이터", "자동화", "앱스스크립트"],
     blurb: "시트가 곧 데이터베이스입니다. 앱스 스크립트를 붙이면 그 자리에서 자동화가 됩니다.",
     videos: [
       { t: "구글 스프레드시트 가장 기초적인 기능 및 사용법", id: "vegBYv_RlMU" },
@@ -715,6 +732,7 @@ const CURRICULUM = [
   },
   {
     id: "b13", track: "B", no: 5, title: "데이터로 말하기 — 분석과 시각화", status: "ready",
+    tags: ["데이터", "시각화", "보고"],
     blurb: "모은 데이터로 설득하는 법. 숫자를 그림으로 바꾸면 사람이 움직입니다.",
     lesson: [
       {
@@ -740,6 +758,7 @@ const CURRICULUM = [
   },
   {
     id: "b04", track: "B", no: 6, title: "에이전트 AI 도구 (코덱스, 클로드)", status: "ready",
+    tags: ["AI도구", "에이전트", "바이브코딩"],
     blurb: "지시를 내리면 스스로 일하는 도구. 비개발자도 쓸 수 있습니다.",
     videos: [
       { t: "Claude Code 왕초보 입문 튜토리얼", id: "1_bRmkUvjHA" },
@@ -755,6 +774,7 @@ const CURRICULUM = [
   },
   {
     id: "b05", track: "B", no: 7, title: "업무 자동화", status: "ready",
+    tags: ["자동화", "앱스스크립트", "에이전트"],
     blurb: "매달 손으로 하던 일을 한 번 만들어 두고 쓰는 일. 강사님 현장 시연이 중심입니다.",
     videos: [
       { t: "구글 Apps Script 완전 자동화 꿀팁 5분", id: "tKNVipkqG8Y" },
@@ -769,6 +789,7 @@ const CURRICULUM = [
   },
   {
     id: "b06", track: "B", no: 8, title: "바이브 코딩 1 (파이어베이스)", status: "ready",
+    tags: ["바이브코딩", "앱만들기", "데이터베이스"],
     blurb: "데이터가 쌓이는 앱을 만드는 단계. 로그인·저장이 되는 진짜 앱입니다.",
     videos: [
       { t: "구글 Firebase Studio 사용법 — 코딩 몰라도 AI로 앱 개발", id: "0A45kpsOCPY" },
@@ -781,6 +802,7 @@ const CURRICULUM = [
   },
   {
     id: "b07", track: "B", no: 9, title: "바이브 코딩 2 (API 사용)", status: "own",
+    tags: ["API", "앱만들기", "바이브코딩"],
     blurb: "다른 서비스와 주고받게 만드는 단계. 강사님 실습 중심 회차입니다.",
     videos: [
       { t: "확 달라진 구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck" },
@@ -792,6 +814,7 @@ const CURRICULUM = [
   },
   {
     id: "b08", track: "B", no: 10, title: "멀티 에이전트 만들기", status: "ready",
+    tags: ["에이전트", "AI도구", "자동화"],
     blurb: "일을 나눠 맡는 여러 에이전트를 두는 방법.",
     videos: [
       { t: "클로드 스킬·서브에이전트·커맨드 개념 정리", id: "2eqPBLgVH0U" },
@@ -804,6 +827,7 @@ const CURRICULUM = [
   },
   {
     id: "b09", track: "B", no: 11, title: "Google Workspace CLI 배우기", status: "own",
+    tags: ["CLI", "앱스스크립트", "배포", "에이전트"],
     blurb: "명령어로 워크스페이스를 다루는 단계. 강사님 고유 커리큘럼이라 현장 실습으로만 배웁니다.",
     videos: [],
     docs: [
@@ -813,6 +837,7 @@ const CURRICULUM = [
   },
   {
     id: "b10", track: "B", no: 12, title: "에이전틱 AI 서버 만들기", status: "own",
+    tags: ["에이전트", "서버", "계정·보안"],
     blurb: "내 기관 안에서 도는 에이전트를 세우는 단계. 강사님 고유 커리큘럼입니다.",
     videos: [],
     docs: [
@@ -822,6 +847,7 @@ const CURRICULUM = [
   },
   {
     id: "b11", track: "B", no: 13, title: "나만의 외장 두뇌 만들기", status: "own",
+    tags: ["에이전트", "AI도구", "자동화"],
     blurb: "내 일을 기억하는 비서를 두는 마지막 단계. 강사님 고유 커리큘럼입니다.",
     videos: [],
     docs: [],
