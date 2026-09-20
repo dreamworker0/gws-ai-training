@@ -193,7 +193,7 @@
     /* 관련 항목 — 태그가 겹치는 것 */
     var rel = Find.relatedItems(it, 4);
     if (rel.length) {
-      h += "<h3>이어서 보면 좋은 것</h3>";
+      h += "<h3>함께 복습하면 좋은 것</h3>";
       h += '<div class="rels">';
       rel.forEach(function (r) {
         var nv = (r.it.videos || []).length;
@@ -233,8 +233,8 @@
     h += "<h2 class='item-title'>발표자료 전체</h2>";
     h += '<p class="lede">모두 ' + totalPages + "쪽 · 강사 " + esc(META.lecturer) +
          " 제작. 쪽을 누르면 크게 봅니다.</p>";
-    h += '<p class="more">주제별로 보시려면 <a href="#curriculum">배우는 것</a>에서 항목을 고르세요 — ' +
-         "질문이 튀어도 그 주제 자료만 모여 있습니다.</p>";
+    h += '<p class="more">주제별로 보시는 편이 빠릅니다 — <a href="#curriculum">배우는 것</a>에서 ' +
+         "항목을 고르시면 그 주제 자료만 모여 있습니다.</p>";
     DECKS.forEach(function (d) {
       h += "<h3>" + esc(d.title) + " · " + d.pages + "쪽</h3>";
       if (d.note) h += '<p class="deck-note">⚠️ ' + esc(d.note) + "</p>";
@@ -337,8 +337,8 @@
   function renderGraph() {
     var h = '<p class="kicker">관계도</p>';
     h += "<h2 class='item-title'>주제 관계도</h2>";
-    h += '<p class="lede">무엇이 무엇과 이어지는지 한눈에 봅니다. ' +
-         "배우고 싶은 것을 누르면 그 항목으로 갑니다.</p>";
+    h += '<p class="lede">배운 것들이 서로 어떻게 이어지는지 한눈에 봅니다. ' +
+         "복습하고 싶은 것을 누르면 그 항목으로 갑니다.</p>";
     h += '<p class="legend">' +
          '<span><i></i> 주제</span>' +
          '<span><i class="lS"></i> 먼저 보기</span>' +
@@ -410,8 +410,8 @@
   });
 
   /* ── 밝게 / 어둡게 ──────────────────────────────────
-     평소엔 운영체제 설정을 따릅니다. 강의실 프로젝터가 어두워
-     뒷자리에서 안 보일 때 밝게 고정하시라고 둔 버튼입니다. */
+     평소엔 운영체제 설정을 따릅니다. 밤에 휴대폰으로 보실 때
+     눈이 편한 쪽으로 고정하시라고 둔 단추입니다. */
   (function () {
     var btn = $("theme");
     if (!btn) return;
