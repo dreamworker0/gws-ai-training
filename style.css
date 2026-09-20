@@ -555,6 +555,23 @@ a.pg:hover { border-color: var(--brand); }
   border-radius: 46% 54% 42% 58% / 55% 38% 62% 45%;
 }
 
+.media-fallback {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  padding: 24px;
+  background: var(--sage);
+  color: var(--forest);
+  font-weight: 700;
+  text-align: center;
+}
+
+.thumb .media-fallback {
+  min-height: 0;
+  aspect-ratio: 16 / 9;
+  font-size: 13px;
+}
+
 .noscript {
   margin-block: 12px;
   padding-block: 12px;

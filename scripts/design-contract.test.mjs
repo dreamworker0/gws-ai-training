@@ -63,4 +63,9 @@ const favicon = await readFile(new URL("favicon.svg", root), "utf8");
 assert.match(favicon, /<svg[^>]+viewBox=["']0 0 64 64["']/);
 assert.match(favicon, /#17362f/);
 
+assert.match(appSource, /function\s+installImageFallbacks\s*\(/);
+assert.match(appSource, /addEventListener\(["']error["']/);
+assert.match(appSource, /media-fallback/);
+assert.match(css, /\.media-fallback/);
+
 console.log("design data contract: ok");

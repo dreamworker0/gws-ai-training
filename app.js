@@ -20,6 +20,22 @@
       .replace(/\n/g, "<br>");
   }
 
+  function installImageFallbacks(root) {
+    (root || document).querySelectorAll("img").forEach(function (img) {
+      if (img.dataset.fallbackReady) return;
+      img.dataset.fallbackReady = "true";
+      img.addEventListener("error", function () {
+        var fallback = document.createElement("span");
+        fallback.className = "media-fallback";
+        fallback.textContent = img.id === "hero-image"
+          ? "드림워크 교육 아카이브"
+          : (img.alt || "이미지를 불러오지 못했습니다");
+        img.classList.add("is-missing");
+        img.replaceWith(fallback);
+      }, { once: true });
+    });
+  }
+
   var TRACK_NAME = {
     S: "먼저 보기",
     A: "A트랙 · 구글 워크스페이스 기초",
@@ -375,6 +391,7 @@
   function showItem(it) {
     $("itembody").innerHTML = renderItem(it);
     $("pager").innerHTML = renderPager(it);
+    installImageFallbacks(page);
     only("item");
     document.title = it.title + " — " + META.title;
     window.scrollTo(0, 0);
@@ -382,6 +399,7 @@
 
   function showDeck(html, title) {
     $("slidesbody").innerHTML = html;
+    installImageFallbacks(deck);
     only("deck");
     document.title = title + " — " + META.title;
     window.scrollTo(0, 0);
@@ -609,5 +627,6 @@
   })();
 
   window.addEventListener("hashchange", route);
+  installImageFallbacks(document);
   route();
 })();
