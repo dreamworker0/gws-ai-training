@@ -46,4 +46,21 @@ assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 assert.match(css, /:focus-visible/);
 assert.match(css, /\.hero-grid/);
 
+const heroImage = await readFile(new URL("img/dreamwork-archive-hero.png", root));
+assert.deepEqual([...heroImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+const heroWidth = heroImage.readUInt32BE(16);
+const heroHeight = heroImage.readUInt32BE(20);
+assert.ok(heroWidth >= 1200, `히어로 이미지 폭 부족: ${heroWidth}`);
+assert.ok(heroHeight >= 800, `히어로 이미지 높이 부족: ${heroHeight}`);
+assert.ok(heroWidth > heroHeight, `히어로 이미지는 가로형이어야 함: ${heroWidth}x${heroHeight}`);
+
+const ogImage = await readFile(new URL("img/dreamwork-og.png", root));
+assert.deepEqual([...ogImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+assert.equal(ogImage.readUInt32BE(16), 1200, "오픈 그래프 이미지 폭은 1200이어야 함");
+assert.equal(ogImage.readUInt32BE(20), 630, "오픈 그래프 이미지 높이는 630이어야 함");
+
+const favicon = await readFile(new URL("favicon.svg", root), "utf8");
+assert.match(favicon, /<svg[^>]+viewBox=["']0 0 64 64["']/);
+assert.match(favicon, /#17362f/);
+
 console.log("design data contract: ok");
