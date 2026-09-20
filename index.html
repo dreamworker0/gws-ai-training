@@ -108,7 +108,6 @@
         순서대로 복습하셔도 되고, 기억나지 않는 것만 골라 보셔도 됩니다.
       </p>
 
-      <div id="curriculum-slide" class="fig timetable-wrap"></div>
 
       <div class="track" id="track-s-wrap">
         <h3 class="track-head">
@@ -159,6 +158,7 @@
     <div class="wrap">
       <h2>자주 묻는 것</h2>
       <div class="faq" id="faq-list"></div>
+      <div id="ask-home"></div>
     </div>
   </section>
 
@@ -175,6 +175,17 @@
     </p>
   </div>
 </footer>
+
+<!-- 슬라이드 전체 화면 -->
+<div id="viewer" class="viewer" hidden>
+  <img id="viewer-img" alt="">
+  <div class="viewer-bar">
+    <button id="v-prev" type="button" aria-label="이전 쪽">‹</button>
+    <span id="v-count"></span>
+    <button id="v-next" type="button" aria-label="다음 쪽">›</button>
+    <button id="v-close" type="button" aria-label="닫기">✕</button>
+  </div>
+</div>
 
 <script src="data.js"></script>
 <script src="find.js"></script>

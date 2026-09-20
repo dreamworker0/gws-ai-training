@@ -78,17 +78,31 @@
       '<span class="sl-cap"><b>' + r.n + "</b>" + (t ? " " + esc(t) : "") + "</span></a>";
   }
 
-  /* 「배우는 것」 절에 강사님 일정표 슬라이드 한 장 */
-  if (typeof CURRICULUM_SLIDE === "string" && $("curriculum-slide")) {
-    var cr = parseRef(CURRICULUM_SLIDE);
-    $("curriculum-slide").innerHTML =
-      '<a class="timetable" href="' + slideHash(CURRICULUM_SLIDE) + '">' +
-      '<img loading="lazy" src="' + bigSrc(cr) + '" alt="교육 일정표"></a>';
-  }
-
   var totalPages = DECKS.reduce(function (a, d) { return a + d.pages; }, 0);
   $("slide-count-note").textContent =
     "자료 " + DECKS.length + "종 · 모두 " + totalPages + "쪽";
+
+  /* ── 질문하기 ───────────────────────────────────
+     주소는 data.js 에 나눠 두었고 여기서 이어 붙입니다. */
+  function mailHref(topic) {
+    var to = CONTACT.user + "@" + CONTACT.host;
+    var subj = CONTACT.subjectPrefix + (topic ? " " + topic : "");
+    var NL = String.fromCharCode(10);
+    var body = topic
+      ? "복습하다 막힌 것을 적어 주세요." + NL + NL +
+        "· 어느 주제: " + topic + NL +
+        "· 어디까지 해보셨는지:" + NL +
+        "· 무엇이 안 되는지:" + NL
+      : "";
+    return "mailto:" + to + "?subject=" + encodeURIComponent(subj) +
+           (body ? "&body=" + encodeURIComponent(body) : "");
+  }
+
+  function askBox(topic, note) {
+    return '<div class="ask"><div><b>' + (topic ? "이 주제가 막히시나요?" : "복습하다 막히셨나요?") +
+      "</b><span>" + esc(note) + "</span></div>" +
+      '<a class="askbtn" href="' + mailHref(topic) + '">' + esc(CONTACT.label) + " →</a></div>";
+  }
 
   /* ── 목차 ───────────────────────────────────────── */
   function itemRow(it) {
@@ -120,6 +134,9 @@
   $("faq-list").innerHTML = FAQ.map(function (f) {
     return "<details><summary>" + esc(f.q) + "</summary><p>" + esc(f.a) + "</p></details>";
   }).join("");
+  if ($("ask-home")) {
+    $("ask-home").innerHTML = askBox("", "여기에 없는 것이 궁금하시면 강사님께 바로 물어보셔도 됩니다.");
+  }
 
   /* ── 항목 페이지 ────────────────────────────────── */
   var home = $("home");
@@ -210,6 +227,8 @@
     if ((!it.lesson || !it.lesson.length) && !sl.length) {
       h += '<p class="empty" style="margin-top:26px">이 항목의 강의 정리는 아직 준비 중입니다. 회차가 끝나는 대로 채워집니다.</p>';
     }
+
+    h += askBox(it.title, "어디까지 해보셨는지 함께 적어 주시면 답이 빨라집니다.");
     return h;
   }
 
@@ -285,7 +304,10 @@
 
     var h = '<p class="kicker">' + back + " · " + r.n + " / " + d.pages + "쪽</p>";
     h += "<h2 class='item-title'>" + esc(t || r.n + "쪽") + "</h2>";
-    h += '<figure class="fig slide-one"><img src="' + bigSrc(r) + '" alt="' + esc(d.title) + " " + r.n + '쪽"></figure>';
+    h += '<figure class="fig slide-one"><img src="' + bigSrc(r) + '" alt="' + esc(d.title) + " " + r.n + '쪽">' +
+         '<button class="fsbtn" type="button" data-full="' + esc(ref) + '"' +
+         (fromItem ? ' data-from="' + esc(fromItem) + '"' : "") +
+         '>⛶ 전체 화면</button></figure>';
 
     if (idx >= 0) {
       var prev = list[idx - 1], next = list[idx + 1];
@@ -463,6 +485,77 @@
     if (e.key === "/" && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
     if (e.key === "Escape") { qRes.hidden = true; qEl.blur(); }
   });
+
+  /* ── 전체 화면으로 보기 ─────────────────────────────
+     복습할 때 슬라이드를 크게 넘겨 보실 수 있게. 화살표 키로도 넘어갑니다. */
+  (function () {
+    var box = $("viewer");
+    if (!box) return;
+    var img = $("viewer-img"), cnt = $("v-count");
+    var list = [], at = -1;
+
+    function draw() {
+      var ref = list[at];
+      if (!ref) return;
+      var r = parseRef(ref);
+      img.src = bigSrc(r);
+      img.alt = (slideTitle(ref) || r.n + "쪽");
+      cnt.textContent = (at + 1) + " / " + list.length;
+      $("v-prev").disabled = at <= 0;
+      $("v-next").disabled = at >= list.length - 1;
+    }
+
+    function open(ref, from) {
+      var r = parseRef(ref);
+      if (from && ITEM_SLIDES[from]) {
+        list = ITEM_SLIDES[from].slice();
+      } else {
+        var d = DECK[r.deck];
+        list = [];
+        for (var i = 1; i <= d.pages; i++) list.push(d.id + ":" + i);
+      }
+      at = list.indexOf(ref);
+      if (at < 0) { list = [ref]; at = 0; }
+      box.hidden = false;
+      document.body.style.overflow = "hidden";
+      draw();
+      if (box.requestFullscreen) { try { box.requestFullscreen(); } catch (e) {} }
+    }
+
+    function close() {
+      box.hidden = true;
+      document.body.style.overflow = "";
+      if (document.fullscreenElement && document.exitFullscreen) {
+        try { document.exitFullscreen(); } catch (e) {}
+      }
+    }
+
+    function step(n) {
+      var to = at + n;
+      if (to < 0 || to >= list.length) return;
+      at = to; draw();
+    }
+
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest(".fsbtn") : null;
+      if (b) { open(b.getAttribute("data-full"), b.getAttribute("data-from")); return; }
+      if (box.hidden) return;
+      if (e.target.id === "v-prev") step(-1);
+      else if (e.target.id === "v-next") step(1);
+      else if (e.target.id === "v-close" || e.target === box) close();
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (box.hidden) return;
+      if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+      else if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); step(1); }
+      else if (e.key === "Escape") close();
+    });
+
+    document.addEventListener("fullscreenchange", function () {
+      if (!document.fullscreenElement && !box.hidden) close();
+    });
+  })();
 
   window.addEventListener("hashchange", route);
   route();
