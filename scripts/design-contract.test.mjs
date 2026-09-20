@@ -19,4 +19,13 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
   assert.equal(publicText.includes(forbidden), false, `공개 데이터 금지 문자열: ${forbidden}`);
 }
 
+const html = await readFile(new URL("index.html", root), "utf8");
+for (const id of ["hero", "audience-paths", "education-fields", "archive-preview", "viewpoint", "education", "contact", "hero-image"]) {
+  assert.match(html, new RegExp(`id=["']${id}["']`), `필수 홈 영역 누락: ${id}`);
+}
+assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
+assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
+assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
+assert.doesNotMatch(html, /기관별 진행 상황/);
+
 console.log("design data contract: ok");

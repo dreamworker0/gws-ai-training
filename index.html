@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>구글 워크스페이스와 AI 교육 — 수강생 학습 페이지</title>
-<meta name="description" content="구글 워크스페이스와 AI 교육 수강생을 위한 학습 자료 모음. 구글 워크스페이스 기초 12항목과 에이전트 기반 업무 자동화 11항목.">
+<title>드림워크 교육 아카이브</title>
+<meta name="description" content="사회복지 현장의 스마트워크와 AI 교육을 기록하고 나누는 드림워크 교육 아카이브입니다.">
 <link rel="stylesheet" href="style.css?v=202609202119">
 </head>
 <body>
@@ -16,8 +16,8 @@
     <div class="brand">
       <span class="dot" aria-hidden="true"></span>
       <div>
-        <h1 id="site-title">구글 워크스페이스와 AI 교육</h1>
-        <p id="site-sub">수강생 학습 페이지</p>
+        <h1 id="site-title">드림워크 교육 아카이브</h1>
+        <p id="site-sub">도구보다, 일하는 방식의 변화</p>
       </div>
     </div>
     <div class="searchbox">
@@ -26,10 +26,12 @@
       <div id="qres" class="qres" hidden></div>
     </div>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="#curriculum">배우는 것</a>
-      <a href="#slides">발표자료</a>
+      <a href="#education-fields">교육 분야</a>
+      <a href="#curriculum">학습 아카이브</a>
+      <a href="#slides-home">발표자료</a>
       <a href="#graph">관계도</a>
-      <a href="#faq">자주 묻는 것</a>
+      <a href="#viewpoint">관점</a>
+      <a href="#contact">문의</a>
       <button id="theme" class="themebtn" type="button"
               title="밝게 / 어둡게 — 밤에 보실 때 눈이 편한 쪽으로"
               aria-label="밝게 어둡게 전환">◐</button>
@@ -38,6 +40,13 @@
 </header>
 
 <main id="main">
+
+  <noscript>
+    <div class="noscript wrap">
+      이 사이트의 대화형 검색과 자료 보기는 JavaScript가 필요합니다.
+      <a href="#curriculum">수강생 복습</a>과 <a href="#education">교육 살펴보기</a> 안내는 아래에서 읽을 수 있습니다.
+    </div>
+  </noscript>
 
   <!-- ── 항목 페이지 (주소가 #a01 같은 항목일 때만 보입니다) ───── -->
   <article id="itempage" class="band" hidden>
@@ -66,6 +75,69 @@
 
   <div id="home">
 
+  <!-- ── 드림워크 소개 ─────────────────────────────────────────── -->
+  <section id="hero" class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">드림워크 교육 아카이브</p>
+        <h2 id="hero-title">도구보다,<br>일하는 방식의 변화</h2>
+        <p id="hero-description">사회복지 현장의 스마트워크와 AI 교육을 기록하고 나눕니다.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#curriculum">수강생 복습하기</a>
+          <a class="button secondary" href="#education">교육 살펴보기</a>
+        </div>
+      </div>
+      <figure class="hero-art">
+        <img id="hero-image" src="img/dreamwork-archive-hero.png"
+             alt="기록과 사람, 업무가 연결되어 성장하는 모습을 표현한 일러스트">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ── 방문 목적 ─────────────────────────────────────────────── -->
+  <section id="audience-paths" class="band audience-band" aria-labelledby="audience-title">
+    <div class="wrap">
+      <p class="eyebrow">어떤 마음으로 오셨나요?</p>
+      <h2 id="audience-title">필요한 곳에서 시작하세요.</h2>
+      <div class="audience-grid">
+        <a class="audience-card" href="#curriculum">
+          <span>수강생</span>
+          <strong>수업에서 배운 것을 다시 찾습니다.</strong>
+          <small>주제 · 발표자료 · 영상 · 공식 문서</small>
+        </a>
+        <a class="audience-card" href="#education">
+          <span>기관 담당자</span>
+          <strong>드림워크의 교육 분야와 방식을 살펴봅니다.</strong>
+          <small>교육 분야 · 진행 원칙 · 교육자 소개</small>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 교육 분야 ─────────────────────────────────────────────── -->
+  <section id="education-fields" class="band alt" aria-labelledby="fields-title">
+    <div class="wrap">
+      <p class="eyebrow">Education fields</p>
+      <h2 id="fields-title">현장의 일을 바꾸는 세 가지 축</h2>
+      <p class="section-note">도구 하나를 배우는 데서 끝나지 않고, 조직이 함께 일하는 흐름까지 연결합니다.</p>
+      <div class="field-grid" id="education-fields-list"></div>
+    </div>
+  </section>
+
+  <!-- ── 아카이브 미리보기 ─────────────────────────────────────── -->
+  <section id="archive-preview" class="band archive-preview" aria-labelledby="archive-preview-title">
+    <div class="wrap">
+      <div class="section-heading-row">
+        <div>
+          <p class="eyebrow">Learning archive</p>
+          <h2 id="archive-preview-title">지금 바로 꺼내 보는 학습 기록</h2>
+        </div>
+        <a class="text-link" href="#curriculum">전체 학습 아카이브 →</a>
+      </div>
+      <ol class="items preview-items" id="archive-preview-list"></ol>
+    </div>
+  </section>
+
   <!-- ── 계정이 아직 없는 분을 위한 안내 (접어 둠 · 빼지 말 것) ── -->
   <section id="start" class="setup">
     <div class="wrap">
@@ -91,11 +163,28 @@
   </section>
 
   <!-- ── 강사님 말씀 ───────────────────────────────────────────── -->
-  <section class="band alt">
+  <section id="viewpoint" class="band viewpoint">
     <div class="wrap">
-      <h2>스마트워크란 무엇인가</h2>
-      <p class="section-note">수업에서 강사님이 하신 말씀을 그대로 옮긴 것입니다.</p>
+      <p class="eyebrow">Dreamwork viewpoint</p>
+      <h2>드림워크가 바라보는 스마트워크</h2>
+      <p class="section-note">교육 현장에서 함께 나눈 생각을 기록합니다.</p>
       <div class="quotes" id="quotes"></div>
+    </div>
+  </section>
+
+  <!-- ── 교육 소개 ─────────────────────────────────────────────── -->
+  <section id="education" class="band alt education-about" aria-labelledby="education-title">
+    <div class="wrap about-grid">
+      <div id="education-about">
+        <p class="eyebrow">드림워크</p>
+        <h2 id="education-title">현장의 작은 변화부터 시작합니다.</h2>
+        <p>도구를 설치하는 일보다 구성원이 함께 쓰는 방식을 만드는 일에 집중합니다.</p>
+      </div>
+      <ul class="principles" aria-label="교육 진행 원칙">
+        <li><b>현장 중심</b><span>지금 하고 있는 일에서 시작합니다.</span></li>
+        <li><b>작은 실천</b><span>교육 뒤 혼자서도 다시 해볼 수 있게 남깁니다.</span></li>
+        <li><b>연결과 축적</b><span>개인의 요령을 조직의 일하는 방식으로 연결합니다.</span></li>
+      </ul>
     </div>
   </section>
 
@@ -140,7 +229,7 @@
   </section>
 
   <!-- ── 발표자료 안내 (홈) ──────────────────────────────────── -->
-  <section class="band alt">
+  <section id="slides-home" class="band alt">
     <div class="wrap">
       <h2>발표자료</h2>
       <p class="section-note">
@@ -158,7 +247,18 @@
     <div class="wrap">
       <h2>자주 묻는 것</h2>
       <div class="faq" id="faq-list"></div>
-      <div id="ask-home"></div>
+    </div>
+  </section>
+
+  <!-- ── 문의 ───────────────────────────────────────────────────── -->
+  <section id="contact" class="band contact-band" aria-labelledby="contact-title">
+    <div class="wrap">
+      <p class="eyebrow">Stay connected</p>
+      <h2 id="contact-title">배운 뒤에도, 교육 전에도 연결됩니다.</h2>
+      <div class="contact-grid">
+        <div id="ask-home"></div>
+        <div id="ask-education"></div>
+      </div>
     </div>
   </section>
 
@@ -168,7 +268,7 @@
 
 <footer class="foot">
   <div class="wrap">
-    <p><strong>구글 워크스페이스와 AI 교육</strong> · 강사 <span id="foot-lecturer"></span></p>
+    <p><strong>드림워크 교육 아카이브</strong> · <span id="foot-lecturer"></span></p>
     <p class="hint">마지막 갱신 <span id="foot-updated"></span></p>
     <p class="hint">
       영상은 이해를 돕기 위해 외부에서 고른 자료입니다. 강사님 설명과 화면이 다를 수 있습니다.
