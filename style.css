@@ -1,4 +1,4 @@
-/* 드림워크 교육 아카이브 */
+/* GWS & AI 교육 아카이브 */
 
 :root {
   --forest:    #17362f;
@@ -167,6 +167,7 @@ a { color: var(--brand); }
 .item {
   display: flex; align-items: center; gap: 12px; width: 100%;
   text-align: left; font: inherit; color: inherit; cursor: pointer;
+  text-decoration: none;
   background: var(--bg); border: 1px solid var(--line);
   border-radius: var(--radius); padding: 12px 14px;
   transition: border-color .12s, transform .12s;

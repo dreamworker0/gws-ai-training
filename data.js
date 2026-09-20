@@ -18,11 +18,11 @@
 
 const META = {
   brand: "드림워크",
-  title: "드림워크 교육 아카이브",
+  title: "GWS & AI 교육 아카이브",
   tagline: "도구보다, 일하는 방식의 변화",
   subtitle: "사회복지 현장의 스마트워크와 AI 교육을 기록하고 나눕니다.",
   lecturer: "교육자 김종원 · 소셜프리즘",
-  updated: "2026-09-20",
+  updated: "2026-09-21",
 };
 
 const ABOUT_DREAMWORK = {
@@ -102,7 +102,7 @@ const DECKS = [
   { id: "keep",     title: "구글 킵 · 구글 지도",                  pages: 8 },
   { id: "meet",     title: "구글 미트 · 구글 비즈(Vids)",          pages: 10 },
   { id: "mail",     title: "지메일",                             pages: 7 },
-  { id: "chat",     title: "구글 챗 · 슬랙",                      pages: 7 },
+  { id: "chat",     title: "슬랙",                               pages: 7 },
 ];
 
 /* ───────────────────────────────────────────────────────────────────
@@ -121,6 +121,7 @@ const SLIDE_HIDDEN = [
   "gpt:108", "gpt:109", "gpt:110", "gpt:111", "gpt:112", "gpt:113", "gpt:114", "gpt:115",
   "gpt:116", "gpt:117", "gpt:118", "gpt:119", "gpt:120", "gpt:121", "gpt:122", "gpt:123",
   "gpt:136", "gpt:137", "gpt:140", "gpt:141", "gpt:142",
+  "chat:1",
 ];
 
 /* ───────────────────────────────────────────────────────────────────
@@ -139,11 +140,19 @@ const ITEM_SLIDES = {
   ],
 
   a08: [
-    "meet:1", "meet:2", "meet:3", "meet:4", "meet:5", "meet:6", "meet:7", "meet:8", "meet:9", "meet:10",
+    "meet:1", "meet:2", "meet:3", "meet:4",
+  ],
+
+  "a08-vids": [
+    "meet:5", "meet:6", "meet:7", "meet:8", "meet:9", "meet:10",
   ],
 
   a06: [
-    "keep:1", "keep:2", "keep:3", "keep:4", "keep:5", "keep:6", "keep:7", "keep:8",
+    "keep:1", "keep:2", "keep:3", "keep:4",
+  ],
+
+  "a06-map": [
+    "keep:5", "keep:6", "keep:7", "keep:8",
   ],
 
   a04: [
@@ -218,9 +227,9 @@ const ITEM_SLIDES = {
     "smart:74",
   ],
 
-  /* 구글 챗 · 슬랙 */
+  /* 슬랙 — 구글 챗 표지는 제외하고 공통 메신저 원칙만 남깁니다. */
   a12: [
-    "chat:1", "chat:2", "chat:3", "chat:4", "chat:5", "chat:6", "chat:7",
+    "chat:2", "chat:3", "chat:4", "chat:5", "chat:6", "chat:7",
     "smart:45", "smart:61",
   ],
 
@@ -320,7 +329,7 @@ const SLIDE_TITLES = {
   "mail:5": "읽었으면 받은편지함에서 치웁니다",
   "mail:6": "기관 계정과 개인 계정은 역할부터 다릅니다",
   "mail:7": "서명과 부재중 응답은 매번 쓰지 않습니다",
-  "chat:1": "Google Chat · Slack",
+  "chat:1": "슬랙",
   "chat:2": "업무 대화는 근무시간 안에서 울려야 합니다",
   "chat:3": "공간 이름만 봐도 대화의 목적이 보여야 합니다",
   "chat:4": "답글은 원래 메시지 아래에 묶습니다",
@@ -635,21 +644,31 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "a06", track: "A", no: 6, title: "구글 킵, 구글 지도", status: "ready",
-    short: "킵 · 지도",
+    id: "a06", track: "A", no: 6, title: "구글 킵", status: "ready",
+    short: "구글 킵",
     tags: ["메모", "현장", "기초"],
-    blurb: "메모를 흘리지 않는 법(킵)과 기관·이용자 위치를 지도로 관리하는 법(내 지도).",
+    blurb: "현장에서 떠오른 메모와 할 일을 놓치지 않고 PC까지 이어 쓰는 방법.",
     videos: [
       { t: "구글 킵 13가지 활용법", id: "UiCWrTGeDMo", date: "2026-01-02", channel: "디지털 한 스푼" },
     ],
     docs: [
       { t: "Google Keep 사용하기", u: "https://support.google.com/keep/answer/2888240?hl=ko" },
+    ],
+    notes: [],
+  },
+  {
+    id: "a06-map", track: "A", no: 7, title: "구글 지도", status: "ready",
+    short: "구글 지도",
+    tags: ["지도", "현장", "자료관리"],
+    blurb: "기관과 이용자 위치를 내 지도에 모으고, 함께 관리하는 방법.",
+    videos: [],
+    docs: [
       { t: "내 지도(My Maps) 만들기", u: "https://support.google.com/mymaps/answer/3024396?hl=ko" },
     ],
     notes: [],
   },
   {
-    id: "a07", track: "A", no: 7, title: "사이트 도구", status: "ready",
+    id: "a07", track: "A", no: 8, title: "사이트 도구", status: "ready",
     short: "사이트 도구",
     tags: ["웹사이트", "공유", "사례"],
     blurb: "코딩 없이 기관 홈페이지·내부 안내 페이지를 만드는 도구.",
@@ -662,22 +681,33 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a08", track: "A", no: 8, title: "구글 미트, 구글 비즈(Vids)", status: "ready",
-    short: "미트 · Vids",
-    tags: ["회의", "영상", "협업"],
-    blurb: "화상회의(미트)와 AI 동영상 제작(비즈). 기관 소개·교육 영상을 직접 만들 수 있습니다.",
+    id: "a08", track: "A", no: 9, title: "구글 미트", status: "ready",
+    short: "구글 미트",
+    tags: ["회의", "협업", "일정"],
+    blurb: "회의 링크를 만들고 화면을 공유하며 온라인 회의를 진행하는 방법.",
     videos: [
       { t: "구글 미트 사용법 완벽 정리 (PC·모바일)", id: "zK5il086bgo", date: "2026-02-12", channel: "윤타" },
-      { t: "Google Vids 사용법 완벽 가이드", id: "ODeSuIaiEDk", date: "2026-04-07", channel: "지투지 - 지식에서 지혜로" },
     ],
     docs: [
       { t: "Google Meet 시작하기", u: "https://support.google.com/meet/answer/9302870?hl=ko" },
+    ],
+    notes: [],
+  },
+  {
+    id: "a08-vids", track: "A", no: 10, title: "구글 비즈(Vids)", status: "ready",
+    short: "구글 비즈",
+    tags: ["영상", "AI도구", "콘텐츠"],
+    blurb: "AI로 대본과 장면을 구성해 기관 소개·교육 영상을 만드는 방법.",
+    videos: [
+      { t: "Google Vids 사용법 완벽 가이드", id: "ODeSuIaiEDk", date: "2026-04-07", channel: "지투지 - 지식에서 지혜로" },
+    ],
+    docs: [
       { t: "Google Vids 도움말", u: "https://support.google.com/vids?hl=ko" },
     ],
     notes: [],
   },
   {
-    id: "a09", track: "A", no: 9, title: "지메일", status: "ready",
+    id: "a09", track: "A", no: 11, title: "지메일", status: "ready",
     short: "지메일",
     tags: ["메일", "자료관리", "기초"],
     blurb: "라벨과 필터로 받은편지함을 정리하는 법.",
@@ -689,7 +719,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a10", track: "A", no: 10, title: "구글 설문지", status: "ready",
+    id: "a10", track: "A", no: 12, title: "구글 설문지", status: "ready",
     short: "설문지",
     tags: ["데이터수집", "설문", "데이터"],
     blurb: "만족도 조사·신청서·내부 취합. 응답이 바로 스프레드시트로 쌓입니다.",
@@ -702,7 +732,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a11", track: "A", no: 11, title: "구글 포토", status: "ready",
+    id: "a11", track: "A", no: 13, title: "구글 포토", status: "ready",
     short: "포토",
     tags: ["사진", "자료관리", "데이터"],
     blurb: "행사 사진을 개인 휴대폰에 묵히지 않고 기관 자산으로 모으는 법.",
@@ -713,16 +743,14 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a12", track: "A", no: 12, title: "구글 챗, 슬랙", status: "ready",
-    short: "챗 · 슬랙",
+    id: "a12", track: "A", no: 14, title: "슬랙", status: "ready",
+    short: "슬랙",
     tags: ["메신저", "협업", "계정·보안"],
     blurb: "업무 연락을 개인 메신저에서 분리하는 일. 현장에서 가장 많이 찾으시는 주제입니다.",
     videos: [
-      { t: "Google Chat 소개", id: "N9c6ZBcqv0A", date: "2025-03-02", channel: "Jocody Google Workspace Gemini" },
       { t: "Slack 처음 쓴다면? 기본 화면 완전 정복", id: "ZwN3uqTftRg", date: "2026-05-02", channel: "심플하게 일하기 (Make it simpler)" },
     ],
     docs: [
-      { t: "Google Chat 도움말", u: "https://support.google.com/chat/?hl=ko" },
       { t: "Slack 시작하기 (한국어)", u: "https://slack.com/intl/ko-kr/help/categories/360000049043" },
     ],
     notes: [

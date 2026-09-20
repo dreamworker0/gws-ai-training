@@ -4,15 +4,31 @@ import { readFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url);
 const dataSource = await readFile(new URL("data.js", root), "utf8");
 const data = new Function(
-  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM };"
+  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM, ITEM_SLIDES, DECKS, SLIDE_HIDDEN };"
 )();
 
 assert.equal(data.META.brand, "드림워크");
-assert.equal(data.META.title, "드림워크 교육 아카이브");
+assert.equal(data.META.title, "GWS & AI 교육 아카이브");
 assert.equal(data.META.tagline, "도구보다, 일하는 방식의 변화");
 assert.equal(data.META.lecturer, "교육자 김종원 · 소셜프리즘");
+assert.equal(data.META.updated, "2026-09-21");
 assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
 assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
+
+const trackA = data.CURRICULUM.filter((item) => item.track === "A");
+assert.equal(trackA.length, 14, "A트랙은 분리된 14개 항목이어야 함");
+assert.deepEqual(trackA.map((item) => item.no), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
+assert.deepEqual(trackA.slice(5).map((item) => item.title), [
+  "구글 킵", "구글 지도", "사이트 도구", "구글 미트", "구글 비즈(Vids)",
+  "지메일", "구글 설문지", "구글 포토", "슬랙",
+]);
+assert.deepEqual(data.ITEM_SLIDES.a06, ["keep:1", "keep:2", "keep:3", "keep:4"]);
+assert.deepEqual(data.ITEM_SLIDES["a06-map"], ["keep:5", "keep:6", "keep:7", "keep:8"]);
+assert.deepEqual(data.ITEM_SLIDES.a08, ["meet:1", "meet:2", "meet:3", "meet:4"]);
+assert.deepEqual(data.ITEM_SLIDES["a08-vids"], ["meet:5", "meet:6", "meet:7", "meet:8", "meet:9", "meet:10"]);
+assert.equal(JSON.stringify(trackA).includes("구글 챗"), false, "A트랙에 구글 챗이 남아 있음");
+assert.equal(data.DECKS.find((deck) => deck.id === "chat").title, "슬랙");
+assert.ok(data.SLIDE_HIDDEN.includes("chat:1"), "구글 챗 표지 슬라이드는 숨겨야 함");
 
 const videoCutoff = "2024-09-21";
 const videoCeiling = "2026-09-21";
@@ -45,7 +61,7 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
 }
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
 for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
-  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-video2`), `캐시 버전 누락: ${asset}`);
+  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-structure`), `캐시 버전 누락: ${asset}`);
 }
 assert.equal(html.includes("20260921-archive"), false, "이전 캐시 버전이 남아 있음");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
@@ -55,7 +71,7 @@ assert.doesNotMatch(html, /기관별 진행 상황/);
 assert.match(html, /<link\s+rel=["']icon["']\s+href=["']favicon\.svg["']\s+type=["']image\/svg\+xml["']/);
 assert.match(html, /<link\s+rel=["']canonical["']\s+href=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);
 assert.match(html, /property=["']og:type["']\s+content=["']website["']/);
-assert.match(html, /property=["']og:title["']\s+content=["']드림워크 교육 아카이브["']/);
+assert.match(html, /property=["']og:title["']\s+content=["']GWS &amp; AI 교육 아카이브["']/);
 assert.match(html, /property=["']og:description["']\s+content=["'][^"']+["']/);
 assert.match(html, /property=["']og:url["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);
 assert.match(html, /property=["']og:image["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/img\/dreamwork-og\.png["']/);
@@ -77,6 +93,7 @@ assert.match(appSource, /ask-education/);
 assert.match(appSource, /교육을 함께 준비하시나요\?/);
 assert.match(appSource, /교육 문의하기/);
 assert.match(appSource, /기관명/);
+assert.match(appSource, /GWS & AI 교육 아카이브/);
 assert.match(appSource, /video-meta/);
 assert.match(appSource, /video-play/);
 
@@ -90,6 +107,7 @@ assert.match(css, /:focus-visible/);
 assert.match(css, /\.hero-grid/);
 assert.match(css, /\.vids\s*\{[^}]*display:\s*grid/s);
 assert.match(css, /\.vid\s*\{/);
+assert.match(css, /\.item\s*\{[^}]*text-decoration:\s*none/s, "학습 목록 링크 밑줄 제거 누락");
 
 const heroImage = await readFile(new URL("img/dreamwork-archive-hero.png", root));
 assert.deepEqual([...heroImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);

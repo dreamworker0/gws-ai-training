@@ -1,4 +1,4 @@
-/* 드림워크 교육 아카이브 — 화면 그리기
+/* GWS & AI 교육 아카이브 — 화면 그리기
    데이터는 전부 data.js 에 있습니다. 내용을 바꾸실 때는 이 파일이 아니라
    data.js 를 고치세요. */
 
@@ -29,7 +29,7 @@
         var fallback = document.createElement("span");
         fallback.className = "media-fallback";
         fallback.textContent = img.id === "hero-image"
-          ? "드림워크 교육 아카이브"
+          ? "GWS & AI 교육 아카이브"
           : (img.alt || "이미지를 불러오지 못했습니다");
         img.classList.add("is-missing");
         img.replaceWith(fallback);
