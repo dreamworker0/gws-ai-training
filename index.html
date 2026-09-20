@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구글 워크스페이스와 AI 교육 — 수강생 학습 페이지</title>
+<meta name="description" content="구글 워크스페이스와 AI 교육 수강생을 위한 학습 자료 모음. 구글 워크스페이스 기초 12항목과 에이전트 기반 업무 자동화 11항목.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <div>
+        <h1 id="site-title">구글 워크스페이스와 AI 교육</h1>
+        <p id="site-sub">수강생 학습 페이지</p>
+      </div>
+    </div>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="#start">시작하기</a>
+      <a href="#curriculum">일정표</a>
+      <a href="#orgs">기관별</a>
+      <a href="#faq">자주 묻는 것</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ── 시작하기 : 설치 영상 (고정) ───────────────────────────── -->
+  <section id="start" class="band">
+    <div class="wrap">
+      <h2>시작하기</h2>
+      <div class="intro">
+        <div class="intro-video" id="intro-video"></div>
+        <div class="intro-text">
+          <p class="lede" id="intro-desc"></p>
+          <p class="hint">
+            이미 기관 계정을 쓰고 계시다면 건너뛰셔도 됩니다.
+            아직 만들지 않으셨다면 이 영상대로 <strong>비영리단체용</strong>으로 가입하시면 됩니다.
+          </p>
+          <p class="hint">
+            <a href="https://www.google.com/nonprofits/" target="_blank" rel="noopener">Google for Nonprofits 안내 →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 강사님 말씀 ───────────────────────────────────────────── -->
+  <section class="band alt">
+    <div class="wrap">
+      <h2>스마트워크란 무엇인가</h2>
+      <p class="section-note">강의 중 강사님이 하신 말씀을 그대로 옮긴 것입니다.</p>
+      <div class="quotes" id="quotes"></div>
+    </div>
+  </section>
+
+  <!-- ── 일정표 ────────────────────────────────────────────────── -->
+  <section id="curriculum" class="band">
+    <div class="wrap">
+      <h2>일정표</h2>
+      <p class="section-note">
+        항목을 누르면 그 주제의 영상과 공식 문서가 열립니다.
+        일정은 기관 사정에 따라 바뀌며, 바뀌면 이 표도 함께 고쳐집니다.
+      </p>
+
+      <div class="progress-box">
+        <div class="progress-head">
+          <span>전체 진도</span>
+          <strong id="progress-label"></strong>
+        </div>
+        <div class="bar"><div class="bar-fill" id="progress-bar"></div></div>
+        <p class="hint" id="progress-note"></p>
+      </div>
+
+      <div class="types" id="types"></div>
+
+      <div class="tracks">
+        <div class="track">
+          <h3 class="track-head">
+            <span class="tag a">A트랙</span>
+            구글 워크스페이스 기초
+            <em>전체 인원 참여 · 12항목</em>
+          </h3>
+          <ol class="items" id="track-a"></ol>
+        </div>
+        <div class="track">
+          <h3 class="track-head">
+            <span class="tag b">B트랙</span>
+            에이전트 기반 업무 자동화
+            <em>일부 인원 참여 · 11항목</em>
+          </h3>
+          <ol class="items" id="track-b"></ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 기관별 ────────────────────────────────────────────────── -->
+  <section id="orgs" class="band alt">
+    <div class="wrap">
+      <h2>기관별 진행 상황</h2>
+      <p class="section-note">
+        1회기는 2시간입니다. 신청하신 유형에 따라 총 회기가 정해집니다.
+      </p>
+      <div class="orgs" id="org-list"></div>
+    </div>
+  </section>
+
+  <!-- ── FAQ ───────────────────────────────────────────────────── -->
+  <section id="faq" class="band">
+    <div class="wrap">
+      <h2>자주 묻는 것</h2>
+      <div class="faq" id="faq-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>구글 워크스페이스와 AI 교육</strong> · 강사 <span id="foot-lecturer"></span></p>
+    <p class="hint">마지막 갱신 <span id="foot-updated"></span></p>
+    <p class="hint">
+      영상은 이해를 돕기 위해 외부에서 고른 자료입니다. 강사님 설명과 화면이 다를 수 있습니다.
+    </p>
+  </div>
+</footer>
+
+<!-- ── 항목 상세 (모달) ────────────────────────────────────────── -->
+<div class="modal" id="modal" hidden>
+  <div class="modal-bg" data-close></div>
+  <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-x" data-close aria-label="닫기">✕</button>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

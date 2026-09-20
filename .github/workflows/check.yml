@@ -1,0 +1,80 @@
+name: 링크 점검
+
+# 언제 도는가
+#   1) main 에 올릴 때마다 — 새로 넣은 링크가 죽은 것이면 바로 잡힙니다
+#   2) 매주 월요일 아침 — 예전에 멀쩡했던 영상이 삭제된 것을 잡습니다
+#   3) 손으로 돌리고 싶을 때 (Actions 탭 → Run workflow)
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data.js"
+      - "scripts/**"
+      - ".github/workflows/check.yml"
+  schedule:
+    - cron: "0 22 * * 0"   # UTC 일 22:00 = 한국시간 월요일 07:00
+  workflow_dispatch:
+
+# 러너를 바꾸려면 여기 한 줄만 고치면 됩니다.
+#   · GitHub 가 빌려주는 기계   → ubuntu-latest  (기본값, 설정할 것 없음)
+#   · 내 컴퓨터에 붙인 러너      → 저장소 Settings → Secrets and variables →
+#                                 Actions → Variables 에 RUNNER_LABEL = self-hosted
+env:
+  TZ: Asia/Seoul
+
+jobs:
+  links:
+    name: 영상·문서 링크가 살아 있는지
+    runs-on: ${{ vars.RUNNER_LABEL || 'ubuntu-latest' }}
+    timeout-minutes: 15
+
+    steps:
+      - name: 저장소 내려받기
+        uses: actions/checkout@v4
+
+      - name: Node 준비
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 링크 점검 실행
+        id: check
+        run: node scripts/check.mjs
+
+      - name: 죽은 링크가 있으면 이슈로 남기기
+        if: failure() && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🔗 죽은 링크가 발견되었습니다';
+            const body = [
+              '주간 링크 점검에서 응답하지 않는 링크가 나왔습니다.',
+              '',
+              `실행 기록: ${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`,
+              '',
+              '`data.js` 에서 해당 항목을 고쳐 주세요.',
+            ].join('\n');
+
+            const { data: open } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'link-rot',
+            });
+
+            if (open.length) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: open[0].number,
+                body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels: ['link-rot'],
+              });
+            }
