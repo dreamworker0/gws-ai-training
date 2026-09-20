@@ -2,6 +2,8 @@
 
 교육을 듣는 분들이 보시는 페이지입니다. 강사 김종원(소셜프리즘).
 
+🌐 **https://dreamworker0.github.io/gws-ai-training/**
+
 - **강의 목차 23항목** (A트랙 구글 워크스페이스 기초 12 + B트랙 에이전트 기반 업무 자동화 11)
 - 항목마다 **강사님 현장 설명 정리 · 유튜브 영상 · 공식 문서** 세 칸
 - 맨 위에 **비영리단체용 Google Workspace 설치 영상**(강사님 제작) 고정
@@ -66,6 +68,13 @@ node scripts/check.mjs
 ---
 
 ## 배포
+
+### GitHub Pages (지금 쓰는 곳)
+
+<https://dreamworker0.github.io/gws-ai-training/> — `main` 에 올리면 1~2분 뒤 자동으로 반영됩니다.
+따로 할 일은 없습니다.
+
+### Vercel (연결하면 이쪽으로 옮길 수 있음)
 
 GitHub 저장소를 Vercel에 연결해 두면 **main 에 올릴 때마다 자동 배포**됩니다.
 빌드 과정이 없는 정적 사이트라 Vercel 설정에서 고를 것도 없습니다.
