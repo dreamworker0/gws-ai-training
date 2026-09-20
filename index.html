@@ -21,7 +21,6 @@
       </div>
     </div>
     <nav class="nav" aria-label="주요 메뉴">
-      <a href="#start">시작하기</a>
       <a href="#curriculum">배우는 것</a>
       <a href="#faq">자주 묻는 것</a>
     </nav>
@@ -41,23 +40,27 @@
 
   <div id="home">
 
-  <!-- ── 시작하기 : 설치 영상 (고정) ───────────────────────────── -->
-  <section id="start" class="band">
+  <!-- ── 계정이 아직 없는 분을 위한 안내 (접어 둠 · 빼지 말 것) ── -->
+  <section id="start" class="setup">
     <div class="wrap">
-      <h2>시작하기</h2>
-      <div class="intro">
-        <div class="intro-video" id="intro-video"></div>
-        <div class="intro-text">
-          <p class="lede" id="intro-desc"></p>
-          <p class="hint">
-            이미 기관 계정을 쓰고 계시다면 건너뛰셔도 됩니다.
-            아직 만들지 않으셨다면 이 영상대로 <strong>비영리단체용</strong>으로 가입하시면 됩니다.
-          </p>
-          <p class="hint">
-            <a href="https://www.google.com/nonprofits/" target="_blank" rel="noopener">Google for Nonprofits 안내 →</a>
-          </p>
+      <details id="setup-box">
+        <summary>
+          <span class="s-icon" aria-hidden="true">▶</span>
+          <span class="s-txt">
+            <b>아직 기관 계정이 없으신가요?</b>
+            비영리단체용 구글 워크스페이스는 무료입니다 — 설치 영상 보기
+          </span>
+        </summary>
+        <div class="setup-body">
+          <div class="intro-video" id="intro-video"></div>
+          <div class="intro-text">
+            <p id="intro-desc"></p>
+            <p class="hint">
+              <a href="https://www.google.com/nonprofits/" target="_blank" rel="noopener">Google for Nonprofits 안내 →</a>
+            </p>
+          </div>
         </div>
-      </div>
+      </details>
     </div>
   </section>
 

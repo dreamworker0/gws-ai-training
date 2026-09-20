@@ -31,12 +31,19 @@
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
 
-  /* ── 설치 영상 ──────────────────────────────────── */
-  $("intro-video").innerHTML =
-    '<iframe src="https://www.youtube-nocookie.com/embed/' + esc(INTRO_VIDEO.id) + '"' +
-    ' title="' + esc(INTRO_VIDEO.t) + '" loading="lazy" allowfullscreen' +
-    ' allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe>';
+  /* ── 설치 영상 ──────────────────────────────────────
+     접혀 있으므로, 펼칠 때 비로소 불러옵니다.
+     (닫힌 채로 iframe 을 두면 첫 화면이 느려집니다) */
   $("intro-desc").textContent = INTRO_VIDEO.desc;
+  var setupBox = $("setup-box");
+  setupBox.addEventListener("toggle", function () {
+    var slot = $("intro-video");
+    if (!setupBox.open || slot.firstChild) return;
+    slot.innerHTML =
+      '<iframe src="https://www.youtube-nocookie.com/embed/' + esc(INTRO_VIDEO.id) + '"' +
+      ' title="' + esc(INTRO_VIDEO.t) + '" allowfullscreen' +
+      ' allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture"></iframe>';
+  });
 
   /* ── 인용 ───────────────────────────────────────── */
   $("quotes").innerHTML = QUOTES.map(function (q) {

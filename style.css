@@ -101,8 +101,23 @@ a { color: var(--brand); }
 .section-note { color: var(--fg-soft); margin: 0 0 22px; font-size: 15px; }
 .hint { color: var(--fg-soft); font-size: 14px; }
 
-/* ── 시작하기 ──────────────────────────────────────── */
-.intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+/* ── 계정 안내 (접어 둔 한 줄) ─────────────────────── */
+.setup { padding: 14px 0; border-bottom: 1px solid var(--line); background: var(--bg-alt); }
+.setup summary {
+  list-style: none; cursor: pointer; display: flex; gap: 9px;
+  align-items: baseline; font-size: 14.5px; color: var(--fg-soft);
+}
+.setup summary::-webkit-details-marker { display: none; }
+.setup summary:hover { color: var(--fg); }
+.setup summary b { color: var(--fg); font-weight: 600; }
+.s-icon { font-size: 10px; color: var(--brand); transition: transform .15s; flex: none; }
+.setup details[open] .s-icon, #setup-box[open] .s-icon { transform: rotate(90deg); }
+.setup-body {
+  display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px;
+  align-items: start; margin-top: 18px; padding-bottom: 6px;
+}
+.setup-body p { margin: 0 0 8px; font-size: 14.5px; color: var(--fg-soft); }
+
 .intro-video {
   position: relative; aspect-ratio: 16/9;
   border-radius: var(--radius); overflow: hidden;
@@ -224,7 +239,7 @@ a.pg:hover { border-color: var(--brand); }
 /* ── 좁은 화면 ─────────────────────────────────────── */
 @media (max-width: 860px) {
   .tracks { grid-template-columns: 1fr; }
-  .intro  { grid-template-columns: 1fr; }
+  .setup-body { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
   .band { padding: 32px 0; }
