@@ -21,9 +21,12 @@
   }
 
   var TRACK_NAME = {
+    S: "먼저 보기",
     A: "A트랙 · 구글 워크스페이스 기초",
     B: "B트랙 · 에이전트 기반 업무 자동화",
   };
+  var HIDDEN = {};
+  (typeof SLIDE_HIDDEN !== "undefined" ? SLIDE_HIDDEN : []).forEach(function (r) { HIDDEN[r] = 1; });
   var INLINE_SLIDES = 8;   /* 항목 페이지에 바로 보이는 장수 */
 
   /* ── 머리말 ─────────────────────────────────────── */
@@ -103,8 +106,13 @@
       "</a></li>";
   }
 
+  var trackS = CURRICULUM.filter(function (i) { return i.track === "S"; });
   var trackA = CURRICULUM.filter(function (i) { return i.track === "A"; });
   var trackB = CURRICULUM.filter(function (i) { return i.track === "B"; });
+  if ($("track-s")) {
+    $("track-s").innerHTML = trackS.map(itemRow).join("");
+    if (!trackS.length) $("track-s-wrap").hidden = true;
+  }
   $("track-a").innerHTML = trackA.map(itemRow).join("");
   $("track-b").innerHTML = trackB.map(itemRow).join("");
 
@@ -183,7 +191,7 @@
   }
 
   function renderPager(it) {
-    var list = it.track === "A" ? trackA : trackB;
+    var list = it.track === "A" ? trackA : (it.track === "B" ? trackB : trackS);
     var i = list.indexOf(it);
     var prev = list[i - 1], next = list[i + 1];
     var h = "";
@@ -208,8 +216,18 @@
       h += "<h3>" + esc(d.title) + " · " + d.pages + "쪽</h3>";
       if (d.note) h += '<p class="deck-note">⚠️ ' + esc(d.note) + "</p>";
       h += '<div class="deck">';
-      for (var i = 1; i <= d.pages; i++) h += slideTile(d.id + ":" + i);
+      var shown = 0;
+      for (var i = 1; i <= d.pages; i++) {
+        var ref = d.id + ":" + i;
+        if (HIDDEN[ref]) continue;
+        h += slideTile(ref);
+        shown++;
+      }
       h += "</div>";
+      if (shown < d.pages) {
+        h += '<p class="deck-note">' + (d.pages - shown) +
+             "쪽은 지금 기준으로 맞지 않는 내용이라 목록에서 뺐습니다. 원본 자료에는 그대로 있습니다.</p>";
+      }
     });
     return h;
   }

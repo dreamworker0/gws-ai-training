@@ -148,6 +148,9 @@ a { color: var(--brand); }
 }
 .tag.a { background: var(--a-soft); color: var(--a); }
 .tag.b { background: var(--b-soft); color: var(--b); }
+.tag.s { background: var(--brand); color: #fff; }
+.item.s .num { background: var(--brand); color: #fff; }
+#track-s-wrap { margin-bottom: 30px; }
 
 .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .item {
