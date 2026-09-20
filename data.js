@@ -195,16 +195,21 @@ const ITEM_SLIDES = {
     "gpt:81", "gpt:87", "gpt:77", "gpt:94", "gpt:86", "gpt:88", "gpt:89", "gpt:93",
   ],
 
-  /* 기초 설명 — 스마트워크 개념 · 연결 3단계 · 계정 · 비영리 가입 · 디지털 전환 */
+  /* 가입 방법 — 비영리 인증 · Google Workspace 신청 */
+  a00: [
+    "smart:63", "smart:64", "smart:66", "smart:67", "smart:69",
+  ],
+
+  /* 기초 설명 — 스마트워크 개념 · 연결 3단계 · 계정 · 디지털 전환 */
   a01: [
     "smart:12", "smart:5", "smart:11", "smart:15", "smart:33", "smart:42", "smart:49",
     "smart:70", "smart:71", "smart:34", "smart:41", "smart:46", "smart:17", "smart:14",
-    "smart:43", "smart:44", "smart:47", "smart:48", "smart:67", "smart:69", "smart:64",
-    "smart:66", "smart:75", "smart:76", "smart:6", "smart:7", "smart:8", "smart:9", "smart:10",
+    "smart:43", "smart:44", "smart:47", "smart:48", "smart:75", "smart:76", "smart:6",
+    "smart:7", "smart:8", "smart:9", "smart:10",
     "smart:13", "smart:16", "smart:18", "smart:19", "smart:20", "smart:21", "smart:22",
     "smart:23", "smart:24", "smart:25", "smart:26", "smart:27", "smart:28", "smart:29",
     "smart:30", "smart:31", "smart:32", "smart:50", "smart:51", "smart:52", "smart:53",
-    "smart:57", "smart:58", "smart:59", "smart:60", "smart:61", "smart:62", "smart:63",
+    "smart:57", "smart:58", "smart:59", "smart:60", "smart:61", "smart:62",
     "smart:65", "smart:68", "smart:72", "smart:77", "smart:78", "smart:79", "smart:1",
     "smart:2", "smart:3", "env:5", "env:2", "env:3", "env:4", "env:6", "env:13", "env:15",
     "env:16", "env:17", "env:18", "env:19", "env:20", "env:1", "env:21", "env:22",
@@ -513,7 +518,26 @@ const CURRICULUM = [
 
   /* ---------- A트랙 : 구글 워크스페이스 기초 (전체 인원) ---------- */
   {
-    id: "a01", track: "A", no: 1, title: "기초 설명", status: "ready",
+    id: "a00", track: "A", no: 1, title: "가입 방법", status: "ready",
+    short: "가입 방법",
+    tags: ["가입", "비영리", "계정·보안", "기초"],
+    blurb: "비영리단체용 Google Workspace를 신청하고 기관 계정을 만드는 순서를 안내합니다.",
+    lesson: [
+      {
+        h: "기관 계정이 아직 없다면 여기부터 시작하세요",
+        p: "먼저 Google for Nonprofits에 가입하고 비영리단체 인증을 받은 뒤, Google Workspace를 활성화합니다. 아래 설치 영상에서 2026년 화면을 기준으로 전체 과정을 차례대로 확인할 수 있습니다.",
+      },
+    ],
+    videos: [
+      { t: "비영리단체용 Google Workspace 설치 방법", id: "GCd7QG170Q8", date: "2026-02-08", channel: "스마트한 비영리" },
+    ],
+    docs: [
+      { t: "Google for Nonprofits 안내", u: "https://www.google.com/nonprofits/" },
+    ],
+    notes: [],
+  },
+  {
+    id: "a01", track: "A", no: 2, title: "기초 설명", status: "ready",
     short: "기초 설명",
     tags: ["기초", "계정·보안", "협업", "클라우드"],
     blurb: "스마트워크가 무엇인지, 왜 개인 계정과 업무 계정을 나눠야 하는지부터 시작합니다.",
@@ -572,16 +596,12 @@ const CURRICULUM = [
       },
     ],
 
-    videos: [
-      { t: "비영리단체용 Google Workspace 설치 방법", id: "GCd7QG170Q8", date: "2026-02-08", channel: "스마트한 비영리" },
-    ],
-    docs: [
-      { t: "Google for Nonprofits 안내", u: "https://www.google.com/nonprofits/" },
-    ],
+    videos: [],
+    docs: [],
     notes: [],
   },
   {
-    id: "a02", track: "A", no: 2, title: "구글 드라이브 (데스크톱용)", status: "ready",
+    id: "a02", track: "A", no: 3, title: "구글 드라이브 (데스크톱용)", status: "ready",
     short: "드라이브",
     tags: ["클라우드", "자료관리", "협업", "기초"],
     blurb: "내 PC 탐색기에서 바로 구글 드라이브를 쓰는 방법. 공유 드라이브가 핵심입니다.",
@@ -598,7 +618,7 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "a03", track: "A", no: 3, title: "구글 문서 편집기", status: "ready",
+    id: "a03", track: "A", no: 4, title: "구글 문서 편집기", status: "ready",
     short: "문서 편집기",
     tags: ["문서", "협업", "기초"],
     blurb: "문서·스프레드시트·프레젠테이션을 여럿이 동시에 고치는 방법.",
@@ -611,7 +631,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a04", track: "A", no: 4, title: "구글 캘린더", status: "ready",
+    id: "a04", track: "A", no: 5, title: "구글 캘린더", status: "ready",
     short: "캘린더",
     tags: ["일정", "협업", "기초"],
     blurb: "일정을 모두 캘린더에 올려 함께 보는 것. 회의실·차량 같은 리소스 예약도 여기서 합니다.",
@@ -628,7 +648,7 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "a05", track: "A", no: 5, title: "관리 콘솔", status: "ready",
+    id: "a05", track: "A", no: 6, title: "관리 콘솔", status: "ready",
     short: "관리 콘솔",
     tags: ["계정·보안", "관리", "기초"],
     blurb: "기관 계정 전체를 관리하는 곳. 강사님이 교육을 관리 콘솔 설정부터 시작하시는 이유입니다.",
@@ -644,7 +664,7 @@ const CURRICULUM = [
     ],
   },
   {
-    id: "a06", track: "A", no: 6, title: "구글 킵", status: "ready",
+    id: "a06", track: "A", no: 7, title: "구글 킵", status: "ready",
     short: "구글 킵",
     tags: ["메모", "현장", "기초"],
     blurb: "현장에서 떠오른 메모와 할 일을 놓치지 않고 PC까지 이어 쓰는 방법.",
@@ -657,7 +677,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a06-map", track: "A", no: 7, title: "구글 지도", status: "ready",
+    id: "a06-map", track: "A", no: 8, title: "구글 지도", status: "ready",
     short: "구글 지도",
     tags: ["지도", "현장", "자료관리"],
     blurb: "기관과 이용자 위치를 내 지도에 모으고, 함께 관리하는 방법.",
@@ -668,7 +688,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a07", track: "A", no: 8, title: "사이트 도구", status: "ready",
+    id: "a07", track: "A", no: 9, title: "사이트 도구", status: "ready",
     short: "사이트 도구",
     tags: ["웹사이트", "공유", "사례"],
     blurb: "코딩 없이 기관 홈페이지·내부 안내 페이지를 만드는 도구.",
@@ -681,7 +701,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a08", track: "A", no: 9, title: "구글 미트", status: "ready",
+    id: "a08", track: "A", no: 10, title: "구글 미트", status: "ready",
     short: "구글 미트",
     tags: ["회의", "협업", "일정"],
     blurb: "회의 링크를 만들고 화면을 공유하며 온라인 회의를 진행하는 방법.",
@@ -694,7 +714,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a08-vids", track: "A", no: 10, title: "구글 비즈(Vids)", status: "ready",
+    id: "a08-vids", track: "A", no: 11, title: "구글 비즈(Vids)", status: "ready",
     short: "구글 비즈",
     tags: ["영상", "AI도구", "콘텐츠"],
     blurb: "AI로 대본과 장면을 구성해 기관 소개·교육 영상을 만드는 방법.",
@@ -707,7 +727,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a09", track: "A", no: 11, title: "지메일", status: "ready",
+    id: "a09", track: "A", no: 12, title: "지메일", status: "ready",
     short: "지메일",
     tags: ["메일", "자료관리", "기초"],
     blurb: "라벨과 필터로 받은편지함을 정리하는 법.",
@@ -719,7 +739,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a10", track: "A", no: 12, title: "구글 설문지", status: "ready",
+    id: "a10", track: "A", no: 13, title: "구글 설문지", status: "ready",
     short: "설문지",
     tags: ["데이터수집", "설문", "데이터"],
     blurb: "만족도 조사·신청서·내부 취합. 응답이 바로 스프레드시트로 쌓입니다.",
@@ -732,7 +752,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a11", track: "A", no: 13, title: "구글 포토", status: "ready",
+    id: "a11", track: "A", no: 14, title: "구글 포토", status: "ready",
     short: "포토",
     tags: ["사진", "자료관리", "데이터"],
     blurb: "행사 사진을 개인 휴대폰에 묵히지 않고 기관 자산으로 모으는 법.",
@@ -743,7 +763,7 @@ const CURRICULUM = [
     notes: [],
   },
   {
-    id: "a12", track: "A", no: 14, title: "슬랙", status: "ready",
+    id: "a12", track: "A", no: 15, title: "슬랙", status: "ready",
     short: "슬랙",
     tags: ["메신저", "협업", "계정·보안"],
     blurb: "업무 연락을 개인 메신저에서 분리하는 일. 현장에서 가장 많이 찾으시는 주제입니다.",
@@ -985,7 +1005,7 @@ const FAQ = [
   },
   {
     q: "교육 전에 미리 해 둘 것이 있나요?",
-    a: "구글 워크스페이스 계정이 있어야 합니다. 비영리단체라면 무료로 쓰실 수 있습니다. 맨 위 「시작하기」 영상대로 따라 하시면 됩니다.",
+    a: "구글 워크스페이스 계정이 있어야 합니다. 비영리단체라면 무료로 쓰실 수 있습니다. A트랙 1번 「가입 방법」의 영상과 공식 문서를 따라 하시면 됩니다.",
   },
   {
     q: "어떤 순서로 보면 좋을까요?",

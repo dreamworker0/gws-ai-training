@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url);
 const dataSource = await readFile(new URL("data.js", root), "utf8");
 const data = new Function(
-  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM, ITEM_SLIDES, DECKS, SLIDE_HIDDEN };"
+  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM, ITEM_SLIDES, DECKS, SLIDE_HIDDEN, FAQ };"
 )();
 
 assert.equal(data.META.brand, "드림워크");
@@ -16,12 +16,29 @@ assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
 assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
 
 const trackA = data.CURRICULUM.filter((item) => item.track === "A");
-assert.equal(trackA.length, 14, "A트랙은 분리된 14개 항목이어야 함");
-assert.deepEqual(trackA.map((item) => item.no), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
-assert.deepEqual(trackA.slice(5).map((item) => item.title), [
+assert.equal(trackA.length, 15, "A트랙은 가입 방법을 포함한 15개 항목이어야 함");
+assert.deepEqual(trackA.map((item) => item.no), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+assert.deepEqual(trackA.slice(0, 2).map((item) => item.title), ["가입 방법", "기초 설명"]);
+assert.deepEqual(trackA.slice(6).map((item) => item.title), [
   "구글 킵", "구글 지도", "사이트 도구", "구글 미트", "구글 비즈(Vids)",
   "지메일", "구글 설문지", "구글 포토", "슬랙",
 ]);
+const signup = trackA[0];
+assert.equal(signup.id, "a00");
+assert.deepEqual(signup.videos, [
+  { t: "비영리단체용 Google Workspace 설치 방법", id: "GCd7QG170Q8", date: "2026-02-08", channel: "스마트한 비영리" },
+]);
+assert.deepEqual(signup.docs, [
+  { t: "Google for Nonprofits 안내", u: "https://www.google.com/nonprofits/" },
+]);
+assert.deepEqual(data.ITEM_SLIDES.a00, ["smart:63", "smart:64", "smart:66", "smart:67", "smart:69"]);
+assert.equal((trackA[1].videos || []).length, 0, "기초 설명에 가입 영상이 중복되면 안 됨");
+assert.equal((trackA[1].docs || []).length, 0, "기초 설명에 가입 문서가 중복되면 안 됨");
+for (const slide of data.ITEM_SLIDES.a00) {
+  assert.equal(data.ITEM_SLIDES.a01.includes(slide), false, `기초 설명에 가입 자료가 중복됨: ${slide}`);
+}
+const prepFaq = data.FAQ.find((item) => item.q === "교육 전에 미리 해 둘 것이 있나요?");
+assert.match(prepFaq.a, /A트랙 1번.*가입 방법/, "가입 안내 위치가 FAQ에 정확히 표시되어야 함");
 assert.deepEqual(data.ITEM_SLIDES.a06, ["keep:1", "keep:2", "keep:3", "keep:4"]);
 assert.deepEqual(data.ITEM_SLIDES["a06-map"], ["keep:5", "keep:6", "keep:7", "keep:8"]);
 assert.deepEqual(data.ITEM_SLIDES.a08, ["meet:1", "meet:2", "meet:3", "meet:4"]);
@@ -61,9 +78,10 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
 }
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
 for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
-  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-structure`), `캐시 버전 누락: ${asset}`);
+  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-signup`), `캐시 버전 누락: ${asset}`);
 }
-assert.equal(html.includes("20260921-archive"), false, "이전 캐시 버전이 남아 있음");
+assert.equal(html.includes("20260921-structure"), false, "이전 캐시 버전이 남아 있음");
+assert.match(html, /구글 워크스페이스 기초[\s\S]*15항목/);
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
 assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
