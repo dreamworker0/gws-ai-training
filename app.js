@@ -337,11 +337,17 @@
   function renderGraph() {
     var h = '<p class="kicker">관계도</p>';
     h += "<h2 class='item-title'>주제 관계도</h2>";
-    h += '<p class="lede">항목이 어떤 주제로 서로 묶이는지 보여 줍니다. ' +
-         "가운데 동그라미를 누르면 그 항목으로 갑니다.</p>";
+    h += '<p class="lede">무엇이 무엇과 이어지는지 한눈에 봅니다. ' +
+         "배우고 싶은 것을 누르면 그 항목으로 갑니다.</p>";
+    h += '<p class="legend">' +
+         '<span><i></i> 주제</span>' +
+         '<span><i class="lS"></i> 먼저 보기</span>' +
+         '<span><i class="lA"></i> A트랙 · 기초</span>' +
+         '<span><i class="lB"></i> B트랙 · 자동화</span>' +
+         "</p>";
     h += '<figure class="fig graph-wrap">' + Find.graphSVG(2) + "</figure>";
-    h += '<p class="more">바깥쪽 큰 동그라미가 주제, 안쪽 작은 것이 목차 항목입니다. ' +
-         "여러 주제에 걸친 항목은 가운데로 모입니다.</p>";
+    h += '<p class="more">바깥쪽 회색이 <b>주제</b>, 색이 있는 것이 <b>배우는 항목</b>입니다. ' +
+         "선은 그 항목이 어떤 주제에 걸치는지 보여 줍니다 — 여러 주제에 걸친 항목일수록 가운데로 모입니다.</p>";
     return h;
   }
 
@@ -402,6 +408,28 @@
       location.hash = a.getAttribute("href").slice(1) + "?from=" + owner;
     }
   });
+
+  /* ── 밝게 / 어둡게 ──────────────────────────────────
+     평소엔 운영체제 설정을 따릅니다. 강의실 프로젝터가 어두워
+     뒷자리에서 안 보일 때 밝게 고정하시라고 둔 버튼입니다. */
+  (function () {
+    var btn = $("theme");
+    if (!btn) return;
+    var root = document.documentElement;
+    var KEY = "theme";
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if (saved === "light" || saved === "dark") root.setAttribute("data-theme", saved);
+
+    btn.addEventListener("click", function () {
+      var now = root.getAttribute("data-theme");
+      var dark = now ? now === "dark"
+                     : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      var next = dark ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+    });
+  })();
 
   /* ── 찾기 ───────────────────────────────────────── */
   var qEl = $("q"), qRes = $("qres");

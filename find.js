@@ -86,12 +86,24 @@ var Find = (function () {
       .slice(0, n || 4);
   }
 
-  /* ── 관계도 ───────────────────────────────────── */
-  /* 자주 쓰인 태그를 원 위에 놓고, 항목을 제 태그들의 가운데로 당깁니다.
-     힘 계산을 몇 번만 돌려 서로 겹치지 않게 밀어냅니다. */
+  /* ── 관계도 ───────────────────────────────────────
+     A6·B7 같은 기호는 아무도 못 알아봅니다. 그래서 **이름을 그대로** 씁니다.
+     글자 길이만큼 넓어지는 알약 모양이라, 겹침도 네모끼리 밀어내 풉니다. */
+
+  /* 한글은 넓고 영문·숫자는 좁습니다. 대략의 글자 폭을 잽니다. */
+  function textW(s, size) {
+    var w = 0;
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charCodeAt(i);
+      w += (c > 0x2000) ? size : (c === 32 ? size * 0.3 : size * 0.55);
+    }
+    return w;
+  }
+
   function graphSVG(minUse) {
     minUse = minUse || 2;
-    var W = 900, H = 640, CX = W / 2, CY = H / 2;
+    var W = 1020, H = 860, CX = W / 2, CY = H / 2;
+    var FS_T = 13, FS_I = 13;
 
     var use = {};
     CURRICULUM.forEach(function (it) {
@@ -101,11 +113,14 @@ var Find = (function () {
                      .sort(function (a, b) { return use[b] - use[a]; });
 
     var nodes = [], edges = [];
-    var R = 262;
+    var RX = 408, RY = 356;
+
     tags.forEach(function (t, i) {
       var a = (i / tags.length) * Math.PI * 2 - Math.PI / 2;
+      var w = textW(t, FS_T) + 26;
       nodes.push({ id: "t:" + t, kind: "tag", label: t, n: use[t],
-                   x: CX + Math.cos(a) * R, y: CY + Math.sin(a) * R, fixed: true });
+                   w: w, h: 30, fixed: true,
+                   x: CX + Math.cos(a) * RX, y: CY + Math.sin(a) * RY });
     });
 
     CURRICULUM.forEach(function (it) {
@@ -116,54 +131,67 @@ var Find = (function () {
         var tn = nodes.filter(function (v) { return v.id === "t:" + t; })[0];
         sx += tn.x; sy += tn.y;
       });
-      var node = { id: it.id, kind: "item", label: it.track + it.no, title: it.title,
-                   track: it.track, x: sx / mine.length, y: sy / mine.length, fixed: false };
-      nodes.push(node);
+      var label = it.short || it.title;
+      nodes.push({ id: it.id, kind: "item", label: label, title: it.title,
+                   track: it.track, w: textW(label, FS_I) + 24, h: 30, fixed: false,
+                   x: sx / mine.length + (it.id.charCodeAt(2) % 7) - 3,
+                   y: sy / mine.length + (it.id.charCodeAt(1) % 7) - 3 });
       mine.forEach(function (t) { edges.push([it.id, "t:" + t]); });
     });
 
-    /* 겹침 풀기 */
-    var items = nodes.filter(function (v) { return !v.fixed; });
-    for (var pass = 0; pass < 260; pass++) {
-      for (var i = 0; i < items.length; i++) {
-        for (var j = i + 1; j < items.length; j++) {
-          var A = items[i], B = items[j];
+    /* 네모끼리 겹치면 밀어낸다 — 태그는 고정, 항목만 움직인다 */
+    var GAP = 12;
+    for (var pass = 0; pass < 900; pass++) {
+      for (var i = 0; i < nodes.length; i++) {
+        for (var j = i + 1; j < nodes.length; j++) {
+          var A = nodes[i], B = nodes[j];
+          if (A.fixed && B.fixed) continue;
           var dx = B.x - A.x, dy = B.y - A.y;
-          var d = Math.sqrt(dx * dx + dy * dy) || 0.01;
-          var want = 52;
-          if (d < want) {
-            var push2 = (want - d) / 2 / d;
-            A.x -= dx * push2; A.y -= dy * push2;
-            B.x += dx * push2; B.y += dy * push2;
+          var ox = (A.w + B.w) / 2 + GAP - Math.abs(dx);
+          var oy = (A.h + B.h) / 2 + GAP - Math.abs(dy);
+          if (ox <= 0 || oy <= 0) continue;          /* 안 겹침 */
+          /* 덜 밀어도 되는 축으로 뗀다 */
+          if (ox / (A.w + B.w) < oy / (A.h + B.h)) {
+            var mx = (dx >= 0 ? 1 : -1) * ox / 2;
+            if (!A.fixed) A.x -= mx; if (!B.fixed) B.x += mx;
+          } else {
+            var my = (dy >= 0 ? 1 : -1) * oy / 2;
+            if (!A.fixed) A.y -= my; if (!B.fixed) B.y += my;
           }
         }
-        /* 화면 밖으로 나가지 않게 */
-        items[i].x = Math.max(60, Math.min(W - 60, items[i].x));
-        items[i].y = Math.max(46, Math.min(H - 46, items[i].y));
       }
+      nodes.forEach(function (v) {
+        if (v.fixed) return;
+        v.x = Math.max(v.w / 2 + 6, Math.min(W - v.w / 2 - 6, v.x));
+        v.y = Math.max(v.h / 2 + 6, Math.min(H - v.h / 2 - 6, v.y));
+      });
     }
 
     var byId = {};
     nodes.forEach(function (v) { byId[v.id] = v; });
 
+    function pill(v, cls, href, title) {
+      var x = (v.x - v.w / 2).toFixed(1), y = (v.y - v.h / 2).toFixed(1);
+      var s = (href ? '<a href="' + href + '" class="' + cls + '">' : '<g class="' + cls + '">');
+      s += '<rect x="' + x + '" y="' + y + '" width="' + v.w.toFixed(1) +
+           '" height="' + v.h + '" rx="15"/>';
+      s += '<text x="' + v.x.toFixed(1) + '" y="' + (v.y + 4.5).toFixed(1) + '">' + esc(v.label) + "</text>";
+      if (title) s += "<title>" + esc(title) + "</title>";
+      s += (href ? "</a>" : "</g>");
+      return s;
+    }
+
     var h = '<svg viewBox="0 0 ' + W + " " + H + '" xmlns="http://www.w3.org/2000/svg" class="graph" ' +
-            'role="img" aria-label="주제 관계도">';
+            'role="img" aria-label="주제 관계도 — 주제와 목차 항목을 잇는 그림">';
     edges.forEach(function (e) {
       var A = byId[e[0]], B = byId[e[1]];
       h += '<line x1="' + A.x.toFixed(1) + '" y1="' + A.y.toFixed(1) +
            '" x2="' + B.x.toFixed(1) + '" y2="' + B.y.toFixed(1) + '" class="ge"/>';
     });
     nodes.forEach(function (v) {
-      if (v.kind === "tag") {
-        h += '<g class="gt"><circle cx="' + v.x.toFixed(1) + '" cy="' + v.y.toFixed(1) +
-             '" r="' + (13 + Math.min(v.n, 8)) + '"/>' +
-             '<text x="' + v.x.toFixed(1) + '" y="' + (v.y + 4).toFixed(1) + '">' + esc(v.label) + "</text></g>";
-      } else {
-        h += '<a href="#' + v.id + '" class="gn t' + v.track + '">' +
-             '<circle cx="' + v.x.toFixed(1) + '" cy="' + v.y.toFixed(1) + '" r="17"/>' +
-             '<text x="' + v.x.toFixed(1) + '" y="' + (v.y + 4).toFixed(1) + '">' + esc(v.label) + "</text>" +
-             "<title>" + esc(v.title) + "</title></a>";
-      }
+      h += (v.kind === "tag")
+        ? pill(v, "gt", null, v.n + "개 항목이 이 주제에 걸립니다")
+        : pill(v, "gn t" + v.track, "#" + v.id, v.title);
     });
     h += "</svg>";
     return h;

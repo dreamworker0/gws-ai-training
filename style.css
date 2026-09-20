@@ -356,21 +356,44 @@ a.pg:hover { border-color: var(--brand); }
 .rel-meta { display: block; font-size: 12px; color: var(--fg-soft); }
 
 /* ── 관계도 ───────────────────────────────────────── */
-.graph-wrap { max-width: 920px; }
+.graph-wrap { max-width: 1000px; padding: 10px; }
 .graph { width: 100%; height: auto; display: block; }
-.graph .ge { stroke: var(--line); stroke-width: 1.2; }
-.graph .gt circle { fill: var(--bg-alt); stroke: var(--line); stroke-width: 1.5; }
+.graph .ge { stroke: var(--line); stroke-width: 1.3; }
+
+.graph .gt rect { fill: var(--bg-alt); stroke: var(--fg-soft); stroke-width: 1.5; }
 .graph .gt text {
-  text-anchor: middle; font-size: 11.5px; font-weight: 700; fill: var(--fg-soft);
-  pointer-events: none;
+  text-anchor: middle; font-size: 13px; font-weight: 700;
+  fill: var(--fg-soft); pointer-events: none;
 }
-.graph .gn circle { fill: var(--bg); stroke: var(--fg-soft); stroke-width: 1.6; cursor: pointer; }
+
+.graph .gn rect { fill: var(--bg); stroke: var(--fg-soft); stroke-width: 1.6; cursor: pointer; }
 .graph .gn text {
-  text-anchor: middle; font-size: 11px; font-weight: 700; fill: var(--fg);
+  text-anchor: middle; font-size: 13px; font-weight: 600; fill: var(--fg);
   pointer-events: none;
 }
-.graph .gn.tA circle { fill: var(--a-soft); stroke: var(--a); }
-.graph .gn.tB circle { fill: var(--b-soft); stroke: var(--b); }
-.graph .gn.tS circle { fill: var(--brand); stroke: var(--brand); }
+.graph .gn.tA rect { fill: var(--a-soft); stroke: var(--a); }
+.graph .gn.tA text { fill: var(--a); }
+.graph .gn.tB rect { fill: var(--b-soft); stroke: var(--b); }
+.graph .gn.tB text { fill: var(--b); }
+.graph .gn.tS rect { fill: var(--brand); stroke: var(--brand); }
 .graph .gn.tS text { fill: #fff; }
-.graph .gn:hover circle { stroke-width: 3; }
+.graph .gn:hover rect { stroke-width: 3; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--fg-soft); margin: 0 0 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i {
+  width: 22px; height: 13px; border-radius: 7px; display: inline-block;
+  border: 1.5px solid var(--fg-soft); background: var(--bg-alt);
+}
+.legend i.lA { background: var(--a-soft); border-color: var(--a); }
+.legend i.lB { background: var(--b-soft); border-color: var(--b); }
+.legend i.lS { background: var(--brand); border-color: var(--brand); }
+
+/* ── 밝게 / 어둡게 단추 ───────────────────────────── */
+.themebtn {
+  font: inherit; font-size: 15px; line-height: 1;
+  width: 32px; height: 30px; margin-left: 2px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg); color: var(--fg-soft); cursor: pointer;
+}
+.themebtn:hover { background: var(--bg-alt); color: var(--fg); border-color: var(--brand); }
