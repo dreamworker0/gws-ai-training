@@ -220,12 +220,17 @@
       h += '<div class="vids">';
       it.videos.forEach(function (v) {
         h += '<a class="vid" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener">' +
-             '<span class="thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg"></span>' +
-             "<span>" + esc(v.t) + "</span></a>";
+             '<span class="thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg">' +
+             '<span class="video-play" aria-hidden="true">▶</span></span>' +
+             '<span class="video-copy"><strong>' + esc(v.t) + '</strong>' +
+             '<span class="video-meta">' + esc(v.channel) + ' · ' + esc(v.date.replace(/-/g, ".")) +
+             '</span></span></a>';
       });
       h += "</div>";
     } else {
-      h += '<p class="empty">이 항목은 강사님 고유 커리큘럼이라 대신할 만한 외부 영상이 없습니다. 현장 실습으로 배우시는 것이 가장 빠릅니다.</p>';
+      h += '<p class="empty">' + (it.status === "own"
+        ? "이 항목은 강사님 현장 실습이 중심입니다."
+        : "최근 2년 안에 공개된 추천 영상을 준비하고 있습니다.") + '</p>';
     }
 
     if (it.docs && it.docs.length) {

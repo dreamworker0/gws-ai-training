@@ -564,8 +564,7 @@ const CURRICULUM = [
     ],
 
     videos: [
-      { t: "비영리단체용 Google Workspace 설치 방법 (2026 · 강사님 영상)", id: "GCd7QG170Q8" },
-      { t: "비영리단체용 Google Workspace 가입 방법 (2021년 버전 · 참고)", id: "v2XrHWAbZk4" },
+      { t: "비영리단체용 Google Workspace 설치 방법", id: "GCd7QG170Q8", date: "2026-02-08", channel: "스마트한 비영리" },
     ],
     docs: [
       { t: "Google for Nonprofits 안내", u: "https://www.google.com/nonprofits/" },
@@ -578,8 +577,7 @@ const CURRICULUM = [
     tags: ["클라우드", "자료관리", "협업", "기초"],
     blurb: "내 PC 탐색기에서 바로 구글 드라이브를 쓰는 방법. 공유 드라이브가 핵심입니다.",
     videos: [
-      { t: "구글 드라이브와 데스크톱용 드라이브의 활용", id: "O6ZGJrWxs38" },
-      { t: "구글 드라이브로 문서 자료 관리하기", id: "GpaJ-0-pLkI" },
+      { t: "구글 드라이브로 문서 자료 관리하기", id: "GpaJ-0-pLkI", date: "2025-11-08", channel: "CDL(디지털리터러시협회)" },
     ],
     docs: [
       { t: "데스크톱용 Google Drive 사용하기", u: "https://support.google.com/drive/answer/7329379?hl=ko" },
@@ -596,8 +594,7 @@ const CURRICULUM = [
     tags: ["문서", "협업", "기초"],
     blurb: "문서·스프레드시트·프레젠테이션을 여럿이 동시에 고치는 방법.",
     videos: [
-      { t: "누구나 쉽게 배우는 구글 오피스 (문서·시트·프레젠테이션)", id: "ajAIItxxTcg" },
-      { t: "구글 문서도구 — 공유와 협업", id: "lQ-lQKfZuyo" },
+      { t: "구글 문서 기초 가이드 — 편집·공동작업·AI 활용", id: "K1Rz5dm17GY", date: "2026-05-04", channel: "디지털거북이" },
     ],
     docs: [
       { t: "Google 문서 시작하기", u: "https://support.google.com/docs/answer/7068618?hl=ko" },
@@ -610,8 +607,7 @@ const CURRICULUM = [
     tags: ["일정", "협업", "기초"],
     blurb: "일정을 모두 캘린더에 올려 함께 보는 것. 회의실·차량 같은 리소스 예약도 여기서 합니다.",
     videos: [
-      { t: "구글 캘린더 핵심 사용법 10가지", id: "6YkR-dOJQFE" },
-      { t: "구글 캘린더와 태스크로 업무 시간관리하기", id: "roe4S7zmzOk" },
+      { t: "구글 캘린더로 일정 공유하기", id: "NUA4gALFzvU", date: "2025-11-08", channel: "CDL(디지털리터러시협회)" },
     ],
     docs: [
       { t: "Google 캘린더 시작하기", u: "https://support.google.com/calendar/answer/2465776?hl=ko" },
@@ -628,9 +624,7 @@ const CURRICULUM = [
     tags: ["계정·보안", "관리", "기초"],
     blurb: "기관 계정 전체를 관리하는 곳. 강사님이 교육을 관리 콘솔 설정부터 시작하시는 이유입니다.",
     videos: [
-      { t: "Google Workspace 초기 환경 구성 — 관리 콘솔 개요", id: "LvUWamu8dDc" },
-      { t: "Google Workspace 관리콘솔 알아보기", id: "SMPZFwzQmrg" },
-      { t: "관리자 역할과 사용자 계정 관리", id: "rQLZ4DTLmpg" },
+      { t: "Google Workspace 관리콘솔 알아보기", id: "SMPZFwzQmrg", date: "2025-02-12", channel: "서울시교육청 창의미래교육과 AI·미래교육팀" },
     ],
     docs: [
       { t: "관리 콘솔 시작하기", u: "https://support.google.com/a/answer/182076?hl=ko" },
@@ -646,9 +640,7 @@ const CURRICULUM = [
     tags: ["메모", "현장", "기초"],
     blurb: "메모를 흘리지 않는 법(킵)과 기관·이용자 위치를 지도로 관리하는 법(내 지도).",
     videos: [
-      { t: "메모장 끝판왕! 구글 Keep 사용법", id: "aEBqz58aNqo" },
-      { t: "구글킵 13가지 활용법", id: "UiCWrTGeDMo" },
-      { t: "구글 내 지도 기본기능 살펴보기", id: "VEqaqDq4rlc" },
+      { t: "구글 킵 13가지 활용법", id: "UiCWrTGeDMo", date: "2026-01-02", channel: "디지털 한 스푼" },
     ],
     docs: [
       { t: "Google Keep 사용하기", u: "https://support.google.com/keep/answer/2888240?hl=ko" },
@@ -662,8 +654,7 @@ const CURRICULUM = [
     tags: ["웹사이트", "공유", "사례"],
     blurb: "코딩 없이 기관 홈페이지·내부 안내 페이지를 만드는 도구.",
     videos: [
-      { t: "Google Workspace 시작하기 — 홈페이지 제작도구 사이트 도구", id: "-zQDpm0env0" },
-      { t: "누구나 100% 따라 만드는 Google Sites 만들기", id: "IllRuTgMqOY" },
+      { t: "누구나 따라 만드는 Google Sites", id: "IllRuTgMqOY", date: "2025-03-30", channel: "G-CREATOR" },
     ],
     docs: [
       { t: "Google 사이트 도구 시작하기", u: "https://support.google.com/sites/answer/98081?hl=ko" },
@@ -676,10 +667,8 @@ const CURRICULUM = [
     tags: ["회의", "영상", "협업"],
     blurb: "화상회의(미트)와 AI 동영상 제작(비즈). 기관 소개·교육 영상을 직접 만들 수 있습니다.",
     videos: [
-      { t: "구글 미트 무료 사용법 (PC 기초)", id: "LBH9AW74j5U" },
-      { t: "구글 미트 회의 예약하기", id: "MBdqSTiKhD4" },
-      { t: "구글비즈 왕초보 가이드 — 구글이 만든 무료 AI 영상 편집도구", id: "fAZ91MJP9qk" },
-      { t: "구글 비즈(Google Vids) 사용법 완벽 가이드", id: "ODeSuIaiEDk" },
+      { t: "구글 미트 사용법 완벽 정리 (PC·모바일)", id: "zK5il086bgo", date: "2026-02-12", channel: "윤타" },
+      { t: "Google Vids 사용법 완벽 가이드", id: "ODeSuIaiEDk", date: "2026-04-07", channel: "지투지 - 지식에서 지혜로" },
     ],
     docs: [
       { t: "Google Meet 시작하기", u: "https://support.google.com/meet/answer/9302870?hl=ko" },
@@ -692,10 +681,7 @@ const CURRICULUM = [
     short: "지메일",
     tags: ["메일", "자료관리", "기초"],
     blurb: "라벨과 필터로 받은편지함을 정리하는 법.",
-    videos: [
-      { t: "지메일 라벨 만들기 / 필터 적용하기", id: "4NxaRkKzbw8" },
-      { t: "Gmail 사용자 87%가 모르는 효과적인 이메일 사용법 20가지", id: "HiZZ8nuBgJA" },
-    ],
+    videos: [],
     docs: [
       { t: "Gmail 라벨 만들기", u: "https://support.google.com/mail/answer/118708?hl=ko" },
       { t: "Gmail 필터 만들기", u: "https://support.google.com/mail/answer/6579?hl=ko" },
@@ -708,8 +694,7 @@ const CURRICULUM = [
     tags: ["데이터수집", "설문", "데이터"],
     blurb: "만족도 조사·신청서·내부 취합. 응답이 바로 스프레드시트로 쌓입니다.",
     videos: [
-      { t: "구글 설문지 Google Forms 완벽 해부", id: "SniQA3lziLo" },
-      { t: "구글 설문지 AI 활용 가이드", id: "hpGZZPFp6OM" },
+      { t: "구글 설문지 AI 활용 가이드", id: "hpGZZPFp6OM", date: "2026-01-29", channel: "K에듀이노베이터" },
     ],
     docs: [
       { t: "Google 설문지 시작하기", u: "https://support.google.com/docs/answer/6281888?hl=ko" },
@@ -722,9 +707,7 @@ const CURRICULUM = [
     tags: ["사진", "자료관리", "데이터"],
     blurb: "행사 사진을 개인 휴대폰에 묵히지 않고 기관 자산으로 모으는 법.",
     videos: [
-      { t: "구글 포토 사용법", id: "I5R2Fxt7fA8" },
-      { t: "구글포토 백업 — 전체 사진 PC로 내려받기", id: "Lefa-hCuwhM" },
-      { t: "PC와 스마트폰의 백업·동기화 차이 이해하기", id: "e3EmXf4VLOw" },
+      { t: "구글 포토로 사진을 백업하고 휴대폰 용량 확보하기", id: "JHTpy27yOpo", date: "2026-08-24", channel: "스마트딸" },
     ],
     docs: [
       { t: "Google 포토 백업 설정", u: "https://support.google.com/photos/answer/6193313?hl=ko" },
@@ -737,9 +720,8 @@ const CURRICULUM = [
     tags: ["메신저", "협업", "계정·보안"],
     blurb: "업무 연락을 개인 메신저에서 분리하는 일. 현장에서 가장 많이 찾으시는 주제입니다.",
     videos: [
-      { t: "2024년 최신 구글 Chat 스페이스 사용방법", id: "_dCNTk0fbew" },
-      { t: "슬랙의 개요 및 사용법 알아보기 (1강)", id: "Pj9t-_GwJQw" },
-      { t: "슬랙 기업용 메신저 사용방법", id: "ZVlhsG6J7i8" },
+      { t: "Google Chat 소개", id: "N9c6ZBcqv0A", date: "2025-03-02", channel: "Jocody Google Workspace Gemini" },
+      { t: "Slack 처음 쓴다면? 기본 화면 완전 정복", id: "ZwN3uqTftRg", date: "2026-05-02", channel: "심플하게 일하기 (Make it simpler)" },
     ],
     docs: [
       { t: "Google Chat 도움말", u: "https://support.google.com/chat/?hl=ko" },
@@ -757,8 +739,8 @@ const CURRICULUM = [
     tags: ["바이브코딩", "AI도구", "앱만들기"],
     blurb: "말로 설명하면 앱이 만들어집니다. 무료로 시작할 수 있는 입구입니다.",
     videos: [
-      { t: "확 달라진 구글 AI 스튜디오로 바이브 코딩하기 (초보자용)", id: "DQV06YYH9Ck" },
-      { t: "말 한마디로 앱 만든다 — Google AI Studio Build 실습", id: "3IITukX8r8Q" },
+      { t: "구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck", date: "2026-03-30", channel: "행글라이터" },
+      { t: "Google AI Studio Build 실습", id: "3IITukX8r8Q", date: "2025-10-09", channel: "Christina의 AI Studio" },
     ],
     docs: [
       { t: "Google AI Studio", u: "https://aistudio.google.com/" },
@@ -771,8 +753,7 @@ const CURRICULUM = [
     tags: ["배포", "깃허브", "앱만들기"],
     blurb: "만든 것을 남이 볼 수 있는 주소로 올리는 일. 지금 보고 계신 이 페이지도 이 방법으로 올라갑니다.",
     videos: [
-      { t: "프론트엔드 앱을 GitHub와 Vercel에 무료로 호스팅하기", id: "cpzeO67w4oc" },
-      { t: "Vercel로 내가 만든 웹 사이트 배포하기", id: "GX9QbJiiQyQ" },
+      { t: "Vercel로 내가 만든 웹 사이트 배포하기", id: "GX9QbJiiQyQ", date: "2025-05-02", channel: "용코딩" },
     ],
     docs: [
       { t: "Vercel 시작하기", u: "https://vercel.com/docs/getting-started-with-vercel" },
@@ -820,9 +801,8 @@ const CURRICULUM = [
     tags: ["스프레드시트", "데이터", "자동화", "앱스스크립트"],
     blurb: "시트가 곧 데이터베이스입니다. 앱스 스크립트를 붙이면 그 자리에서 자동화가 됩니다.",
     videos: [
-      { t: "구글 스프레드시트 가장 기초적인 기능 및 사용법", id: "vegBYv_RlMU" },
-      { t: "스프레드시트 작업 자동화 — 앱스 스크립트", id: "8Xd7ymswbXU" },
-      { t: "구글 Apps Script 완전 자동화 꿀팁 5분", id: "tKNVipkqG8Y" },
+      { t: "구글 스프레드시트 기초부터 실무까지", id: "vHXmy8WHajw", date: "2025-12-17", channel: "씨마스에듀" },
+      { t: "구글 Apps Script 완전 자동화 꿀팁", id: "tKNVipkqG8Y", date: "2025-10-27", channel: "Software in LG" },
     ],
     docs: [
       { t: "Google Apps Script 공식 문서", u: "https://developers.google.com/apps-script?hl=ko" },
@@ -865,9 +845,8 @@ const CURRICULUM = [
     tags: ["AI도구", "에이전트", "바이브코딩"],
     blurb: "지시를 내리면 스스로 일하는 도구. 비개발자도 쓸 수 있습니다.",
     videos: [
-      { t: "Claude Code 왕초보 입문 튜토리얼", id: "1_bRmkUvjHA" },
-      { t: "비개발자를 위한 클로드 코드 입문", id: "HyMgKcuhE-s" },
-      { t: "비개발자가 자주 묻는 Claude Code FAQ 5개", id: "UNd1Cb5aIoU" },
+      { t: "Claude Code 왕초보 입문 튜토리얼", id: "1_bRmkUvjHA", date: "2026-02-11", channel: "AI싱크클럽" },
+      { t: "비개발자를 위한 Claude Code 입문", id: "HyMgKcuhE-s", date: "2026-06-21", channel: "AI 겸임교수 이종범" },
     ],
     docs: [
       { t: "Claude Code 공식 문서", u: "https://docs.claude.com/en/docs/claude-code/overview" },
@@ -882,8 +861,7 @@ const CURRICULUM = [
     tags: ["자동화", "앱스스크립트", "에이전트"],
     blurb: "매달 손으로 하던 일을 한 번 만들어 두고 쓰는 일. 강사님 현장 시연이 중심입니다.",
     videos: [
-      { t: "구글 Apps Script 완전 자동화 꿀팁 5분", id: "tKNVipkqG8Y" },
-      { t: "스프레드시트 작업 자동화 — 앱스 스크립트", id: "8Xd7ymswbXU" },
+      { t: "구글 Apps Script 완전 자동화 꿀팁", id: "tKNVipkqG8Y", date: "2025-10-27", channel: "Software in LG" },
     ],
     docs: [
       { t: "Apps Script 트리거 (자동 실행)", u: "https://developers.google.com/apps-script/guides/triggers?hl=ko" },
@@ -898,8 +876,8 @@ const CURRICULUM = [
     tags: ["바이브코딩", "앱만들기", "데이터베이스"],
     blurb: "데이터가 쌓이는 앱을 만드는 단계. 로그인·저장이 되는 진짜 앱입니다.",
     videos: [
-      { t: "구글 Firebase Studio 사용법 — 코딩 몰라도 AI로 앱 개발", id: "0A45kpsOCPY" },
-      { t: "배포를 아직도 못해? Firebase Studio 입문", id: "nroyeDbMNi0" },
+      { t: "Firebase Studio 사용법 — 코딩 몰라도 AI로 앱 개발", id: "0A45kpsOCPY", date: "2025-06-10", channel: "모두의 핸드북" },
+      { t: "Firebase Studio 입문과 배포", id: "nroyeDbMNi0", date: "2025-08-11", channel: "조코딩AX파트너스" },
     ],
     docs: [
       { t: "Firebase 공식 문서", u: "https://firebase.google.com/docs?hl=ko" },
@@ -912,7 +890,7 @@ const CURRICULUM = [
     tags: ["API", "앱만들기", "바이브코딩"],
     blurb: "다른 서비스와 주고받게 만드는 단계. 강사님 실습 중심 회차입니다.",
     videos: [
-      { t: "확 달라진 구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck" },
+      { t: "구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck", date: "2026-03-30", channel: "행글라이터" },
     ],
     docs: [
       { t: "Gemini API 시작하기", u: "https://ai.google.dev/gemini-api/docs?hl=ko" },
@@ -925,8 +903,8 @@ const CURRICULUM = [
     tags: ["에이전트", "AI도구", "자동화"],
     blurb: "일을 나눠 맡는 여러 에이전트를 두는 방법.",
     videos: [
-      { t: "클로드 스킬·서브에이전트·커맨드 개념 정리", id: "2eqPBLgVH0U" },
-      { t: "서브에이전트 모르면 클로드 코드 돈 버리는 겁니다", id: "Qr3pyVpd8CY" },
+      { t: "Claude 스킬·서브에이전트·커맨드 개념 정리", id: "2eqPBLgVH0U", date: "2026-02-08", channel: "코딩알려주는누나" },
+      { t: "Claude Code 서브에이전트 활용법", id: "Qr3pyVpd8CY", date: "2026-04-11", channel: "AI 사용성연구소" },
     ],
     docs: [
       { t: "서브에이전트 공식 문서", u: "https://docs.claude.com/en/docs/claude-code/sub-agents" },

@@ -14,6 +14,20 @@ assert.equal(data.META.lecturer, "교육자 김종원 · 소셜프리즘");
 assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
 assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
 
+const videoCutoff = "2024-09-21";
+const videoCeiling = "2026-09-21";
+const videos = data.CURRICULUM.flatMap((item) => item.videos || []);
+assert.ok(videos.length >= 15, `최근 추천 영상이 너무 적음: ${videos.length}`);
+for (const item of data.CURRICULUM) {
+  assert.ok((item.videos || []).length <= 2, `${item.id} 영상은 최대 2개여야 함`);
+}
+for (const video of videos) {
+  assert.match(video.date || "", /^\d{4}-\d{2}-\d{2}$/, `${video.id} 공개일 누락`);
+  assert.ok(video.date >= videoCutoff, `${video.id} 공개일이 2년 기준보다 오래됨: ${video.date}`);
+  assert.ok(video.date <= videoCeiling, `${video.id} 공개일이 현재 날짜보다 미래임: ${video.date}`);
+  assert.ok((video.channel || "").trim().length > 0, `${video.id} 채널 누락`);
+}
+
 const publicText = JSON.stringify(data);
 for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관", "강감찬관악종합사회복지관"]) {
   assert.equal(publicText.includes(forbidden), false, `공개 데이터 금지 문자열: ${forbidden}`);
@@ -31,7 +45,7 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
 }
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
 for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
-  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-trim`), `캐시 버전 누락: ${asset}`);
+  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-video`), `캐시 버전 누락: ${asset}`);
 }
 assert.equal(html.includes("20260921-archive"), false, "이전 캐시 버전이 남아 있음");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
@@ -63,6 +77,8 @@ assert.match(appSource, /ask-education/);
 assert.match(appSource, /교육을 함께 준비하시나요\?/);
 assert.match(appSource, /교육 문의하기/);
 assert.match(appSource, /기관명/);
+assert.match(appSource, /video-meta/);
+assert.match(appSource, /video-play/);
 
 const css = await readFile(new URL("style.css", root), "utf8");
 for (const token of ["--forest", "--terracotta", "--paper", "--sage", "--ink"]) {
@@ -72,6 +88,8 @@ assert.match(css, /@media\s*\(max-width:\s*640px\)/);
 assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
 assert.match(css, /:focus-visible/);
 assert.match(css, /\.hero-grid/);
+assert.match(css, /\.vids\s*\{[^}]*display:\s*grid/s);
+assert.match(css, /\.vid\s*\{/);
 
 const heroImage = await readFile(new URL("img/dreamwork-archive-hero.png", root));
 assert.deepEqual([...heroImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
