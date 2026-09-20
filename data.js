@@ -706,9 +706,7 @@ const CURRICULUM = [
     short: "포토",
     tags: ["사진", "자료관리", "데이터"],
     blurb: "행사 사진을 개인 휴대폰에 묵히지 않고 기관 자산으로 모으는 법.",
-    videos: [
-      { t: "구글 포토로 사진을 백업하고 휴대폰 용량 확보하기", id: "JHTpy27yOpo", date: "2026-08-24", channel: "스마트딸" },
-    ],
+    videos: [],
     docs: [
       { t: "Google 포토 백업 설정", u: "https://support.google.com/photos/answer/6193313?hl=ko" },
     ],

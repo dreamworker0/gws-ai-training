@@ -45,7 +45,7 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
 }
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
 for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
-  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-video`), `캐시 버전 누락: ${asset}`);
+  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-video2`), `캐시 버전 누락: ${asset}`);
 }
 assert.equal(html.includes("20260921-archive"), false, "이전 캐시 버전이 남아 있음");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
