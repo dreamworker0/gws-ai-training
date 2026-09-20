@@ -37,4 +37,13 @@ for (const routePattern of ["raw === \"graph\"", "raw === \"slides\"", "/^slides
 }
 assert.match(appSource, /findItem\(raw\)/);
 
+const css = await readFile(new URL("style.css", root), "utf8");
+for (const token of ["--forest", "--terracotta", "--paper", "--sage", "--ink"]) {
+  assert.equal(css.includes(token), true, `디자인 토큰 누락: ${token}`);
+}
+assert.match(css, /@media\s*\(max-width:\s*640px\)/);
+assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
+assert.match(css, /:focus-visible/);
+assert.match(css, /\.hero-grid/);
+
 console.log("design data contract: ok");
