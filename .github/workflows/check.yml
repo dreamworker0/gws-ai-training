@@ -37,6 +37,11 @@ jobs:
         with:
           node-version: "20"
 
+      # 받아적기는 저장소 밖이라 여기선 대조할 수 없다. 직위가 붙은 이름만 본다.
+      # 정확한 대조는 강사님 컴퓨터의 pre-commit 훅이 맡는다.
+      - name: 사람 이름·기관 이름이 새지 않았는지
+        run: node scripts/privacy.test.mjs
+
       - name: 링크 점검 실행
         id: check
         run: node scripts/check.mjs

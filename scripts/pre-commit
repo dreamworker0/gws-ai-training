@@ -11,6 +11,14 @@ case "$changed" in
   "index.html") exit 0 ;;
 esac
 
+# 사람 이름·기관 이름이 새어 들어갔으면 커밋을 막는다.
+# 받아적기가 있는 이 컴퓨터에서만 정확하게 대조할 수 있다 — CI 는 모양만 본다.
+node scripts/privacy.test.mjs || {
+  echo ""
+  echo "커밋을 멈췄습니다. 꼭 올려야 한다면: git commit --no-verify"
+  exit 1
+}
+
 node scripts/stamp.mjs || exit 1
 git add index.html
 exit 0
