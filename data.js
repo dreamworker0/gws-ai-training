@@ -224,6 +224,7 @@ const ITEM_SLIDES = {
 
   /* 문서 편집기 — 구글 도구와 MS 도구 대조 */
   a03: [
+    "sheet:8", "sheet:9",
     "smart:55", "smart:54",
   ],
 
@@ -649,9 +650,15 @@ const CURRICULUM = [
     ],
     videos: [
       { t: "구글 문서 기초 가이드 — 편집·공동작업·AI 활용", id: "K1Rz5dm17GY", date: "2026-05-04", channel: "디지털거북이" },
+      { t: "공동 문서 작성 및 버전 관리", id: "lFhUBfQwj_g", date: "2025-11-09", channel: "CDL(창의설계리더십협회)" },
+      { t: "구글 드라이브 문서 공유하기 — 계정별 권한 부여·옵션 설정", id: "ncgfDnhbUbk", date: "2024-08-27", channel: "Jocody Google Workspace Gemini" },
     ],
     docs: [
       { t: "Google 문서 시작하기", u: "https://support.google.com/docs/answer/7068618?hl=ko" },
+      { t: "스프레드시트에서 공동작업하기 — 동시 수정", u: "https://support.google.com/docs/answer/9331169?hl=ko" },
+      { t: "파일의 변경사항 찾기 — 버전 기록", u: "https://support.google.com/docs/answer/190843?hl=ko" },
+      { t: "Google Drive에서 파일 공유하기 — 사람 · 그룹 · 링크", u: "https://support.google.com/docs/answer/2494822?hl=ko" },
+      { t: "공유 중지, 제한 또는 변경하기 — 다운로드 · 인쇄 차단", u: "https://support.google.com/docs/answer/2494893?hl=ko" },
     ],
     notes: [],
   },

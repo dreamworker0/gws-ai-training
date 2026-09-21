@@ -102,7 +102,7 @@ var Find = (function () {
 
   function graphSVG(minUse) {
     minUse = minUse || 2;
-    var W = 1020, H = 860, CX = W / 2, CY = H / 2;
+    var W = 1060, H = 940, CX = W / 2, CY = H / 2;
     var FS_T = 13, FS_I = 13;
 
     var use = {};
@@ -113,14 +113,17 @@ var Find = (function () {
                      .sort(function (a, b) { return use[b] - use[a]; });
 
     var nodes = [], edges = [];
-    var RX = 408, RY = 356;
+    var RX = 398, RY = 330;
 
     tags.forEach(function (t, i) {
       var a = (i / tags.length) * Math.PI * 2 - Math.PI / 2;
       var w = textW(t, FS_T) + 26;
+      var tx = CX + Math.cos(a) * RX, ty = CY + Math.sin(a) * RY;
+      /* 태그를 못 박아 두면 태그와 겹친 항목이 빠져나갈 길이 없습니다.
+         움직이게 두되 아래에서 제자리(ax, ay)로 당겨 고리 모양은 지킵니다. */
       nodes.push({ id: "t:" + t, kind: "tag", label: t, n: use[t],
-                   w: w, h: 30, fixed: true,
-                   x: CX + Math.cos(a) * RX, y: CY + Math.sin(a) * RY });
+                   w: w, h: 30, fixed: false, anchor: true,
+                   ax: tx, ay: ty, x: tx, y: ty });
     });
 
     CURRICULUM.forEach(function (it) {
@@ -134,13 +137,43 @@ var Find = (function () {
       var label = it.short || it.title;
       nodes.push({ id: it.id, kind: "item", label: label, title: it.title,
                    track: it.track, w: textW(label, FS_I) + 24, h: 30, fixed: false,
-                   x: sx / mine.length + (it.id.charCodeAt(2) % 7) - 3,
-                   y: sy / mine.length + (it.id.charCodeAt(1) % 7) - 3 });
+                   cx0: sx / mine.length, cy0: sy / mine.length });
       mine.forEach(function (t) { edges.push([it.id, "t:" + t]); });
+    });
+
+    /* 같은 태그를 쓰는 항목들은 중심점이 거의 같습니다. 그대로 두면 한 점에 겹쳐
+       시작해서 밀어내기로도 잘 안 풀립니다. 같은 자리에 몇이 몰렸는지 세어
+       원을 그리며 부채꼴로 펼쳐 놓습니다. 순서는 id 라 언제나 같은 그림이 나옵니다. */
+    var bucket = {};
+    nodes.forEach(function (v) {
+      if (v.cx0 === undefined) return;
+      var k = Math.round(v.cx0 / 40) + "," + Math.round(v.cy0 / 40);
+      (bucket[k] = bucket[k] || []).push(v);
+    });
+    Object.keys(bucket).forEach(function (k) {
+      var g = bucket[k].sort(function (a, b) { return a.id < b.id ? -1 : 1; });
+      if (g.length === 1) { g[0].x = g[0].cx0; g[0].y = g[0].cy0; return; }
+      var R = 26 + g.length * 9;
+      g.forEach(function (v, i) {
+        var a = (i / g.length) * Math.PI * 2;
+        v.x = v.cx0 + Math.cos(a) * R;
+        v.y = v.cy0 + Math.sin(a) * R * 0.7;
+      });
     });
 
     /* 네모끼리 겹치면 밀어낸다 — 태그는 고정, 항목만 움직인다 */
     var GAP = 12;
+
+    /* 가두면서 옮기고, 실제로 움직인 거리를 돌려줍니다.
+       벽에 닿아 못 움직였다면 0 이 나옵니다. */
+    function shove(v, dx, dy) {
+      if (v.fixed) return 0;
+      var x0 = v.x, y0 = v.y;
+      v.x = Math.max(v.w / 2 + 6, Math.min(W - v.w / 2 - 6, v.x + dx));
+      v.y = Math.max(v.h / 2 + 6, Math.min(H - v.h / 2 - 6, v.y + dy));
+      return Math.abs(v.x - x0) + Math.abs(v.y - y0);
+    }
+
     for (var pass = 0; pass < 900; pass++) {
       for (var i = 0; i < nodes.length; i++) {
         for (var j = i + 1; j < nodes.length; j++) {
@@ -150,21 +183,38 @@ var Find = (function () {
           var ox = (A.w + B.w) / 2 + GAP - Math.abs(dx);
           var oy = (A.h + B.h) / 2 + GAP - Math.abs(dy);
           if (ox <= 0 || oy <= 0) continue;          /* 안 겹침 */
-          /* 덜 밀어도 되는 축으로 뗀다 */
-          if (ox / (A.w + B.w) < oy / (A.h + B.h)) {
-            var mx = (dx >= 0 ? 1 : -1) * ox / 2;
-            if (!A.fixed) A.x -= mx; if (!B.fixed) B.x += mx;
-          } else {
-            var my = (dy >= 0 ? 1 : -1) * oy / 2;
-            if (!A.fixed) A.y -= my; if (!B.fixed) B.y += my;
+
+          /* 덜 밀어도 되는 축으로 뗍니다. 그 축이 벽에 막히면 다른 축으로 다시 뗍니다 —
+             막힌 채로 두면 두 알약이 영영 겹쳐 있게 됩니다(2026-09-21 실제 증상). */
+          var axes = (ox / (A.w + B.w) < oy / (A.h + B.h)) ? ["x", "y"] : ["y", "x"];
+          for (var k = 0; k < axes.length; k++) {
+            var horiz = axes[k] === "x";
+            var need = (horiz ? ox : oy);
+            var dir = (horiz ? (dx >= 0 ? 1 : -1) : (dy >= 0 ? 1 : -1));
+            var half = need / 2;
+            var movedA = shove(A, horiz ? -dir * half : 0, horiz ? 0 : -dir * half);
+            var movedB = shove(B, horiz ? dir * half : 0, horiz ? 0 : dir * half);
+            /* 한쪽이 벽에 막혔으면 그 몫을 짝에게 넘깁니다 */
+            if (movedA < half - 0.01) {
+              var rest = half - movedA;
+              movedB += shove(B, horiz ? dir * rest : 0, horiz ? 0 : dir * rest);
+            } else if (movedB < half - 0.01) {
+              var rest2 = half - movedB;
+              movedA += shove(A, horiz ? -dir * rest2 : 0, horiz ? 0 : -dir * rest2);
+            }
+            if (movedA + movedB > 0.01) break;   /* 이 축으로 풀렸습니다 */
           }
         }
       }
-      nodes.forEach(function (v) {
-        if (v.fixed) return;
-        v.x = Math.max(v.w / 2 + 6, Math.min(W - v.w / 2 - 6, v.x));
-        v.y = Math.max(v.h / 2 + 6, Math.min(H - v.h / 2 - 6, v.y));
-      });
+      /* 태그를 제자리로 당겨 고리 모양을 지킵니다. 다만 끝까지 당기면 마지막에
+         다시 겹쳐 버리므로, 뒤쪽 3분의 1에서는 당기기를 놓고 겹침만 풉니다. */
+      if (pass < 600) {
+        nodes.forEach(function (v) {
+          if (!v.anchor) return;
+          v.x += (v.ax - v.x) * 0.12;
+          v.y += (v.ay - v.y) * 0.12;
+        });
+      }
     }
 
     var byId = {};
