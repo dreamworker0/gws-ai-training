@@ -1,0 +1,16 @@
+#!/bin/sh
+# 커밋할 때마다 index.html 의 갱신 표시를 다시 찍는다.
+# 안 그러면 고친 내용이 브라우저 캐시에 10분간 가려진다.
+#
+# 이 훅은 git 이 복제해 가지 않는다. 새 컴퓨터에서는 아래 한 줄로 다시 깐다:
+#   cp scripts/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+# index.html 자체만 바꾸는 커밋이면 건드리지 않는다 (손으로 고친 표시를 덮지 않게).
+changed=$(git diff --cached --name-only)
+case "$changed" in
+  "index.html") exit 0 ;;
+esac
+
+node scripts/stamp.mjs || exit 1
+git add index.html
+exit 0
