@@ -416,6 +416,7 @@
     var raw = location.hash.replace(/^#/, "");
 
     var HOME_ANCHORS = {
+      top: true,          /* 제목을 누르면 여기로 — 표준상 문서 맨 위를 뜻합니다 */
       hero: true,
       education: true,
       curriculum: true,
@@ -427,6 +428,7 @@
     if (HOME_ANCHORS[raw]) {
       showHome();
       requestAnimationFrame(function () {
+        if (raw === "top") { window.scrollTo(0, 0); return; }
         var target = document.getElementById(raw);
         if (target) target.scrollIntoView();
       });
