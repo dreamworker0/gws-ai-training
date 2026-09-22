@@ -156,14 +156,66 @@
       if (!list.length) return "";
       return '<section class="group g-' + g.id + '">' +
         '<h3 class="group-head">' +
-          '<span class="tag">' + esc(g.tag) + "</span>" +
-          esc(g.title) +
-          '<em>' + esc(g.blurb) + " · " + list.length + "항목</em>" +
+          '<button class="group-toggle" type="button" aria-expanded="true" aria-controls="group-items-' + g.id + '">' +
+            '<span class="tag">' + esc(g.tag) + "</span>" +
+            '<span class="group-title">' + esc(g.title) + '</span>' +
+            '<em>' + esc(g.blurb) + " · " + list.length + "항목</em>" +
+            '<span class="group-chevron" aria-hidden="true">⌄</span>' +
+          '</button>' +
         "</h3>" +
-        '<ol class="items">' + list.map(itemRow).join("") + "</ol>" +
+        '<ol class="items" id="group-items-' + g.id + '">' + list.map(itemRow).join("") + "</ol>" +
       "</section>";
     }).join("");
   }
+  var mobileMedia = window.matchMedia("(max-width: 640px)");
+  function setGroupOpen(button, open) {
+    var items = $(button.getAttribute("aria-controls"));
+    if (!items) return;
+    button.setAttribute("aria-expanded", String(open));
+    items.hidden = !open;
+    button.closest(".group").classList.toggle("is-open", open);
+  }
+  function syncGroups() {
+    document.querySelectorAll(".group-toggle").forEach(function (button, index) {
+      setGroupOpen(button, ArchiveUI.defaultGroupOpen(index, mobileMedia.matches));
+    });
+  }
+  syncGroups();
+  $("groups").addEventListener("click", function (event) {
+    var button = event.target.closest(".group-toggle");
+    if (button) setGroupOpen(button, button.getAttribute("aria-expanded") !== "true");
+  });
+
+  var searchToggle = $("mobile-search-toggle");
+  var menuToggle = $("mobile-menu-toggle");
+  var searchPanel = $("mobile-search-panel");
+  var menuPanel = $("mobile-menu-panel");
+  function setMobilePanel(which) {
+    var searchOpen = mobileMedia.matches && which === "search";
+    var menuOpen = mobileMedia.matches && which === "menu";
+    searchPanel.hidden = mobileMedia.matches && !searchOpen;
+    menuPanel.hidden = mobileMedia.matches && !menuOpen;
+    searchToggle.setAttribute("aria-expanded", String(searchOpen));
+    menuToggle.setAttribute("aria-expanded", String(menuOpen));
+    searchToggle.setAttribute("aria-label", searchOpen ? "검색 닫기" : "검색 열기");
+    menuToggle.setAttribute("aria-label", menuOpen ? "메뉴 닫기" : "메뉴 열기");
+    if (searchOpen) $("q").focus();
+  }
+  function closeMobilePanels() { setMobilePanel(null); }
+  searchToggle.addEventListener("click", function () {
+    setMobilePanel(searchToggle.getAttribute("aria-expanded") === "true" ? null : "search");
+  });
+  menuToggle.addEventListener("click", function () {
+    setMobilePanel(menuToggle.getAttribute("aria-expanded") === "true" ? null : "menu");
+  });
+  menuPanel.addEventListener("click", function (event) {
+    if (event.target.closest("a")) closeMobilePanels();
+  });
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && mobileMedia.matches) closeMobilePanels();
+  });
+  mobileMedia.addEventListener("change", function () { syncGroups(); closeMobilePanels(); });
+  closeMobilePanels();
   if ($("education-about")) {
     $("education-about").innerHTML = renderAbout(ABOUT_DREAMWORK);
   }

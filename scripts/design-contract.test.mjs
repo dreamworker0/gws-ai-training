@@ -53,6 +53,10 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
 }
 
 const html = await readFile(new URL("index.html", root), "utf8");
+for (const id of ["mobile-search-toggle", "mobile-menu-toggle", "mobile-search-panel", "mobile-menu-panel"]) {
+  assert.match(html, new RegExp(`id=["']${id}["']`), `모바일 헤더 요소 누락: ${id}`);
+}
+assert.match(html, /<script[^>]+src=["']ui-state\.js\?v=/, "UI 상태 스크립트 누락");
 for (const id of ["hero", "education", "curriculum", "contact", "hero-image"]) {
   assert.match(html, new RegExp(`id=["']${id}["']`), `필수 홈 영역 누락: ${id}`);
 }
@@ -65,7 +69,7 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
 const assetVersions = [...html.matchAll(/(?:style\.css|data\.js|find\.js|ui-state\.js|app\.js)\?v=([^"']+)/g)]
   .map((match) => match[1]);
-assert.ok(assetVersions.length >= 4, "캐시 버전이 붙은 자산이 부족함");
+assert.equal(assetVersions.length, 5, "캐시 버전은 CSS와 네 JavaScript 자산에 있어야 함");
 assert.equal(new Set(assetVersions).size, 1, "CSS와 JavaScript 캐시 버전은 같아야 함");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);

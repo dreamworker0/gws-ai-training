@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="GWS &amp; AI 교육 아카이브">
 <meta name="twitter:description" content="도구보다, 일하는 방식의 변화">
 <meta name="twitter:image" content="https://dreamworker0.github.io/gws-ai-training/img/dreamwork-og.png">
-<link rel="stylesheet" href="style.css?v=20260922-f998916">
+<link rel="stylesheet" href="style.css?v=20260922-a905a0a">
 </head>
 <body>
 
@@ -36,19 +36,23 @@
         <p id="site-sub">도구보다, 일하는 방식의 변화</p>
       </div>
     </a>
-    <div class="searchbox">
+    <div class="mobile-actions">
+      <button id="mobile-search-toggle" class="mobile-toggle" type="button" aria-label="검색 열기" aria-expanded="false" aria-controls="mobile-search-panel">⌕</button>
+      <button id="mobile-menu-toggle" class="mobile-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobile-menu-panel">☰</button>
+      <button id="theme" class="themebtn" type="button"
+              title="밝게 / 어둡게 — 밤에 보실 때 눈이 편한 쪽으로"
+              aria-label="밝게 어둡게 전환">◐</button>
+    </div>
+    <div id="mobile-search-panel" class="searchbox mobile-panel">
       <input id="q" type="search" autocomplete="off" placeholder="배운 것 찾기 — 주제·자료·영상"
              aria-label="사이트 안에서 찾기">
       <div id="qres" class="qres" hidden></div>
     </div>
-    <nav class="nav" aria-label="주요 메뉴">
+    <nav id="mobile-menu-panel" class="nav mobile-panel" aria-label="주요 메뉴">
       <a href="#curriculum">학습 아카이브</a>
       <a href="#slides-home">발표자료</a>
       <a href="#graph">관계도</a>
       <a href="#contact">문의</a>
-      <button id="theme" class="themebtn" type="button"
-              title="밝게 / 어둡게 — 밤에 보실 때 눈이 편한 쪽으로"
-              aria-label="밝게 어둡게 전환">◐</button>
     </nav>
   </div>
 </header>
@@ -201,8 +205,9 @@
   </div>
 </div>
 
-<script src="data.js?v=20260922-f998916"></script>
-<script src="find.js?v=20260922-f998916"></script>
-<script src="app.js?v=20260922-f998916"></script>
+<script src="data.js?v=20260922-a905a0a"></script>
+<script src="find.js?v=20260922-a905a0a"></script>
+<script src="ui-state.js?v=20260922-f998916"></script>
+<script src="app.js?v=20260922-a905a0a"></script>
 </body>
 </html>
