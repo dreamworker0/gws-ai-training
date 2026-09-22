@@ -5,7 +5,9 @@ const source = await readFile(new URL("../ui-state.js", import.meta.url), "utf8"
 const UI = new Function(`${source}\nreturn ArchiveUI;`)();
 
 assert.equal(UI.nextIndex(-1, 3, 1), 0);
+assert.equal(UI.nextIndex(-1, 3, -1), 2);
 assert.equal(UI.nextIndex(2, 3, 1), 0);
+assert.equal(UI.nextIndex(1, 3, 1), 2);
 assert.equal(UI.nextIndex(0, 3, -1), 2);
 assert.equal(UI.nextIndex(-1, 0, 1), -1);
 assert.deepEqual(UI.closedSearchState(), { hits: [], activeIndex: -1, expanded: false });

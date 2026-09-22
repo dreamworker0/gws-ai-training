@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="GWS &amp; AI 교육 아카이브">
 <meta name="twitter:description" content="도구보다, 일하는 방식의 변화">
 <meta name="twitter:image" content="https://dreamworker0.github.io/gws-ai-training/img/dreamwork-og.png">
-<link rel="stylesheet" href="style.css?v=20260922-a905a0a">
+<link rel="stylesheet" href="style.css?v=20260922-68e2c78">
 </head>
 <body>
 
@@ -44,9 +44,11 @@
               aria-label="밝게 어둡게 전환">◐</button>
     </div>
     <div id="mobile-search-panel" class="searchbox mobile-panel">
-      <input id="q" type="search" autocomplete="off" placeholder="배운 것 찾기 — 주제·자료·영상"
-             aria-label="사이트 안에서 찾기">
-      <div id="qres" class="qres" hidden></div>
+      <input id="q" type="search" role="combobox" aria-autocomplete="list"
+             aria-expanded="false" aria-controls="qres" autocomplete="off"
+             placeholder="배운 것 찾기 — 주제·자료·영상" aria-label="사이트 안에서 찾기">
+      <div id="qres" class="qres" role="listbox" hidden></div>
+      <p id="qstatus" class="sr-only" aria-live="polite"></p>
     </div>
     <nav id="mobile-menu-panel" class="nav mobile-panel" aria-label="주요 메뉴">
       <a href="#curriculum">학습 아카이브</a>
@@ -205,9 +207,9 @@
   </div>
 </div>
 
-<script src="data.js?v=20260922-a905a0a"></script>
-<script src="find.js?v=20260922-a905a0a"></script>
-<script src="ui-state.js?v=20260922-f998916"></script>
-<script src="app.js?v=20260922-a905a0a"></script>
+<script src="data.js?v=20260922-68e2c78"></script>
+<script src="find.js?v=20260922-68e2c78"></script>
+<script src="ui-state.js?v=20260922-68e2c78"></script>
+<script src="app.js?v=20260922-68e2c78"></script>
 </body>
 </html>

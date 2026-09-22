@@ -3,7 +3,7 @@
 //   node scripts/stamp.mjs          찍는다
 //   node scripts/stamp.mjs --check  안 맞으면 1로 끝난다
 //
-// 표시는 네 파일의 내용을 합쳐 만든 짧은 지문이다. 내용이 그대로면 표시도 그대로라
+// 표시는 다섯 파일의 내용을 합쳐 만든 짧은 지문이다. 내용이 그대로면 표시도 그대로라
 // 쓸데없이 다시 받게 하지 않고, 한 글자라도 바뀌면 반드시 달라진다.
 // .git/hooks/pre-commit 이 커밋 때마다 부르므로 사람이 기억할 일이 없다.
 //
@@ -16,7 +16,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const ASSETS = ["style.css", "data.js", "find.js", "app.js"];
+const ASSETS = ["style.css", "data.js", "find.js", "ui-state.js", "app.js"];
 const PAGE = join(ROOT, "index.html");
 
 const h = createHash("sha1");

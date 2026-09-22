@@ -212,7 +212,7 @@
     if (event.target.closest("a")) closeMobilePanels();
   });
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && mobileMedia.matches) closeMobilePanels();
+    if (event.key === "Escape" && mobileMedia.matches && $("qres").hidden) closeMobilePanels();
   });
   mobileMedia.addEventListener("change", function () { syncGroups(); closeMobilePanels(); });
   closeMobilePanels();
@@ -486,6 +486,8 @@
   }
 
   function route() {
+    closeSearch(true);
+    closeMobilePanels();
     var raw = location.hash.replace(/^#/, "");
 
     var HOME_ANCHORS = {
@@ -583,36 +585,82 @@
   })();
 
   /* ── 찾기 ───────────────────────────────────────── */
-  var qEl = $("q"), qRes = $("qres");
+  var qEl = $("q"), qRes = $("qres"), qStatus = $("qstatus");
   var KINDS = { "항목": "k-item", "자료": "k-slide", "영상": "k-vid", "문서": "k-doc" };
+  var searchHits = [], activeSearchIndex = -1;
+
+  function closeSearch(clearValue) {
+    var closed = ArchiveUI.closedSearchState();
+    searchHits = closed.hits;
+    activeSearchIndex = closed.activeIndex;
+    qRes.hidden = true;
+    qRes.innerHTML = "";
+    qEl.setAttribute("aria-expanded", String(closed.expanded));
+    qEl.removeAttribute("aria-activedescendant");
+    qStatus.textContent = "";
+    if (clearValue) qEl.value = "";
+  }
+
+  function selectSearchResult(index) {
+    activeSearchIndex = index;
+    qRes.querySelectorAll('[role="option"]').forEach(function (option, i) {
+      option.setAttribute("aria-selected", String(i === index));
+    });
+    var selected = $("q-option-" + index);
+    if (selected) {
+      qEl.setAttribute("aria-activedescendant", selected.id);
+      selected.scrollIntoView({ block: "nearest" });
+    } else {
+      qEl.removeAttribute("aria-activedescendant");
+    }
+  }
 
   function runSearch() {
     var v = qEl.value.trim();
-    if (!v) { qRes.hidden = true; qRes.innerHTML = ""; return; }
-    var hits = Find.search(v);
-    if (!hits.length) {
+    if (!v) { closeSearch(false); return; }
+    searchHits = Find.search(v);
+    activeSearchIndex = -1;
+    qEl.removeAttribute("aria-activedescendant");
+    if (!searchHits.length) {
       qRes.innerHTML = '<p class="qempty">「' + esc(v) + "」 에 걸리는 것이 없습니다.</p>";
     } else {
-      qRes.innerHTML = hits.map(function (e) {
-        return '<a class="qr" href="' + e.hash + '">' +
-          '<span class="qk ' + (KINDS[e.kind] || "") + '">' + e.kind + "</span>" +
+      qRes.innerHTML = searchHits.map(function (e, index) {
+        return '<a class="qr" id="q-option-' + index + '" role="option" aria-selected="false" href="' + esc(e.hash) + '">' +
+          '<span class="qk ' + (KINDS[e.kind] || "") + '">' + esc(e.kind) + "</span>" +
           '<span class="qt"><b>' + esc(e.label) + "</b><small>" + esc(e.sub) + "</small></span></a>";
       }).join("");
     }
     qRes.hidden = false;
+    qEl.setAttribute("aria-expanded", "true");
+    qStatus.textContent = searchHits.length ? "검색 결과 " + searchHits.length + "개" : "검색 결과가 없습니다";
   }
 
   qEl.addEventListener("input", runSearch);
   qEl.addEventListener("focus", function () { if (qEl.value.trim()) runSearch(); });
+  qEl.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      if (qRes.hidden && qEl.value.trim()) runSearch();
+      if (!searchHits.length) return;
+      e.preventDefault();
+      selectSearchResult(ArchiveUI.nextIndex(activeSearchIndex, searchHits.length, e.key === "ArrowDown" ? 1 : -1));
+    } else if (e.key === "Enter" && activeSearchIndex >= 0 && searchHits[activeSearchIndex]) {
+      e.preventDefault();
+      var href = searchHits[activeSearchIndex].hash;
+      closeSearch(true);
+      location.href = href;
+    } else if (e.key === "Escape" && !qRes.hidden) {
+      e.preventDefault();
+      closeSearch(false);
+    }
+  });
   qRes.addEventListener("click", function (e) {
-    if (e.target.closest("a")) { qRes.hidden = true; qEl.value = ""; qEl.blur(); }
+    if (e.target.closest("a")) closeSearch(true);
   });
   document.addEventListener("click", function (e) {
-    if (!e.target.closest(".searchbox")) qRes.hidden = true;
+    if (!e.target.closest(".searchbox")) closeSearch(true);
   });
   document.addEventListener("keydown", function (e) {
     if (e.key === "/" && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
-    if (e.key === "Escape") { qRes.hidden = true; qEl.blur(); }
   });
 
   /* ── 전체 화면으로 보기 ─────────────────────────────

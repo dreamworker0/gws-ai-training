@@ -53,6 +53,10 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
 }
 
 const html = await readFile(new URL("index.html", root), "utf8");
+for (const token of [
+  'role="combobox"', 'aria-autocomplete="list"', 'aria-controls="qres"',
+  'role="listbox"', 'id="qstatus"', 'aria-live="polite"',
+]) assert.ok(html.includes(token), `검색 접근성 속성 누락: ${token}`);
 for (const id of ["mobile-search-toggle", "mobile-menu-toggle", "mobile-search-panel", "mobile-menu-panel"]) {
   assert.match(html, new RegExp(`id=["']${id}["']`), `모바일 헤더 요소 누락: ${id}`);
 }

@@ -2,6 +2,7 @@
 const ArchiveUI = {
   nextIndex(current, length, direction) {
     if (!length) return -1;
+    if (current < 0) return direction < 0 ? length - 1 : 0;
     return (current + direction + length) % length;
   },
   closedSearchState() {
