@@ -19,6 +19,13 @@ node scripts/privacy.test.mjs || {
   exit 1
 }
 
+# 슬라이드 주소가 열리는지, 그림이 있는지. 못 알아본 주소는 조용히 첫 화면이 뜬다.
+node scripts/routes.test.mjs || {
+  echo ""
+  echo "커밋을 멈췄습니다. 꼭 올려야 한다면: git commit --no-verify"
+  exit 1
+}
+
 node scripts/stamp.mjs || exit 1
 git add index.html
 exit 0

@@ -42,6 +42,9 @@ jobs:
       - name: 사람 이름·기관 이름이 새지 않았는지
         run: node scripts/privacy.test.mjs
 
+      - name: 슬라이드 주소와 그림이 성한지
+        run: node scripts/routes.test.mjs
+
       - name: 링크 점검 실행
         id: check
         run: node scripts/check.mjs

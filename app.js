@@ -443,8 +443,10 @@
     /* #slides — 전체 */
     if (raw === "slides") { showDeck(renderAllDecks(), "발표자료"); return; }
 
-    /* #slides-a01 — 한 주제 */
-    var mi = /^slides-([ab]\d\d)$/.exec(raw);
+    /* #slides-a01 — 한 주제.
+       항목 id 는 a01 만이 아니라 s01 · a06-map · a08-vids 처럼도 생겼습니다.
+       좁게 잡으면 못 알아본 주소가 조용히 첫 화면으로 떨어집니다. */
+    var mi = /^slides-([a-z][a-z0-9-]*)$/.exec(raw);
     if (mi && findItem(mi[1])) {
       var it0 = findItem(mi[1]);
       showDeck(renderItemDeck(it0), it0.title + " 자료");
@@ -477,8 +479,8 @@
     var a = e.target.closest ? e.target.closest("a.sl") : null;
     if (!a) return;
     var cur = location.hash.replace(/^#/, "").split("?")[0];
-    var owner = /^([ab]\d\d)$/.test(cur) ? cur
-              : (/^slides-([ab]\d\d)$/.exec(cur) || [])[1];
+    var owner = findItem(cur) ? cur
+              : (/^slides-([a-z][a-z0-9-]*)$/.exec(cur) || [])[1];
     if (owner) {
       e.preventDefault();
       location.hash = a.getAttribute("href").slice(1) + "?from=" + owner;
