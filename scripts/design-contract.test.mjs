@@ -53,6 +53,10 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
 }
 
 const html = await readFile(new URL("index.html", root), "utf8");
+assert.match(html, /id="notfoundpage"/);
+assert.match(html, /요청한 자료를 찾지 못했습니다/);
+assert.match(html, /JavaScript를 켜야 30개 주제 목록/);
+assert.match(html, /드림워크 교육 아카이브/);
 for (const token of [
   'role="combobox"', 'aria-autocomplete="list"', 'aria-controls="qres"',
   'role="listbox"', 'id="qstatus"', 'aria-live="polite"',
@@ -77,7 +81,7 @@ assert.equal(assetVersions.length, 5, "캐시 버전은 CSS와 네 JavaScript �
 assert.equal(new Set(assetVersions).size, 1, "CSS와 JavaScript 캐시 버전은 같아야 함");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
-assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);
+assert.match(html, /<noscript>[\s\S]*href="#education"[\s\S]*href="#slides-home"[\s\S]*mailto:[\s\S]*<\/noscript>/);
 assert.doesNotMatch(html, /기관별 진행 상황/);
 assert.match(html, /<link\s+rel=["']icon["']\s+href=["']favicon\.svg["']\s+type=["']image\/svg\+xml["']/);
 assert.match(html, /<link\s+rel=["']canonical["']\s+href=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);

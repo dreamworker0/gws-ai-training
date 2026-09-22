@@ -22,6 +22,7 @@ assert.equal(UI.routeKind("slides-a04", itemIds, deckIds), "slides");
 assert.equal(UI.routeKind("slides-missing", itemIds, deckIds), "notFound");
 assert.equal(UI.routeKind("slide-calendar-1", itemIds, deckIds), "slides");
 assert.equal(UI.routeKind("slide-ghost-1", itemIds, deckIds), "notFound");
+assert.equal(UI.routeKind("%3Cscript%3E", itemIds, deckIds), "notFound");
 const connected = { isConnected: true };
 assert.equal(UI.returnFocusTarget(connected), connected);
 assert.equal(UI.returnFocusTarget({ isConnected: false }), null);

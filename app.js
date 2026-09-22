@@ -36,7 +36,7 @@
         var fallback = document.createElement("span");
         fallback.className = "media-fallback";
         fallback.textContent = img.id === "hero-image"
-          ? "GWS & AI 교육 아카이브"
+          ? META.displayTitle
           : (img.alt || "이미지를 불러오지 못했습니다");
         img.classList.add("is-missing");
         img.replaceWith(fallback);
@@ -57,8 +57,9 @@
   var INLINE_SLIDES = 8;   /* 항목 페이지에 바로 보이는 장수 */
 
   /* ── 머리말 ─────────────────────────────────────── */
-  $("site-title").textContent = META.title;
-  $("site-sub").textContent = META.tagline;
+  $("site-title").textContent = META.displayTitle;
+  $("site-sub").textContent = META.displaySubtitle;
+  $("foot-brand").textContent = META.displayTitle;
   $("foot-lecturer").textContent = META.lecturer;
   $("foot-updated").textContent = META.updated;
 
@@ -241,6 +242,7 @@
   var page = $("itempage");
   var deck = $("slidespage");
   var graph = $("graphpage");
+  var notfound = $("notfoundpage");
 
   function renderItem(it) {
     var h = "";
@@ -436,6 +438,7 @@
     page.hidden = which !== "item";
     deck.hidden = which !== "deck";
     if (graph) graph.hidden = which !== "graph";
+    if (notfound) notfound.hidden = which !== "notfound";
   }
 
   function showHome() {
@@ -485,10 +488,22 @@
     window.scrollTo(0, 0);
   }
 
+  function showNotFound() {
+    only("notfound");
+    document.title = "자료를 찾지 못했습니다 — " + META.title;
+    window.scrollTo(0, 0);
+  }
+
   function route() {
     closeSearch(true);
     closeMobilePanels();
     var raw = location.hash.replace(/^#/, "");
+    if (!raw) { showHome(); return; }
+    var candidate = raw.split("?from=")[0];
+    var kind = ArchiveUI.routeKind(candidate,
+      new Set(CURRICULUM.map(function (item) { return item.id; })),
+      new Set(DECKS.map(function (item) { return item.id; })));
+    if (kind === "notFound") { showNotFound(); return; }
 
     var HOME_ANCHORS = {
       top: true,          /* 제목을 누르면 여기로 — 표준상 문서 맨 위를 뜻합니다 */
@@ -541,12 +556,7 @@
     var it = findItem(raw);
     if (it) { showItem(it); return; }
 
-    var wasSub = !page.hidden || !deck.hidden;
-    showHome();
-    if (wasSub && raw) {
-      var el = document.getElementById(raw);
-      if (el) el.scrollIntoView();
-    }
+    showNotFound();
   }
 
   /* 항목 페이지에서 슬라이드를 누르면 그 주제 안에서 넘어가도록 from 을 붙입니다 */

@@ -636,6 +636,9 @@ a.pg:hover { border-color: var(--brand); }
   color: var(--fg-soft);
   border-block: 1px solid var(--line);
 }
+.notfound-copy { min-height: 46vh; padding-block: clamp(40px, 8vw, 96px); }
+.notfound-copy h2 { font-family: var(--serif); font-size: clamp(28px, 4vw, 44px); }
+.notfound-copy p:not(.eyebrow) { color: var(--fg-soft); }
 .audience-band { padding-block: clamp(54px, 7vw, 86px); }
 .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 28px; background: var(--line); border: 1px solid var(--line); }
 .audience-card {
