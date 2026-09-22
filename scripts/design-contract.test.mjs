@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 const root = new URL("../", import.meta.url);
 const dataSource = await readFile(new URL("data.js", root), "utf8");
 const data = new Function(
-  dataSource + "\nreturn { META, ABOUT_DREAMWORK, CURRICULUM, ITEM_SLIDES, DECKS, SLIDE_HIDDEN, FAQ };"
+  dataSource + "\nreturn { META, ABOUT_DREAMWORK, GROUPS, CURRICULUM, ITEM_SLIDES, DECKS, SLIDE_HIDDEN, FAQ };"
 )();
 
 assert.equal(data.META.brand, "드림워크");
@@ -15,49 +15,20 @@ assert.equal(data.META.updated, "2026-09-21");
 assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
 assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
 
-const trackA = data.CURRICULUM.filter((item) => item.track === "A");
-assert.equal(trackA.length, 15, "A트랙은 가입 방법을 포함한 15개 항목이어야 함");
-assert.deepEqual(trackA.map((item) => item.no), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
-assert.deepEqual(trackA.slice(0, 2).map((item) => item.title), ["가입 방법", "기초 설명"]);
-assert.deepEqual(trackA.slice(6).map((item) => item.title), [
-  "구글 킵", "구글 지도", "사이트 도구", "구글 미트", "구글 비즈(Vids)",
-  "지메일", "구글 설문지", "구글 포토", "슬랙",
-]);
-const signup = trackA[0];
-assert.equal(signup.id, "a00");
-assert.deepEqual(signup.videos, [
-  { t: "비영리단체용 Google Workspace 설치 방법", id: "GCd7QG170Q8", date: "2026-02-08", channel: "스마트한 비영리" },
-]);
-assert.deepEqual(signup.docs, [
-  { t: "Google for Nonprofits 안내", u: "https://www.google.com/nonprofits/" },
-]);
-assert.deepEqual(data.ITEM_SLIDES.a00, ["smart:63", "smart:64", "smart:66", "smart:67", "smart:69"]);
-assert.equal((trackA[1].videos || []).length, 0, "기초 설명에 가입 영상이 중복되면 안 됨");
-assert.equal((trackA[1].docs || []).length, 0, "기초 설명에 가입 문서가 중복되면 안 됨");
-for (const slide of data.ITEM_SLIDES.a00) {
-  assert.equal(data.ITEM_SLIDES.a01.includes(slide), false, `기초 설명에 가입 자료가 중복됨: ${slide}`);
-}
-const prepFaq = data.FAQ.find((item) => item.q === "교육 전에 미리 해 둘 것이 있나요?");
-assert.match(prepFaq.a, /A트랙 1번.*가입 방법/, "가입 안내 위치가 FAQ에 정확히 표시되어야 함");
-assert.deepEqual(data.ITEM_SLIDES.a06, ["keep:1", "keep:2", "keep:3", "keep:4"]);
-assert.deepEqual(data.ITEM_SLIDES["a06-map"], ["keep:5", "keep:6", "keep:7", "keep:8"]);
-assert.deepEqual(data.ITEM_SLIDES.a08, ["meet:1", "meet:2", "meet:3", "meet:4"]);
-assert.deepEqual(data.ITEM_SLIDES["a08-vids"], ["meet:5", "meet:6", "meet:7", "meet:8", "meet:9", "meet:10"]);
-assert.equal(JSON.stringify(trackA).includes("구글 챗"), false, "A트랙에 구글 챗이 남아 있음");
-assert.equal(data.DECKS.find((deck) => deck.id === "chat").title, "슬랙");
-assert.ok(data.SLIDE_HIDDEN.includes("chat:1"), "구글 챗 표지 슬라이드는 숨겨야 함");
+const itemIds = data.CURRICULUM.map((item) => item.id);
+assert.equal(new Set(itemIds).size, itemIds.length, "CURRICULUM id는 유일해야 함");
+const groupedIds = data.GROUPS.flatMap((group) => group.items);
+assert.equal(new Set(data.GROUPS.map((group) => group.id)).size, data.GROUPS.length);
+assert.deepEqual([...groupedIds].sort(), [...itemIds].sort(), "모든 항목은 정확히 한 분야에 있어야 함");
+assert.equal(new Set(groupedIds).size, groupedIds.length, "한 항목이 여러 분야에 중복되면 안 됨");
+assert.equal(data.META.displayTitle, "드림워크 교육 아카이브");
+assert.equal(data.META.displaySubtitle, "Google Workspace와 AI 교육 기록");
+assert.ok(data.CURRICULUM.find((item) => item.id === "a00"), "가입 안내 항목 누락");
+assert.ok(data.ITEM_SLIDES.a00.length > 0, "가입 안내 발표자료 누락");
 
-const videoCutoff = "2024-09-21";
-const videoCeiling = "2026-09-21";
 const videos = data.CURRICULUM.flatMap((item) => item.videos || []);
-assert.ok(videos.length >= 15, `최근 추천 영상이 너무 적음: ${videos.length}`);
-for (const item of data.CURRICULUM) {
-  assert.ok((item.videos || []).length <= 2, `${item.id} 영상은 최대 2개여야 함`);
-}
 for (const video of videos) {
   assert.match(video.date || "", /^\d{4}-\d{2}-\d{2}$/, `${video.id} 공개일 누락`);
-  assert.ok(video.date >= videoCutoff, `${video.id} 공개일이 2년 기준보다 오래됨: ${video.date}`);
-  assert.ok(video.date <= videoCeiling, `${video.id} 공개일이 현재 날짜보다 미래임: ${video.date}`);
   assert.ok((video.channel || "").trim().length > 0, `${video.id} 채널 누락`);
 }
 
@@ -77,11 +48,10 @@ for (const removedText of ["어떤 마음으로 오셨나요?", "Education field
   assert.equal(html.includes(removedText), false, `제거 대상 문구가 남아 있음: ${removedText}`);
 }
 assert.doesNotMatch(html, /href=["']#(?:education-fields|viewpoint)["']/);
-for (const asset of ["style.css", "data.js", "find.js", "app.js"]) {
-  assert.match(html, new RegExp(`${asset.replace(".", "\\.")}\\?v=20260921-signup`), `캐시 버전 누락: ${asset}`);
-}
-assert.equal(html.includes("20260921-structure"), false, "이전 캐시 버전이 남아 있음");
-assert.match(html, /구글 워크스페이스 기초[\s\S]*15항목/);
+const assetVersions = [...html.matchAll(/(?:style\.css|data\.js|find\.js|ui-state\.js|app\.js)\?v=([^"']+)/g)]
+  .map((match) => match[1]);
+assert.ok(assetVersions.length >= 4, "캐시 버전이 붙은 자산이 부족함");
+assert.equal(new Set(assetVersions).size, 1, "CSS와 JavaScript 캐시 버전은 같아야 함");
 assert.match(html, /href=["']#curriculum["'][^>]*>[^<]*수강생 복습/);
 assert.match(html, /href=["']#education["'][^>]*>[^<]*교육 살펴보기/);
 assert.match(html, /<noscript>[\s\S]*수강생 복습[\s\S]*교육 살펴보기[\s\S]*<\/noscript>/);

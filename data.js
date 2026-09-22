@@ -19,6 +19,8 @@
 const META = {
   brand: "드림워크",
   title: "GWS & AI 교육 아카이브",
+  displayTitle: "드림워크 교육 아카이브",
+  displaySubtitle: "Google Workspace와 AI 교육 기록",
   tagline: "도구보다, 일하는 방식의 변화",
   subtitle: "사회복지 현장의 스마트워크와 AI 교육을 기록하고 나눕니다.",
   lecturer: "교육자 김종원 · 소셜프리즘",
