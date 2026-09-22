@@ -452,7 +452,9 @@
     }
 
     /* #slide-smart-12 — 한 장 */
-    var ms = /^slide-([a-z]+)-(\d+)$/.exec(raw);
+    /* 덱 이름에 숫자가 들어갑니다 — 녹음 기반 자료는 rec0921 처럼 날짜를 답니다.
+       예전에는 [a-z]+ 만 받아서 #slide-rec0921-7 이 첫 화면으로 떨어졌습니다. */
+    var ms = /^slide-([a-z][a-z0-9]*)-(\d+)$/.exec(raw);
     if (ms) {
       var html = renderSlide(ms[1] + ":" + parseInt(ms[2], 10), from && findItem(from) ? from : null);
       if (html) { showDeck(html, "발표자료 " + ms[2] + "쪽"); return; }
