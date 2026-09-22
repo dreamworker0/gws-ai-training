@@ -8,11 +8,13 @@
 //   그런데 녹음 받아적기에는 참여자 실명이 그대로 있고, 디스코드 호야가 그 받아적기를
 //   읽어 data.js 를 자동으로 쓴다. 사람이 매번 눈으로 거르는 구조는 언젠가 반드시 뚫린다.
 //
-// 어떻게 보는가 — 두 겹이다:
+// 어떻게 보는가 — 세 겹이다:
 //   1) 대조 (정확하다): ../transcripts 와 ../education-log.md 에 적힌 실제 이름·기관명을
 //      그대로 찾는다. 이 파일들은 저장소 밖이라 CI 에는 없다. 있을 때만 돈다.
 //   2) 모양 (짐작이다): 「홍길동 과장」처럼 직위가 붙은 이름. 대조할 자료가 없는
 //      CI 에서도 이만큼은 걸린다.
+//   3) 비밀·연락처: 전화번호·주민번호·남의 메일 주소. 이름 대조는 비밀번호를
+//      쳐다보지도 않는다 — 2026-09-22 원고에 기관 와이파이 비밀번호가 그대로 있었다.
 //
 // 거둔 이름이 미덥지 않으면:  node scripts/privacy.test.mjs --names
 
@@ -143,6 +145,32 @@ for (const file of WATCH) {
       if (ALLOW.includes(m[1])) continue;
       add(file, `직함이 붙은 이름 「${m[0]}」`, k + 1, ln);
     }
+  });
+}
+
+/* ── 3겹: 비밀·연락처 ────────────────────────────────────
+   이름만 보아서는 모자란다. 2026-09-22 녹음 원고에 기관 와이파이 비밀번호가
+   그대로 남아 있었다. 이름 대조는 비밀번호를 쳐다보지도 않는다.
+   여기는 **모양이 뚜렷한 것만** 본다 — 짐작이 시끄러우면 검사를 꺼 버린다.      */
+
+const SECRETS = [
+  ["휴대전화 번호", /01[016789][-. ]\d{3,4}[-. ]\d{4}(?!\d)/g],
+  ["주민등록번호", /(?<!\d)\d{6}[-\s]\d{7}(?!\d)/g],
+];
+// 계좌번호(123-456-789)는 넣지 않는다. 날짜(2026-09-22)와 모양이 같아 40군데가
+// 헛걸렸다. 가릴 수 없는 것을 억지로 가리면 검사 전체를 못 믿게 된다.
+// 강사님 메일(ehsheh@gmail.com)은 사이트에 적어 두는 것이라 통과시킨다.
+// 슬라이드에 지어 넣은 예시 주소(aaa@…, hong@…)도 통과시킨다.
+const MAILOK = /^(ehsheh|ehsheh00)@gmail\.com$/i;
+const MAILFAKE = /^(a{2,}|b{2,}|abc|example|sample|test|user|id|name|hong|gildong|honggildong)\d*@/i;
+
+for (const file of WATCH) {
+  const lines = readFileSync(join(ROOT, file), "utf8").split("\n");
+  lines.forEach((ln, k) => {
+    for (const [why, re] of SECRETS)
+      for (const m of ln.matchAll(re)) add(file, `${why} 「${m[0]}」`, k + 1, ln);
+    for (const m of ln.matchAll(/(?<![A-Za-z0-9._%+-])[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g))
+      if (!MAILOK.test(m[0]) && !MAILFAKE.test(m[0])) add(file, `메일 주소 「${m[0]}」`, k + 1, ln);
   });
 }
 
