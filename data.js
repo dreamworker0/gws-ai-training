@@ -623,7 +623,7 @@ const CURRICULUM = [
   {
     id: "a07", title: "사이트 도구", status: "ready",
     short: "사이트 도구",
-    tags: ["웹사이트", "공유", "사례"],
+    tags: ["웹사이트", "공유", "사례", "콘텐츠"],
     blurb: "코딩 없이 기관 홈페이지·내부 안내 페이지를 만드는 도구.",
     videos: [
       { t: "누구나 따라 만드는 Google Sites", id: "IllRuTgMqOY", date: "2025-03-30", channel: "G-CREATOR" },
@@ -649,7 +649,7 @@ const CURRICULUM = [
   {
     id: "a08-vids", title: "구글 비즈(Vids)", status: "ready",
     short: "구글 비즈",
-    tags: ["영상", "AI도구", "콘텐츠"],
+    tags: ["영상", "콘텐츠"],
     blurb: "AI로 대본과 장면을 구성해 기관 소개·교육 영상을 만드는 방법.",
     videos: [
       { t: "Google Vids 사용법 완벽 가이드", id: "ODeSuIaiEDk", date: "2026-04-07", channel: "지투지 - 지식에서 지혜로" },
@@ -715,7 +715,7 @@ const CURRICULUM = [
   {
     id: "b01", title: "구글 AI 스튜디오 바이브 코딩", status: "ready",
     short: "AI 스튜디오",
-    tags: ["바이브코딩", "AI도구", "앱만들기"],
+    tags: ["앱 만들기"],
     blurb: "말로 설명하면 앱이 만들어집니다. 무료로 시작할 수 있는 입구입니다.",
     videos: [
       { t: "구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck", date: "2026-03-30", channel: "행글라이터" },
@@ -729,7 +729,7 @@ const CURRICULUM = [
   {
     id: "b02", title: "깃허브 + 버셀 배포", status: "ready",
     short: "깃허브 · 버셀",
-    tags: ["배포", "깃허브", "앱만들기"],
+    tags: ["배포", "깃허브", "앱 만들기"],
     blurb: "만든 것을 남이 볼 수 있는 주소로 올리는 일. 지금 보고 계신 이 페이지도 이 방법으로 올라갑니다.",
     videos: [
       { t: "Vercel로 내가 만든 웹 사이트 배포하기", id: "GX9QbJiiQyQ", date: "2025-05-02", channel: "용코딩" },
@@ -821,7 +821,7 @@ const CURRICULUM = [
   {
     id: "b04", title: "에이전트 AI 도구 (코덱스, 클로드)", status: "ready",
     short: "에이전트 도구",
-    tags: ["AI도구", "에이전트", "바이브코딩"],
+    tags: ["에이전트", "앱 만들기"],
     blurb: "지시를 내리면 스스로 일하는 도구. 비개발자도 쓸 수 있습니다.",
     lesson: [
       {
@@ -884,7 +884,7 @@ const CURRICULUM = [
   {
     id: "b06", title: "바이브 코딩 1 (파이어베이스)", status: "ready",
     short: "파이어베이스",
-    tags: ["바이브코딩", "앱만들기", "데이터베이스"],
+    tags: ["앱 만들기", "데이터베이스"],
     blurb: "데이터가 쌓이는 앱을 만드는 단계. 로그인·저장이 되는 진짜 앱입니다.",
     lesson: [
       {
@@ -915,7 +915,7 @@ const CURRICULUM = [
   {
     id: "b07", title: "바이브 코딩 2 (API 사용)", status: "own",
     short: "API",
-    tags: ["API", "앱만들기", "바이브코딩"],
+    tags: ["API", "앱 만들기"],
     blurb: "다른 서비스와 주고받게 만드는 단계. 강사님 실습 중심 회차입니다.",
     videos: [
       { t: "구글 AI 스튜디오로 바이브 코딩하기", id: "DQV06YYH9Ck", date: "2026-03-30", channel: "행글라이터" },
@@ -928,7 +928,7 @@ const CURRICULUM = [
   {
     id: "b08", title: "멀티 에이전트 만들기", status: "ready",
     short: "멀티 에이전트",
-    tags: ["에이전트", "AI도구", "자동화"],
+    tags: ["에이전트", "자동화"],
     blurb: "일을 나눠 맡는 여러 에이전트를 두는 방법.",
     videos: [
       { t: "Claude 스킬·서브에이전트·커맨드 개념 정리", id: "2eqPBLgVH0U", date: "2026-02-08", channel: "코딩알려주는누나" },
@@ -964,7 +964,7 @@ const CURRICULUM = [
   {
     id: "b11", title: "나만의 외장 두뇌 만들기", status: "own",
     short: "외장 두뇌",
-    tags: ["에이전트", "AI도구", "자동화"],
+    tags: ["에이전트", "자동화"],
     blurb: "내 일을 기억하는 비서를 두는 마지막 단계. 강사님 고유 커리큘럼입니다.",
     videos: [],
     docs: [],

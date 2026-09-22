@@ -117,7 +117,12 @@ var Find = (function () {
     CURRICULUM.forEach(function (it) {
       (it.tags || []).forEach(function (t) { use[t] = (use[t] || 0) + 1; });
     });
-    var tags = Object.keys(use).filter(function (t) { return use[t] >= minUse; })
+    /* 「기초」는 주제가 아니라 난이도입니다. 10개 항목에 붙어 한가운데에 가장 굵은
+       선다발을 만드는데, 「이건 쉬운 것들」이라는 뜻일 뿐 서로 이어져 있다는 뜻이
+       아닙니다. 항목 화면의 태그 목록에는 그대로 두고 관계도에서만 뺍니다. */
+    var NOT_TOPIC = { "기초": 1 };
+    var tags = Object.keys(use)
+                     .filter(function (t) { return use[t] >= minUse && !NOT_TOPIC[t]; })
                      .sort(function (a, b) { return use[b] - use[a]; });
 
     var nodes = [], edges = [];
