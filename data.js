@@ -267,7 +267,7 @@ const GROUPS = [
     items: ["b04", "b05", "b08", "b11"],
   },
   {
-    id: "build", title: "직접 만들기", tag: "7",
+    id: "build", title: "AI로 앱 직접 만들기", tag: "7",
     blurb: "한 걸음 더 — 우리 기관에 맞는 것을 짓습니다",
     items: ["b01", "b06", "b07", "b02", "b09", "b10"],
   },
