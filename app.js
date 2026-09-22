@@ -507,6 +507,7 @@
 
     var HOME_ANCHORS = {
       top: true,          /* 제목을 누르면 여기로 — 표준상 문서 맨 위를 뜻합니다 */
+      main: true,
       hero: true,
       education: true,
       curriculum: true,
@@ -719,12 +720,20 @@
     function close() {
       box.hidden = true;
       document.body.style.overflow = "";
-      if (document.fullscreenElement && document.exitFullscreen) {
-        try { document.exitFullscreen(); } catch (e) {}
+      function restoreFocus() {
+        var target = ArchiveUI.returnFocusTarget(opener);
+        opener = null;
+        if (target) target.focus();
       }
-      var target = ArchiveUI.returnFocusTarget(opener);
-      opener = null;
-      if (target) target.focus();
+      if (document.fullscreenElement && document.exitFullscreen) {
+        try {
+          var ending = document.exitFullscreen();
+          if (ending && ending.then) ending.then(restoreFocus, restoreFocus);
+          else restoreFocus();
+        } catch (e) { restoreFocus(); }
+      } else {
+        restoreFocus();
+      }
     }
 
     function step(n) {

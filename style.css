@@ -132,6 +132,17 @@ a { color: var(--brand); }
 }
 .nav a:hover { background: var(--bg-alt); color: var(--fg); }
 
+@media (min-width: 641px) and (max-width: 1050px) {
+  .top .wrap { flex-wrap: nowrap; gap: 8px; }
+  .brand { gap: 7px; }
+  .top h1 { font-size: 15px; white-space: nowrap; }
+  .top #site-sub { display: none; }
+  .searchbox { min-width: 120px; flex-basis: 120px; }
+  .nav { flex-wrap: nowrap; gap: 0; }
+  .nav a { padding-inline: 5px; font-size: 13px; white-space: nowrap; }
+  .mobile-actions { flex: none; }
+}
+
 /* ── 섹션 ─────────────────────────────────────────── */
 .band { padding: 44px 0; border-bottom: 1px solid var(--line); }
 .band.alt { background: var(--bg-alt); }

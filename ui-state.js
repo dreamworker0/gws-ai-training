@@ -12,7 +12,7 @@ const ArchiveUI = {
     return !isMobile || index === 0;
   },
   routeKind(raw, itemIds, deckIds) {
-    if (["", "top", "hero", "education", "curriculum", "slides-home", "faq", "contact"].includes(raw)) return "home";
+    if (["", "top", "main", "hero", "education", "curriculum", "slides-home", "faq", "contact"].includes(raw)) return "home";
     if (raw === "graph") return "graph";
     if (raw === "slides") return "slides";
     const itemMatch = /^slides-([a-z][a-z0-9-]*)$/.exec(raw);

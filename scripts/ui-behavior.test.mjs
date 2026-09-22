@@ -17,6 +17,7 @@ assert.equal(UI.defaultGroupOpen(3, false), true);
 const itemIds = new Set(["a04"]);
 const deckIds = new Set(["calendar"]);
 assert.equal(UI.routeKind("unknown", itemIds, deckIds), "notFound");
+assert.equal(UI.routeKind("main", itemIds, deckIds), "home");
 assert.equal(UI.routeKind("a04", itemIds, deckIds), "item");
 assert.equal(UI.routeKind("slides-a04", itemIds, deckIds), "slides");
 assert.equal(UI.routeKind("slides-missing", itemIds, deckIds), "notFound");
