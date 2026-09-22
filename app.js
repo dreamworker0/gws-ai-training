@@ -20,12 +20,19 @@
       .replace(/\n/g, "<br>");
   }
 
+  /* 그림을 못 불러오면 대신 글자를 보여 줍니다.
+     ⚠️ 두 가지를 조심합니다.
+       ① 아직 주소가 안 들어간 <img> 는 브라우저가 「다 불러왔는데 크기 0」 이라고
+          알려 줍니다. 그걸 실패로 보면 멀쩡한 자리를 지워 버립니다.
+          전체 화면 덮개가 그렇게 죽었습니다(2026-09-22).
+       ② 다시 쓰는 <img> 는 지우면 안 됩니다. 한 번 지우면 되살릴 자리가 없습니다.
+          그런 곳에는 data-keep 을 답니다. */
   function installImageFallbacks(root) {
     (root || document).querySelectorAll("img").forEach(function (img) {
-      if (img.dataset.fallbackReady) return;
+      if (img.dataset.fallbackReady || img.hasAttribute("data-keep")) return;
       img.dataset.fallbackReady = "true";
       function handleError() {
-        if (!img.isConnected) return;
+        if (!img.isConnected || !img.getAttribute("src")) return;
         var fallback = document.createElement("span");
         fallback.className = "media-fallback";
         fallback.textContent = img.id === "hero-image"
@@ -35,7 +42,7 @@
         img.replaceWith(fallback);
       }
       img.addEventListener("error", handleError, { once: true });
-      if (img.complete && img.naturalWidth === 0) handleError();
+      if (img.getAttribute("src") && img.complete && img.naturalWidth === 0) handleError();
     });
   }
 
