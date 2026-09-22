@@ -237,7 +237,7 @@ const SLIDE_TITLES = {
    ─────────────────────────────────────────────────────────────────── */
 const GROUPS = [
   {
-    id: "start", title: "시작하기", tag: "1",
+    id: "start", title: "구글 워크스페이스 시작하기", tag: "1",
     blurb: "왜 하는지, 그리고 첫날 막히지 않으려면",
     items: ["a01", "s01", "a00", "setup", "a05"],
   },
@@ -385,7 +385,7 @@ const CURRICULUM = [
 
   /* ---------- A트랙 : 구글 워크스페이스 기초 (전체 인원) ---------- */
   {
-    id: "a00", title: "가입 방법", status: "ready",
+    id: "a00", title: "구글 워크스페이스 가입 방법", status: "ready",
     short: "가입 방법",
     tags: ["가입", "비영리", "계정·보안", "기초"],
     blurb: "비영리단체용 Google Workspace를 신청하고 기관 계정을 만드는 순서를 안내합니다.",
