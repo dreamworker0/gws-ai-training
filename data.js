@@ -244,13 +244,13 @@ const GROUPS = [
   {
     id: "work", title: "함께 일하기", tag: "2",
     blurb: "문서·일정·소통 — 매일 쓰는 것들",
-    items: ["a02", "a03", "a04", "a09", "a08", "a12",
+    items: ["a02", "a03", "a04", "a09", "a08", "a12", "a10",
             "a06", "a06-map", "a08-vids", "a07", "a11"],
   },
   {
     id: "data", title: "자료를 쌓고 읽기", tag: "3",
     blurb: "쌓아 둔 것이 있어야 분석도 자동화도 됩니다",
-    items: ["b12", "b03", "a10", "b13"],
+    items: ["b12", "b03", "b13"],
   },
   {
     id: "agent", title: "AI에게 일 시키기", tag: "4",
