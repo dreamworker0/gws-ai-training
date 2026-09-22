@@ -19,6 +19,10 @@
   --b:         #8f4a34;
   --a-soft:    var(--sage);
   --b-soft:    #f3ddd2;
+  --d:         #2f6690;
+  --d-soft:    #dde9f2;
+  --e:         #6b4a8f;
+  --e-soft:    #e7def3;
   --warn:      #9a5b00;
   --radius:    12px;
   --maxw:      1080px;
@@ -42,6 +46,10 @@
     --b:         var(--terracotta);
     --a-soft:    var(--sage);
     --b-soft:    #422b23;
+    --d:         #8fbcdd;
+    --d-soft:    #23384a;
+    --e:         #c0a6dd;
+    --e-soft:    #352b45;
     --warn:      var(--terracotta);
   }
 }
@@ -50,6 +58,7 @@
   --bg:#101a16; --bg-alt:#182620; --fg:var(--ink); --fg-soft:#a8b9b1;
   --line:#31443c; --brand:var(--forest); --brand-soft:var(--sage);
   --a:var(--forest); --b:var(--terracotta); --a-soft:var(--sage); --b-soft:#422b23; --warn:var(--terracotta);
+  --d:#8fbcdd; --d-soft:#23384a; --e:#c0a6dd; --e-soft:#352b45;
 }
 
 * { box-sizing: border-box; }
@@ -157,20 +166,30 @@ a { color: var(--brand); }
 .quote cite { font-style: normal; font-size: 13px; color: var(--fg-soft); }
 
 /* ── 트랙 ─────────────────────────────────────────── */
-.tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
-.track-head {
+/* 묶음 — 「하고 싶은 일」 다섯 갈래. 번호는 없앴습니다(진도표가 아니므로). */
+#groups { display: grid; gap: 30px; }
+.group-head {
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
   font-size: 17px; margin: 0 0 12px; letter-spacing: -0.01em;
 }
-.track-head em { font-style: normal; font-size: 13px; color: var(--fg-soft); width: 100%; }
+.group-head em { font-style: normal; font-size: 13px; color: var(--fg-soft); width: 100%; }
 .tag {
   font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px;
+  background: var(--bg-alt); color: var(--fg-soft);
+  min-width: 22px; text-align: center;
 }
-.tag.a { background: var(--a-soft); color: var(--a); }
-.tag.b { background: var(--b-soft); color: var(--b); }
-.tag.s { background: var(--brand); color: #fff; }
-.item.s .num { background: var(--brand); color: #fff; }
-#track-s-wrap { margin-bottom: 30px; }
+.g-start .tag, .g-start.group .tag { background: var(--brand); color: #fff; }
+.g-work  .tag { background: var(--a-soft); color: var(--a); }
+.g-data  .tag { background: var(--d-soft); color: var(--d); }
+.g-agent .tag { background: var(--b-soft); color: var(--b); }
+.g-build .tag { background: var(--e-soft); color: var(--e); }
+
+/* 항목 카드 왼쪽에 묶음 색 한 줄 — 검색 결과에서도 어느 갈래인지 보입니다. */
+.item.g-start { border-left: 3px solid var(--brand); }
+.item.g-work  { border-left: 3px solid var(--a); }
+.item.g-data  { border-left: 3px solid var(--d); }
+.item.g-agent { border-left: 3px solid var(--b); }
+.item.g-build { border-left: 3px solid var(--e); }
 
 .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .item {
@@ -183,13 +202,6 @@ a { color: var(--brand); }
 }
 .item:hover { border-color: var(--brand); transform: translateX(2px); }
 .item:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.item .num {
-  flex: none; width: 26px; height: 26px; border-radius: 7px;
-  display: grid; place-items: center; font-size: 13px; font-weight: 700;
-  background: var(--bg-alt); color: var(--fg-soft);
-}
-.item.a .num { background: var(--a-soft); color: var(--a); }
-.item.b .num { background: var(--b-soft); color: var(--b); }
 .item .ti { flex: 1; min-width: 0; }
 .item .ti b { display: block; font-size: 15px; font-weight: 600; }
 .item .ti small { color: var(--fg-soft); font-size: 13px; }
@@ -309,7 +321,6 @@ a.pg:hover { border-color: var(--brand); }
 
 /* ── 좁은 화면 ─────────────────────────────────────── */
 @media (max-width: 860px) {
-  .tracks { grid-template-columns: 1fr; }
   .setup-body { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
@@ -392,12 +403,16 @@ a.pg:hover { border-color: var(--brand); }
   text-anchor: middle; font-size: 13px; font-weight: 600; fill: var(--fg);
   pointer-events: none;
 }
-.graph .gn.tA rect { fill: var(--a-soft); stroke: var(--a); }
-.graph .gn.tA text { fill: var(--a); }
-.graph .gn.tB rect { fill: var(--b-soft); stroke: var(--b); }
-.graph .gn.tB text { fill: var(--b); }
-.graph .gn.tS rect { fill: var(--brand); stroke: var(--brand); }
-.graph .gn.tS text { fill: #fff; }
+.graph .gn.g-start rect { fill: var(--brand); stroke: var(--brand); }
+.graph .gn.g-start text { fill: #fff; }
+.graph .gn.g-work rect { fill: var(--a-soft); stroke: var(--a); }
+.graph .gn.g-work text { fill: var(--a); }
+.graph .gn.g-data rect { fill: var(--d-soft); stroke: var(--d); }
+.graph .gn.g-data text { fill: var(--d); }
+.graph .gn.g-agent rect { fill: var(--b-soft); stroke: var(--b); }
+.graph .gn.g-agent text { fill: var(--b); }
+.graph .gn.g-build rect { fill: var(--e-soft); stroke: var(--e); }
+.graph .gn.g-build text { fill: var(--e); }
 .graph .gn:hover rect { stroke-width: 3; }
 
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--fg-soft); margin: 0 0 14px; }
@@ -406,9 +421,11 @@ a.pg:hover { border-color: var(--brand); }
   width: 22px; height: 13px; border-radius: 7px; display: inline-block;
   border: 1.5px solid var(--fg-soft); background: var(--bg-alt);
 }
-.legend i.lA { background: var(--a-soft); border-color: var(--a); }
-.legend i.lB { background: var(--b-soft); border-color: var(--b); }
-.legend i.lS { background: var(--brand); border-color: var(--brand); }
+.legend i.g-start { background: var(--brand); border-color: var(--brand); }
+.legend i.g-work  { background: var(--a-soft); border-color: var(--a); }
+.legend i.g-data  { background: var(--d-soft); border-color: var(--d); }
+.legend i.g-agent { background: var(--b-soft); border-color: var(--b); }
+.legend i.g-build { background: var(--e-soft); border-color: var(--e); }
 
 /* ── 밝게 / 어둡게 단추 ───────────────────────────── */
 .themebtn {

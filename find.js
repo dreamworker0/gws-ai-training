@@ -25,6 +25,11 @@ var Find = (function () {
     INDEX.push({ kind: kind, label: label, sub: sub, hash: hash, hay: norm(label + " " + sub + " " + (text || "")) });
   }
 
+  var GROUP_OF = {};
+  (typeof GROUPS !== "undefined" ? GROUPS : []).forEach(function (g) {
+    g.items.forEach(function (id) { GROUP_OF[id] = g; });
+  });
+
   function buildIndex() {
     if (INDEX.length) return INDEX;
 
@@ -34,7 +39,10 @@ var Find = (function () {
         body += " " + l.h + " " + l.p + " " + (l.after || "") + " " + (l.said || "");
       });
       (it.notes || []).forEach(function (n) { body += " " + n; });
-      push("항목", it.title, it.track + it.no + " · " + (it.tags || []).join(" · "), "#" + it.id, body);
+      var g = GROUP_OF[it.id];
+      push("항목", it.title,
+           (g ? g.title + " · " : "") + (it.tags || []).join(" · "),
+           "#" + it.id, body + " " + (g ? g.title : ""));
 
       (it.videos || []).forEach(function (v) {
         push("영상", v.t, it.title, "#" + it.id, it.title);
@@ -136,7 +144,8 @@ var Find = (function () {
       });
       var label = it.short || it.title;
       nodes.push({ id: it.id, kind: "item", label: label, title: it.title,
-                   track: it.track, w: textW(label, FS_I) + 24, h: 30, fixed: false,
+                   group: (GROUP_OF[it.id] || {}).id || "x",
+                   w: textW(label, FS_I) + 24, h: 30, fixed: false,
                    cx0: sx / mine.length, cy0: sy / mine.length });
       mine.forEach(function (t) { edges.push([it.id, "t:" + t]); });
     });
@@ -241,7 +250,7 @@ var Find = (function () {
     nodes.forEach(function (v) {
       h += (v.kind === "tag")
         ? pill(v, "gt", null, v.n + "개 항목이 이 주제에 걸립니다")
-        : pill(v, "gn t" + v.track, "#" + v.id, v.title);
+        : pill(v, "gn g-" + v.group, "#" + v.id, v.title);
     });
     h += "</svg>";
     return h;

@@ -46,11 +46,12 @@
     });
   }
 
-  var TRACK_NAME = {
-    S: "먼저 보기",
-    A: "A트랙 · 구글 워크스페이스 기초",
-    B: "B트랙 · 에이전트 기반 업무 자동화",
-  };
+  /* 묶음은 GROUPS 하나에만 적혀 있습니다 (data.js). 여기서는 항목 → 묶음을
+     거꾸로 찾아 두기만 합니다. 두 군데에 적으면 반드시 어긋납니다. */
+  var GROUP_OF = {};
+  GROUPS.forEach(function (g) {
+    g.items.forEach(function (id) { GROUP_OF[id] = g; });
+  });
   var HIDDEN = {};
   (typeof SLIDE_HIDDEN !== "undefined" ? SLIDE_HIDDEN : []).forEach(function (r) { HIDDEN[r] = 1; });
   var INLINE_SLIDES = 8;   /* 항목 페이지에 바로 보이는 장수 */
@@ -128,8 +129,8 @@
     if (it.status === "own") flags.push('<span class="chip own">현장 실습</span>');
     if (it.videos.length) flags.push('<span class="chip vid">영상 ' + it.videos.length + "</span>");
 
-    return '<li><a class="item ' + it.track.toLowerCase() + '" href="#' + it.id + '">' +
-      '<span class="num">' + it.no + "</span>" +
+    var g = GROUP_OF[it.id];
+    return '<li><a class="item g-' + (g ? g.id : "x") + '" href="#' + it.id + '">' +
       '<span class="ti"><b>' + esc(it.title) + "</b><small>" + esc(it.blurb) + "</small></span>" +
       '<span class="flags">' + flags.join("") + "</span>" +
       "</a></li>";
@@ -145,15 +146,24 @@
       '<p>' + esc(about.description) + '</p><p class="educator">' + esc(about.educator) + '</p></div>';
   }
 
-  var trackS = CURRICULUM.filter(function (i) { return i.track === "S"; });
-  var trackA = CURRICULUM.filter(function (i) { return i.track === "A"; });
-  var trackB = CURRICULUM.filter(function (i) { return i.track === "B"; });
-  if ($("track-s")) {
-    $("track-s").innerHTML = trackS.map(itemRow).join("");
-    if (!trackS.length) $("track-s-wrap").hidden = true;
+  /* 묶음마다 한 덩이씩. GROUPS 에 한 줄 더하면 여기도 늘어납니다. */
+  function groupItems(g) {
+    return g.items.map(findItem).filter(Boolean);
   }
-  $("track-a").innerHTML = trackA.map(itemRow).join("");
-  $("track-b").innerHTML = trackB.map(itemRow).join("");
+  if ($("groups")) {
+    $("groups").innerHTML = GROUPS.map(function (g) {
+      var list = groupItems(g);
+      if (!list.length) return "";
+      return '<section class="group g-' + g.id + '">' +
+        '<h3 class="group-head">' +
+          '<span class="tag">' + esc(g.tag) + "</span>" +
+          esc(g.title) +
+          '<em>' + esc(g.blurb) + " · " + list.length + "항목</em>" +
+        "</h3>" +
+        '<ol class="items">' + list.map(itemRow).join("") + "</ol>" +
+      "</section>";
+    }).join("");
+  }
   if ($("education-about")) {
     $("education-about").innerHTML = renderAbout(ABOUT_DREAMWORK);
   }
@@ -182,7 +192,8 @@
 
   function renderItem(it) {
     var h = "";
-    h += '<p class="kicker">' + TRACK_NAME[it.track] + " · " + it.no + "번</p>";
+    var g = GROUP_OF[it.id];
+    if (g) h += '<p class="kicker">' + esc(g.title) + "</p>";
     h += "<h2 class='item-title'>" + esc(it.title) + "</h2>";
     h += '<p class="lede">' + esc(it.blurb) + "</p>";
     if (it.tags && it.tags.length) {
@@ -274,7 +285,9 @@
   }
 
   function renderPager(it) {
-    var list = it.track === "A" ? trackA : (it.track === "B" ? trackB : trackS);
+    /* 이전·다음은 같은 묶음 안에서만 움직입니다 */
+    var g = GROUP_OF[it.id];
+    var list = g ? groupItems(g) : [it];
     var i = list.indexOf(it);
     var prev = list[i - 1], next = list[i + 1];
     var h = "";
@@ -400,11 +413,12 @@
     h += "<h2 class='item-title'>주제 관계도</h2>";
     h += '<p class="lede">배운 것들이 서로 어떻게 이어지는지 한눈에 봅니다. ' +
          "복습하고 싶은 것을 누르면 그 항목으로 갑니다.</p>";
+    /* 범례도 GROUPS 를 그대로 읽습니다 — 묶음을 늘리면 여기도 따라 늘어납니다. */
     h += '<p class="legend">' +
          '<span><i></i> 주제</span>' +
-         '<span><i class="lS"></i> 먼저 보기</span>' +
-         '<span><i class="lA"></i> A트랙 · 기초</span>' +
-         '<span><i class="lB"></i> B트랙 · 자동화</span>' +
+         GROUPS.map(function (g) {
+           return '<span><i class="g-' + g.id + '"></i> ' + esc(g.title) + "</span>";
+         }).join("") +
          "</p>";
     h += '<figure class="fig graph-wrap">' + Find.graphSVG(2) + "</figure>";
     h += '<p class="more">바깥쪽 회색이 <b>주제</b>, 색이 있는 것이 <b>배우는 항목</b>입니다. ' +
