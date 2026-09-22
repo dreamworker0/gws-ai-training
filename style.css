@@ -23,6 +23,10 @@
   --d-soft:    #dde9f2;
   --e:         #6b4a8f;
   --e-soft:    #e7def3;
+  --f:         #a1456a;
+  --f-soft:    #f7dde6;
+  --g:         #8a5a12;
+  --g-soft:    #f4e6cd;
   --warn:      #9a5b00;
   --radius:    12px;
   --maxw:      1080px;
@@ -50,6 +54,10 @@
     --d-soft:    #23384a;
     --e:         #c0a6dd;
     --e-soft:    #352b45;
+    --f:         #e3a0ba;
+    --f-soft:    #45222f;
+    --g:         #d9b071;
+    --g-soft:    #40331c;
     --warn:      var(--terracotta);
   }
 }
@@ -59,6 +67,7 @@
   --line:#31443c; --brand:var(--forest); --brand-soft:var(--sage);
   --a:var(--forest); --b:var(--terracotta); --a-soft:var(--sage); --b-soft:#422b23; --warn:var(--terracotta);
   --d:#8fbcdd; --d-soft:#23384a; --e:#c0a6dd; --e-soft:#352b45;
+  --f:#e3a0ba; --f-soft:#45222f; --g:#d9b071; --g-soft:#40331c;
 }
 
 * { box-sizing: border-box; }
@@ -178,18 +187,22 @@ a { color: var(--brand); }
   background: var(--bg-alt); color: var(--fg-soft);
   min-width: 22px; text-align: center;
 }
-.g-start .tag, .g-start.group .tag { background: var(--brand); color: #fff; }
-.g-work  .tag { background: var(--a-soft); color: var(--a); }
-.g-data  .tag { background: var(--d-soft); color: var(--d); }
-.g-agent .tag { background: var(--b-soft); color: var(--b); }
-.g-build .tag { background: var(--e-soft); color: var(--e); }
+.g-start    .tag { background: var(--brand);  color: #fff; }
+.g-talk     .tag { background: var(--a-soft); color: var(--a); }
+.g-keepwork .tag { background: var(--f-soft); color: var(--f); }
+.g-share    .tag { background: var(--g-soft); color: var(--g); }
+.g-data     .tag { background: var(--d-soft); color: var(--d); }
+.g-agent    .tag { background: var(--b-soft); color: var(--b); }
+.g-build    .tag { background: var(--e-soft); color: var(--e); }
 
 /* 항목 카드 왼쪽에 묶음 색 한 줄 — 검색 결과에서도 어느 갈래인지 보입니다. */
-.item.g-start { border-left: 3px solid var(--brand); }
-.item.g-work  { border-left: 3px solid var(--a); }
-.item.g-data  { border-left: 3px solid var(--d); }
-.item.g-agent { border-left: 3px solid var(--b); }
-.item.g-build { border-left: 3px solid var(--e); }
+.item.g-start    { border-left: 3px solid var(--brand); }
+.item.g-talk     { border-left: 3px solid var(--a); }
+.item.g-keepwork { border-left: 3px solid var(--f); }
+.item.g-share    { border-left: 3px solid var(--g); }
+.item.g-data     { border-left: 3px solid var(--d); }
+.item.g-agent    { border-left: 3px solid var(--b); }
+.item.g-build    { border-left: 3px solid var(--e); }
 
 .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .item {
@@ -405,8 +418,12 @@ a.pg:hover { border-color: var(--brand); }
 }
 .graph .gn.g-start rect { fill: var(--brand); stroke: var(--brand); }
 .graph .gn.g-start text { fill: #fff; }
-.graph .gn.g-work rect { fill: var(--a-soft); stroke: var(--a); }
-.graph .gn.g-work text { fill: var(--a); }
+.graph .gn.g-talk rect { fill: var(--a-soft); stroke: var(--a); }
+.graph .gn.g-talk text { fill: var(--a); }
+.graph .gn.g-keepwork rect { fill: var(--f-soft); stroke: var(--f); }
+.graph .gn.g-keepwork text { fill: var(--f); }
+.graph .gn.g-share rect { fill: var(--g-soft); stroke: var(--g); }
+.graph .gn.g-share text { fill: var(--g); }
 .graph .gn.g-data rect { fill: var(--d-soft); stroke: var(--d); }
 .graph .gn.g-data text { fill: var(--d); }
 .graph .gn.g-agent rect { fill: var(--b-soft); stroke: var(--b); }
@@ -422,7 +439,9 @@ a.pg:hover { border-color: var(--brand); }
   border: 1.5px solid var(--fg-soft); background: var(--bg-alt);
 }
 .legend i.g-start { background: var(--brand); border-color: var(--brand); }
-.legend i.g-work  { background: var(--a-soft); border-color: var(--a); }
+.legend i.g-talk  { background: var(--a-soft); border-color: var(--a); }
+.legend i.g-keepwork { background: var(--f-soft); border-color: var(--f); }
+.legend i.g-share { background: var(--g-soft); border-color: var(--g); }
 .legend i.g-data  { background: var(--d-soft); border-color: var(--d); }
 .legend i.g-agent { background: var(--b-soft); border-color: var(--b); }
 .legend i.g-build { background: var(--e-soft); border-color: var(--e); }
