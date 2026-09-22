@@ -25,6 +25,21 @@ assert.equal(data.META.displayTitle, "드림워크 교육 아카이브");
 assert.equal(data.META.displaySubtitle, "Google Workspace와 AI 교육 기록");
 assert.ok(data.CURRICULUM.find((item) => item.id === "a00"), "가입 안내 항목 누락");
 assert.ok(data.ITEM_SLIDES.a00.length > 0, "가입 안내 발표자료 누락");
+const deckPages = Object.fromEntries(data.DECKS.map((deck) => [deck.id, deck.pages]));
+assert.equal(deckPages.calendar, 9);
+assert.equal(deckPages.keep, 8);
+assert.equal(deckPages.chat, 7);
+assert.deepEqual(data.ITEM_SLIDES.a04, Array.from({ length: 9 }, (_, i) => `calendar:${i + 1}`));
+assert.deepEqual(data.ITEM_SLIDES.a06, ["keep:1", "keep:2", "keep:3", "keep:4"]);
+assert.deepEqual(data.ITEM_SLIDES["a06-map"], ["keep:5", "keep:6", "keep:7", "keep:8"]);
+assert.deepEqual(data.ITEM_SLIDES.a12, Array.from({ length: 7 }, (_, i) => `chat:${i + 1}`));
+for (const [itemId, refs] of Object.entries(data.ITEM_SLIDES)) {
+  for (const ref of refs) {
+    const [deckId, pageText] = ref.split(":");
+    assert.ok(deckPages[deckId], `${itemId}: 존재하지 않는 덱 ${deckId}`);
+    assert.ok(Number(pageText) >= 1 && Number(pageText) <= deckPages[deckId], `${itemId}: 범위 밖 참조 ${ref}`);
+  }
+}
 
 const videos = data.CURRICULUM.flatMap((item) => item.videos || []);
 for (const video of videos) {

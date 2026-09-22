@@ -100,6 +100,9 @@ const DECKS = [
   { id: "rec0921a03", title: "9/21 스프레드시트 협업 (녹음 기반)", pages: 11 },
   { id: "signup", title: "비영리단체용 워크스페이스 가입 방법", pages: 14 },
   { id: "rec0922a01", title: "스마트워크 개념과 연결 3단계 (녹음 기반)", pages: 14 },
+  { id: "calendar", title: "구글 캘린더", pages: 9 },
+  { id: "keep", title: "구글 킵 · 내 지도", pages: 8 },
+  { id: "chat", title: "Google Chat · Slack", pages: 7 },
 ];
 
 /* 목록에서 감추는 쪽 — 지금은 없습니다.
@@ -141,6 +144,10 @@ const ITEM_SLIDES = {
     "rec0921a05:7", "rec0921a05:8", "rec0921a05:9", "rec0921a05:10", "rec0921a05:11", "rec0921a05:12",
     "rec0921a05:13",
   ],
+  a04: ["calendar:1", "calendar:2", "calendar:3", "calendar:4", "calendar:5", "calendar:6", "calendar:7", "calendar:8", "calendar:9"],
+  a06: ["keep:1", "keep:2", "keep:3", "keep:4"],
+  "a06-map": ["keep:5", "keep:6", "keep:7", "keep:8"],
+  a12: ["chat:1", "chat:2", "chat:3", "chat:4", "chat:5", "chat:6", "chat:7"],
 };
 
 /* 쪽 제목. 없는 쪽은 그림이 곧 내용입니다. 표기법은 위와 같습니다. */
@@ -221,6 +228,31 @@ const SLIDE_TITLES = {
   "rec0921:12": "꼭 기억해야 할 단축키 세 가지",
   "rec0921:13": "교육 후 복습 체크리스트",
   "rec0921:14": "요약 — 새롭고 쾌적한 업무 환경",
+
+  "calendar:1": "구글 캘린더",
+  "calendar:2": "캘린더를 자기를 위해 써야 합니다",
+  "calendar:3": "일정의 성격에 따라 캘린더를 나눕니다",
+  "calendar:4": "일정 하나에 회의 준비물을 모읍니다",
+  "calendar:5": "일정 만들기",
+  "calendar:6": "회의실과 차량도 일정에 초대합니다",
+  "calendar:7": "공용 자원 예약",
+  "calendar:8": "보여 줄 범위를 단계별로 정합니다",
+  "calendar:9": "일정 관리가 편해지면 좋겠습니다",
+  "keep:1": "구글 킵 · 내 지도",
+  "keep:2": "현장 메모가 PC에 그대로 이어집니다",
+  "keep:3": "메모 형식이 현장의 속도를 따라갑니다",
+  "keep:4": "Keep 알림은 날짜와 시간 중심으로 이어집니다",
+  "keep:5": "한 지도에는 업무 질문 하나를 담습니다",
+  "keep:6": "레이어가 지도에 뜻을 붙입니다",
+  "keep:7": "내 지도 만들기",
+  "keep:8": "지도는 공유할수록 함께 고칠 수 있습니다",
+  "chat:1": "Google Chat · Slack",
+  "chat:2": "업무 대화는 근무시간 안에서 울려야 합니다",
+  "chat:3": "공간 이름만 봐도 대화의 목적이 보여야 합니다",
+  "chat:4": "답글은 원래 메시지 아래에 묶습니다",
+  "chat:5": "알림을 끄는 시간도 업무 규칙입니다",
+  "chat:6": "메시지의 가치는 다시 찾을 때 드러납니다",
+  "chat:7": "한 달 뒤에도 찾을 수 있는 대화 규칙",
 
 
 
