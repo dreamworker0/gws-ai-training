@@ -45,6 +45,7 @@ python -m http.server 4173
 ```powershell
 node scripts/design-contract.test.mjs
 node scripts/ui-behavior.test.mjs
+node scripts/graph.test.mjs
 node scripts/routes.test.mjs
 node scripts/privacy.test.mjs
 node scripts/check.mjs

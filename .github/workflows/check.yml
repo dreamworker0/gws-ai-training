@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - "data.js"
+      - "find.js"
       - "scripts/**"
       - ".github/workflows/check.yml"
   schedule:
@@ -44,6 +45,9 @@ jobs:
 
       - name: 슬라이드 주소와 그림이 성한지
         run: node scripts/routes.test.mjs
+
+      - name: 관계도 주제와 항목 연결이 성한지
+        run: node scripts/graph.test.mjs
 
       - name: 링크 점검 실행
         id: check

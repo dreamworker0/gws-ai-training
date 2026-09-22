@@ -466,23 +466,63 @@
   function renderGraph() {
     var h = '<p class="kicker">관계도</p>';
     h += "<h2 class='item-title'>주제 관계도</h2>";
-    h += '<p class="lede">배운 것들이 서로 어떻게 이어지는지 한눈에 봅니다. ' +
-         "복습하고 싶은 것을 누르면 그 항목으로 갑니다.</p>";
+    h += '<p class="lede">배운 항목들이 어떤 주제로 연결되는지 살펴보고, ' +
+         "복습할 항목을 골라 보세요.</p>";
     /* 범례도 GROUPS 를 그대로 읽습니다 — 묶음을 늘리면 여기도 따라 늘어납니다. */
     h += '<p class="legend">' +
-         '<span><i></i> 주제</span>' +
+         '<span><i></i> 연결 주제</span>' +
          GROUPS.map(function (g) {
            return '<span><i class="g-' + g.id + '"></i> ' + esc(g.title) + "</span>";
          }).join("") +
          "</p>";
     h += '<figure class="fig graph-wrap">' + Find.graphSVG(2) + "</figure>";
-    h += '<p class="more">바깥쪽 회색이 <b>주제</b>, 색이 있는 것이 <b>배우는 항목</b>입니다. ' +
-         "선은 그 항목이 어떤 주제에 걸치는지 보여 줍니다 — 여러 주제에 걸친 항목일수록 가운데로 모입니다.</p>";
+    h += '<p class="more graph-note">회색은 여러 항목에 공통으로 붙은 <b>연결 주제</b>, 색은 항목의 <b>교육 분야</b>입니다. ' +
+         "항목에 마우스를 올리거나 키보드로 선택하면 연결선이 강조됩니다.</p>";
+    h += '<section class="graph-list" aria-labelledby="graph-list-title">' +
+         '<h3 id="graph-list-title">주제별 연결 목록</h3>' +
+         '<p>주제를 펼치면 관련 항목으로 바로 이동할 수 있습니다.</p>' +
+         Find.graphListHTML(2) + '</section>';
     return h;
+  }
+
+  function installGraphInteractions() {
+    var svg = $("graphbody").querySelector(".graph");
+    if (!svg) return;
+    function highlight(id) {
+      svg.classList.toggle("is-focused", !!id);
+      var connected = {};
+      svg.querySelectorAll(".ge").forEach(function (edge) {
+        var active = !!id && edge.getAttribute("data-graph-item") === id;
+        edge.classList.toggle("is-active", active);
+        if (active) connected[edge.getAttribute("data-graph-tag")] = true;
+      });
+      svg.querySelectorAll(".gn").forEach(function (node) {
+        node.classList.toggle("is-active", !!id && node.getAttribute("data-graph-item") === id);
+      });
+      svg.querySelectorAll(".gt").forEach(function (node) {
+        node.classList.toggle("is-active", !!id && !!connected[node.getAttribute("data-graph-tag")]);
+      });
+    }
+    svg.addEventListener("pointerover", function (event) {
+      var node = event.target.closest ? event.target.closest(".gn") : null;
+      if (node) highlight(node.getAttribute("data-graph-item"));
+    });
+    svg.addEventListener("pointerout", function (event) {
+      var node = event.target.closest ? event.target.closest(".gn") : null;
+      if (node && !node.contains(event.relatedTarget)) highlight(null);
+    });
+    svg.addEventListener("focusin", function (event) {
+      var node = event.target.closest ? event.target.closest(".gn") : null;
+      if (node) highlight(node.getAttribute("data-graph-item"));
+    });
+    svg.addEventListener("focusout", function (event) {
+      if (!svg.contains(event.relatedTarget)) highlight(null);
+    });
   }
 
   function showGraph() {
     $("graphbody").innerHTML = renderGraph();
+    installGraphInteractions();
     only("graph");
     document.title = "주제 관계도 — " + META.title;
     window.scrollTo(0, 0);

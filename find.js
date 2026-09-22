@@ -108,22 +108,45 @@ var Find = (function () {
     return w;
   }
 
+  function graphTopics(minUse) {
+    minUse = minUse || 2;
+    var use = {};
+    CURRICULUM.forEach(function (it) {
+      (it.tags || []).forEach(function (t) { use[t] = (use[t] || 0) + 1; });
+    });
+    /* 「기초」는 난이도이지 항목 사이의 관계를 나타내는 주제가 아닙니다. */
+    return Object.keys(use)
+      .filter(function (t) { return use[t] >= minUse && t !== "기초"; })
+      .sort(function (a, b) { return use[b] - use[a]; })
+      .map(function (tag) {
+        return {
+          tag: tag,
+          items: CURRICULUM.filter(function (it) { return (it.tags || []).indexOf(tag) > -1; })
+            .map(function (it) {
+              var group = GROUP_OF[it.id] || {};
+              return { id: it.id, title: it.title, group: group.title || "" };
+            }),
+        };
+      });
+  }
+
+  function graphListHTML(minUse) {
+    return '<div class="graph-topics">' + graphTopics(minUse).map(function (topic) {
+      return '<details><summary>' + esc(topic.tag) + ' <span>' + topic.items.length + '개 항목</span></summary>' +
+        '<ul>' + topic.items.map(function (it) {
+          return '<li><a href="#' + esc(it.id) + '">' + esc(it.title) + '</a>' +
+            '<small>' + esc(it.group) + '</small></li>';
+        }).join("") + '</ul></details>';
+    }).join("") + '</div>';
+  }
+
   function graphSVG(minUse) {
     minUse = minUse || 2;
     var W = 1060, H = 940, CX = W / 2, CY = H / 2;
     var FS_T = 13, FS_I = 13;
 
-    var use = {};
-    CURRICULUM.forEach(function (it) {
-      (it.tags || []).forEach(function (t) { use[t] = (use[t] || 0) + 1; });
-    });
-    /* 「기초」는 주제가 아니라 난이도입니다. 10개 항목에 붙어 한가운데에 가장 굵은
-       선다발을 만드는데, 「이건 쉬운 것들」이라는 뜻일 뿐 서로 이어져 있다는 뜻이
-       아닙니다. 항목 화면의 태그 목록에는 그대로 두고 관계도에서만 뺍니다. */
-    var NOT_TOPIC = { "기초": 1 };
-    var tags = Object.keys(use)
-                     .filter(function (t) { return use[t] >= minUse && !NOT_TOPIC[t]; })
-                     .sort(function (a, b) { return use[b] - use[a]; });
+    var topics = graphTopics(minUse);
+    var tags = topics.map(function (topic) { return topic.tag; });
 
     var nodes = [], edges = [];
     var RX = 398, RY = 330;
@@ -134,7 +157,7 @@ var Find = (function () {
       var tx = CX + Math.cos(a) * RX, ty = CY + Math.sin(a) * RY;
       /* 태그를 못 박아 두면 태그와 겹친 항목이 빠져나갈 길이 없습니다.
          움직이게 두되 아래에서 제자리(ax, ay)로 당겨 고리 모양은 지킵니다. */
-      nodes.push({ id: "t:" + t, kind: "tag", label: t, n: use[t],
+      nodes.push({ id: "t:" + t, kind: "tag", label: t, n: topics[i].items.length,
                    w: w, h: 30, fixed: false, anchor: true,
                    ax: tx, ay: ty, x: tx, y: ty });
     });
@@ -236,7 +259,9 @@ var Find = (function () {
 
     function pill(v, cls, href, title) {
       var x = (v.x - v.w / 2).toFixed(1), y = (v.y - v.h / 2).toFixed(1);
-      var s = (href ? '<a href="' + href + '" class="' + cls + '">' : '<g class="' + cls + '">');
+      var s = (href
+        ? '<a href="' + href + '" class="' + cls + '" data-graph-item="' + esc(v.id) + '" aria-label="' + esc(v.title) + '">'
+        : '<g class="' + cls + '" data-graph-tag="' + esc(v.label) + '">');
       s += '<rect x="' + x + '" y="' + y + '" width="' + v.w.toFixed(1) +
            '" height="' + v.h + '" rx="15"/>';
       s += '<text x="' + v.x.toFixed(1) + '" y="' + (v.y + 4.5).toFixed(1) + '">' + esc(v.label) + "</text>";
@@ -246,11 +271,12 @@ var Find = (function () {
     }
 
     var h = '<svg viewBox="0 0 ' + W + " " + H + '" xmlns="http://www.w3.org/2000/svg" class="graph" ' +
-            'role="img" aria-label="주제 관계도 — 주제와 목차 항목을 잇는 그림">';
+            'role="group" aria-label="주제 관계도 — 주제와 목차 항목을 잇는 그림">';
     edges.forEach(function (e) {
       var A = byId[e[0]], B = byId[e[1]];
       h += '<line x1="' + A.x.toFixed(1) + '" y1="' + A.y.toFixed(1) +
-           '" x2="' + B.x.toFixed(1) + '" y2="' + B.y.toFixed(1) + '" class="ge"/>';
+           '" x2="' + B.x.toFixed(1) + '" y2="' + B.y.toFixed(1) + '" class="ge" data-graph-item="' +
+           esc(e[0]) + '" data-graph-tag="' + esc(e[1].slice(2)) + '"/>';
     });
     nodes.forEach(function (v) {
       h += (v.kind === "tag")
@@ -261,5 +287,6 @@ var Find = (function () {
     return h;
   }
 
-  return { buildIndex: buildIndex, search: search, relatedItems: relatedItems, graphSVG: graphSVG };
+  return { buildIndex: buildIndex, search: search, relatedItems: relatedItems,
+           graphTopics: graphTopics, graphListHTML: graphListHTML, graphSVG: graphSVG };
 })();
