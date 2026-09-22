@@ -53,6 +53,11 @@ for (const forbidden of ["기관별 진행 상황", "중림종합사회복지관
 }
 
 const html = await readFile(new URL("index.html", root), "utf8");
+for (const token of [
+  'id="viewer"', 'role="dialog"', 'aria-modal="true"',
+  'aria-labelledby="viewer-title"', 'id="viewer-title"',
+  'id="v-count"', 'aria-live="polite"',
+]) assert.ok(html.includes(token), `뷰어 접근성 속성 누락: ${token}`);
 assert.match(html, /id="notfoundpage"/);
 assert.match(html, /요청한 자료를 찾지 못했습니다/);
 assert.match(html, /JavaScript를 켜야 30개 주제 목록/);

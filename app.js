@@ -670,7 +670,7 @@
     if (!e.target.closest(".searchbox")) closeSearch(true);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "/" && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
+    if (e.key === "/" && $("viewer").hidden && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
   });
 
   /* ── 전체 화면으로 보기 ─────────────────────────────
@@ -679,7 +679,7 @@
     var box = $("viewer");
     if (!box) return;
     var img = $("viewer-img"), cnt = $("v-count");
-    var list = [], at = -1;
+    var list = [], at = -1, opener = null;
 
     function draw() {
       var ref = list[at];
@@ -692,7 +692,8 @@
       $("v-next").disabled = at >= list.length - 1;
     }
 
-    function open(ref, from) {
+    function open(ref, from, trigger) {
+      opener = trigger || document.activeElement;
       var r = parseRef(ref);
       if (from && ITEM_SLIDES[from]) {
         list = ITEM_SLIDES[from].slice();
@@ -706,7 +707,13 @@
       box.hidden = false;
       document.body.style.overflow = "hidden";
       draw();
-      if (box.requestFullscreen) { try { box.requestFullscreen(); } catch (e) {} }
+      $("v-close").focus();
+      if (box.requestFullscreen) {
+        try {
+          var fullscreen = box.requestFullscreen();
+          if (fullscreen && fullscreen.catch) fullscreen.catch(function () {});
+        } catch (e) {}
+      }
     }
 
     function close() {
@@ -715,6 +722,9 @@
       if (document.fullscreenElement && document.exitFullscreen) {
         try { document.exitFullscreen(); } catch (e) {}
       }
+      var target = ArchiveUI.returnFocusTarget(opener);
+      opener = null;
+      if (target) target.focus();
     }
 
     function step(n) {
@@ -725,7 +735,7 @@
 
     document.addEventListener("click", function (e) {
       var b = e.target.closest ? e.target.closest(".fsbtn") : null;
-      if (b) { open(b.getAttribute("data-full"), b.getAttribute("data-from")); return; }
+      if (b) { open(b.getAttribute("data-full"), b.getAttribute("data-from"), b); return; }
       if (box.hidden) return;
       if (e.target.id === "v-prev") step(-1);
       else if (e.target.id === "v-next") step(1);
@@ -734,7 +744,13 @@
 
     document.addEventListener("keydown", function (e) {
       if (box.hidden) return;
-      if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
+      if (e.key === "Tab") {
+        var buttons = Array.from(box.querySelectorAll("button:not(:disabled)"));
+        var current = buttons.indexOf(document.activeElement);
+        if (e.shiftKey && current <= 0) { e.preventDefault(); buttons[buttons.length - 1].focus(); }
+        else if (!e.shiftKey && (current < 0 || current === buttons.length - 1)) { e.preventDefault(); buttons[0].focus(); }
+      }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); step(-1); }
       else if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); step(1); }
       else if (e.key === "Escape") close();
     });

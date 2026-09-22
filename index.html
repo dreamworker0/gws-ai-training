@@ -21,7 +21,7 @@
 <meta name="twitter:title" content="GWS &amp; AI 교육 아카이브">
 <meta name="twitter:description" content="도구보다, 일하는 방식의 변화">
 <meta name="twitter:image" content="https://dreamworker0.github.io/gws-ai-training/img/dreamwork-og.png">
-<link rel="stylesheet" href="style.css?v=20260922-bf6c342">
+<link rel="stylesheet" href="style.css?v=20260922-0810157">
 </head>
 <body>
 
@@ -210,19 +210,20 @@
 </footer>
 
 <!-- 슬라이드 전체 화면 -->
-<div id="viewer" class="viewer" hidden>
+<div id="viewer" class="viewer" role="dialog" aria-modal="true" aria-labelledby="viewer-title" hidden>
+  <h2 id="viewer-title" class="sr-only">발표자료 전체 화면</h2>
   <img id="viewer-img" alt="" data-keep>
   <div class="viewer-bar">
     <button id="v-prev" type="button" aria-label="이전 쪽">‹</button>
-    <span id="v-count"></span>
+    <span id="v-count" aria-live="polite"></span>
     <button id="v-next" type="button" aria-label="다음 쪽">›</button>
     <button id="v-close" type="button" aria-label="닫기">✕</button>
   </div>
 </div>
 
-<script src="data.js?v=20260922-bf6c342"></script>
-<script src="find.js?v=20260922-bf6c342"></script>
-<script src="ui-state.js?v=20260922-bf6c342"></script>
-<script src="app.js?v=20260922-bf6c342"></script>
+<script src="data.js?v=20260922-0810157"></script>
+<script src="find.js?v=20260922-0810157"></script>
+<script src="ui-state.js?v=20260922-0810157"></script>
+<script src="app.js?v=20260922-0810157"></script>
 </body>
 </html>
