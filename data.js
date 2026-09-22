@@ -108,6 +108,7 @@ const DECKS = [
   { id: "rec0921a05", title: "9/21 관리 콘솔 (녹음 기반)", pages: 13 },
   { id: "rec0921a03", title: "9/21 스프레드시트 협업 (녹음 기반)", pages: 11 },
   { id: "signup", title: "비영리단체용 워크스페이스 가입 방법", pages: 14 },
+  { id: "rec0922a01", title: "스마트워크 개념과 연결 3단계 (녹음 기반)", pages: 14 },
 ];
 
 /* ───────────────────────────────────────────────────────────────────
@@ -210,23 +211,25 @@ const ITEM_SLIDES = {
 
   /* 기초 설명 — 스마트워크 개념 · 연결 3단계 · 계정 · 디지털 전환 */
   a01: [
-    "rec0921a01:1", "rec0921a01:2", "rec0921a01:3", "rec0921a01:4", "rec0921a01:5", "rec0921a01:6",
-    "rec0921a01:7", "rec0921:12", "rec0921:13", "rec0921:14", "smart:12", "smart:5",
-    "smart:11", "smart:15", "smart:33", "smart:42", "smart:49", "smart:70",
-    "smart:71", "smart:34", "smart:41", "smart:46", "smart:17", "smart:14",
-    "smart:43", "smart:44", "smart:47", "smart:48", "smart:75", "smart:76",
-    "smart:6", "smart:7", "smart:8", "smart:9", "smart:10", "smart:13",
-    "smart:16", "smart:18", "smart:19", "smart:20", "smart:21", "smart:22",
-    "smart:23", "smart:24", "smart:25", "smart:26", "smart:27", "smart:28",
-    "smart:29", "smart:30", "smart:31", "smart:32", "smart:50", "smart:51",
-    "smart:52", "smart:53", "smart:57", "smart:58", "smart:59", "smart:60",
-    "smart:61", "smart:62", "smart:65", "smart:68", "smart:72", "smart:77",
-    "smart:78", "smart:79", "smart:1", "smart:2", "smart:3", "env:5",
-    "env:2", "env:3", "env:4", "env:6", "env:13", "env:15",
-    "env:16", "env:17", "env:18", "env:19", "env:20", "env:1",
-    "env:21", "env:22", "gpt:1", "gpt:7", "gpt:8", "gpt:9",
-    "gpt:10", "gpt:58", "gpt:59", "gpt:60", "gpt:2", "gpt:3",
-    "gpt:4",
+    "rec0922a01:1", "rec0922a01:2", "rec0922a01:3", "rec0922a01:4", "rec0922a01:5", "rec0922a01:6",
+    "rec0922a01:7", "rec0922a01:8", "rec0922a01:9", "rec0922a01:10", "rec0922a01:11", "rec0922a01:12",
+    "rec0922a01:13", "rec0922a01:14", "rec0921a01:1", "rec0921a01:2", "rec0921a01:3", "rec0921a01:4",
+    "rec0921a01:5", "rec0921a01:6", "rec0921a01:7", "rec0921:12", "rec0921:13", "rec0921:14",
+    "smart:12", "smart:5", "smart:11", "smart:15", "smart:33", "smart:42",
+    "smart:49", "smart:70", "smart:71", "smart:34", "smart:41", "smart:46",
+    "smart:17", "smart:14", "smart:43", "smart:44", "smart:47", "smart:48",
+    "smart:75", "smart:76", "smart:6", "smart:7", "smart:8", "smart:9",
+    "smart:10", "smart:13", "smart:16", "smart:18", "smart:19", "smart:20",
+    "smart:21", "smart:22", "smart:23", "smart:24", "smart:25", "smart:26",
+    "smart:27", "smart:28", "smart:29", "smart:30", "smart:31", "smart:32",
+    "smart:50", "smart:51", "smart:52", "smart:53", "smart:57", "smart:58",
+    "smart:59", "smart:60", "smart:61", "smart:62", "smart:65", "smart:68",
+    "smart:72", "smart:77", "smart:78", "smart:79", "smart:1", "smart:2",
+    "smart:3", "env:5", "env:2", "env:3", "env:4", "env:6",
+    "env:13", "env:15", "env:16", "env:17", "env:18", "env:19",
+    "env:20", "env:1", "env:21", "env:22", "gpt:1", "gpt:7",
+    "gpt:8", "gpt:9", "gpt:10", "gpt:58", "gpt:59", "gpt:60",
+    "gpt:2", "gpt:3", "gpt:4",
   ],
 
   /* 구글 드라이브 — 클라우드 · NAS · 용량 */
@@ -316,6 +319,21 @@ const ITEM_SLIDES = {
 
 /* 쪽 제목. 없는 쪽은 그림이 곧 내용입니다. 표기법은 위와 같습니다. */
 const SLIDE_TITLES = {
+  "rec0922a01:1": "스마트워크의 개념과 연결의 3단계",
+  "rec0922a01:2": "스마트워크란 무엇인가?",
+  "rec0922a01:3": "자유에 따르는 전제 조건",
+  "rec0922a01:4": "현지 완결형 업무 환경",
+  "rec0922a01:5": "물리적 합체가 아닌 데이터의 합체",
+  "rec0922a01:6": "클라우드의 올바른 개념",
+  "rec0922a01:7": "1단계 — 기기 간의 연결",
+  "rec0922a01:8": "2단계 — 사람 간의 느슨한 연결",
+  "rec0922a01:9": "느슨한 연결이 만드는 두 가지 문제",
+  "rec0922a01:10": "3단계 — 조직 내의 긴밀한 연결",
+  "rec0922a01:11": "왜 기관 계정으로 일해야 하는가?",
+  "rec0922a01:12": "결과 관리에서 과정 관리로",
+  "rec0922a01:13": "업무 환경을 바꿔 조직 문화를 바꿉니다",
+  "rec0922a01:14": "핵심 개념 요약",
+
   "signup:1": "비영리단체용 Google Workspace 가입 방법",
   "signup:2": "가입은 다섯 단계로 진행됩니다",
   "signup:3": "신청 전에 꼭 확인하세요 — 고유번호와 도메인",
