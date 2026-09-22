@@ -21,7 +21,7 @@ const groupedIds = data.GROUPS.flatMap((group) => group.items);
 assert.equal(new Set(data.GROUPS.map((group) => group.id)).size, data.GROUPS.length);
 assert.deepEqual([...groupedIds].sort(), [...itemIds].sort(), "모든 항목은 정확히 한 분야에 있어야 함");
 assert.equal(new Set(groupedIds).size, groupedIds.length, "한 항목이 여러 분야에 중복되면 안 됨");
-assert.equal(data.META.displayTitle, "드림워크 교육 아카이브");
+assert.equal(data.META.displayTitle, "GWS & AI 교육 아카이브");
 assert.equal(data.META.displaySubtitle, "Google Workspace와 AI 교육 기록");
 assert.ok(data.CURRICULUM.find((item) => item.id === "a00"), "가입 안내 항목 누락");
 assert.ok(data.ITEM_SLIDES.a00.length > 0, "가입 안내 발표자료 누락");
@@ -61,7 +61,7 @@ for (const token of [
 assert.match(html, /id="notfoundpage"/);
 assert.match(html, /요청한 자료를 찾지 못했습니다/);
 assert.match(html, /JavaScript를 켜야 30개 주제 목록/);
-assert.match(html, /드림워크 교육 아카이브/);
+assert.match(html, /<p class="eyebrow">GWS &amp; AI 교육 아카이브<\/p>/);
 for (const token of [
   'role="combobox"', 'aria-autocomplete="list"', 'aria-controls="qres"',
   'role="listbox"', 'id="qstatus"', 'aria-live="polite"',

@@ -661,6 +661,7 @@
       location.href = href;
     } else if (e.key === "Escape" && !qRes.hidden) {
       e.preventDefault();
+      e.stopPropagation();
       closeSearch(false);
     }
   });
@@ -671,7 +672,11 @@
     if (!e.target.closest(".searchbox")) closeSearch(true);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "/" && $("viewer").hidden && document.activeElement !== qEl) { e.preventDefault(); qEl.focus(); }
+    if (e.key === "/" && $("viewer").hidden && document.activeElement !== qEl) {
+      e.preventDefault();
+      if (mobileMedia.matches) setMobilePanel("search");
+      qEl.focus();
+    }
   });
 
   /* ── 전체 화면으로 보기 ─────────────────────────────
