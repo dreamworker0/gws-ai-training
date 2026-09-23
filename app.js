@@ -242,6 +242,7 @@
   var page = $("itempage");
   var deck = $("slidespage");
   var graph = $("graphpage");
+  var tagsPage = $("tagspage");
   var notfound = $("notfoundpage");
 
   function renderItem(it) {
@@ -438,6 +439,7 @@
     page.hidden = which !== "item";
     deck.hidden = which !== "deck";
     if (graph) graph.hidden = which !== "graph";
+    tagsPage.hidden = which !== "tags";
     if (notfound) notfound.hidden = which !== "notfound";
   }
 
@@ -528,6 +530,96 @@
     window.scrollTo(0, 0);
   }
 
+  /* ── 태그로 찾기 ───────────────────────────────────── */
+  var tagPicked = [], tagQuery = "", tagResultsShown = false;
+
+  function renderTagResults(matches) {
+    var box = $("tag-results");
+    box.hidden = !tagResultsShown || !tagPicked.length;
+    if (box.hidden) { box.innerHTML = ""; return; }
+    box.innerHTML = '<h3>겹치는 강의 항목 ' + matches.length + '개</h3>' +
+      '<ul class="tag-results-list">' + matches.map(function (it) {
+        var group = GROUP_OF[it.id];
+        return '<li><a href="#' + esc(it.id) + '"><strong>' + esc(it.title) + '</strong>' +
+          '<span>' + esc((group ? group.title + " · " : "") + it.blurb) + '</span></a></li>';
+      }).join("") + '</ul>';
+  }
+
+  function renderTagState() {
+    var matches = Find.tagMatches(tagPicked);
+    var options = Find.tagOptions(tagPicked, tagQuery);
+    var bar = $("tag-picked");
+    bar.hidden = !tagPicked.length;
+    bar.innerHTML = tagPicked.map(function (tag) {
+      return '<button type="button" class="tag-choice is-selected" data-unpick="' + esc(tag) +
+        '" aria-label="' + esc(tag) + ' 태그 선택 해제"># ' + esc(tag) + ' ×</button>';
+    }).join("") + (tagPicked.length ?
+      '<button type="button" class="button primary" data-tag-view>보기</button>' +
+      '<button type="button" class="button secondary" data-tag-clear>비우기</button>' : "");
+    $("tag-status").textContent = tagPicked.length
+      ? '고른 태그가 모두 붙은 강의 항목 ' + matches.length + '개 · 최대 3개 선택'
+      : '태그를 고르면 겹치는 강의 항목 수를 보여줍니다. 최대 3개까지 선택할 수 있습니다.';
+    $("tag-cloud").innerHTML = options.map(function (o) {
+      return '<button type="button" class="tag-choice' + (o.selected ? ' is-selected' : '') +
+        '" data-pick="' + esc(o.tag) + '" aria-pressed="' + o.selected + '"' +
+        (o.disabled ? ' disabled' : '') + ' aria-label="' + esc(o.tag) +
+        ', 강의 항목 ' + o.count + '개"># ' + esc(o.tag) +
+        '<span class="tag-choice-count" aria-hidden="true">' + o.count + '</span></button>';
+    }).join("");
+    $("tag-hits").textContent = tagQuery
+      ? (options.length ? '맞는 태그 ' + options.length + '개' : '맞는 태그가 없습니다.') : '';
+    renderTagResults(matches);
+  }
+
+  function showTags() {
+    $("tagsbody").innerHTML =
+      '<p class="kicker">태그로 찾기</p><h2 class="item-title">배운 주제를 태그로 찾아보세요</h2>' +
+      '<p class="lede">태그를 고르고 공통으로 붙은 강의 항목을 볼 수 있습니다. ' +
+      '발표자료·영상·문서는 위의 글자 검색으로 찾아보세요.</p>' +
+      '<div id="tag-picked" class="tag-picked" hidden></div>' +
+      '<p id="tag-status" class="tag-status" role="status" aria-live="polite"></p>' +
+      '<label class="tag-filter-label" for="tag-filter">태그 이름으로 좁히기</label>' +
+      '<input id="tag-filter" class="tag-filter" type="search" autocomplete="off" value="' +
+      esc(tagQuery) + '" placeholder="예: 클라우드, 협업">' +
+      '<p id="tag-hits" class="tag-hits" aria-live="polite"></p>' +
+      '<div id="tag-cloud" class="tag-cloud" role="group" aria-label="강의 항목 태그"></div>' +
+      '<section id="tag-results" class="tag-results" aria-label="태그 검색 결과" tabindex="-1" hidden></section>';
+    only("tags");
+    renderTagState();
+    document.title = "태그로 찾기 — " + META.title;
+    window.scrollTo(0, 0);
+  }
+
+  tagsPage.addEventListener("input", function (event) {
+    if (event.target.id !== "tag-filter") return;
+    tagQuery = event.target.value;
+    renderTagState();
+  });
+  tagsPage.addEventListener("click", function (event) {
+    var target = event.target.closest ? event.target.closest("button") : null;
+    if (!target) return;
+    if (target.hasAttribute("data-pick") || target.hasAttribute("data-unpick")) {
+      var tag = target.getAttribute("data-pick") || target.getAttribute("data-unpick");
+      tagPicked = Find.toggleTag(tagPicked, tag);
+      tagResultsShown = false;
+      renderTagState();
+      var refocus = Array.from($("tag-cloud").querySelectorAll("[data-pick]"))
+        .filter(function (button) { return button.getAttribute("data-pick") === tag; })[0];
+      if (refocus) refocus.focus({ preventScroll: true });
+      else $("tag-filter").focus({ preventScroll: true });
+    } else if (target.hasAttribute("data-tag-clear")) {
+      tagPicked = [];
+      tagResultsShown = false;
+      renderTagState();
+      $("tag-filter").focus();
+    } else if (target.hasAttribute("data-tag-view")) {
+      tagResultsShown = true;
+      renderTagResults(Find.tagMatches(tagPicked));
+      $("tag-results").scrollIntoView({ block: "start" });
+      $("tag-results").focus({ preventScroll: true });
+    }
+  });
+
   function showNotFound() {
     only("notfound");
     document.title = "자료를 찾지 못했습니다 — " + META.title;
@@ -567,6 +659,7 @@
     }
 
     if (raw === "graph") { showGraph(); return; }
+    if (raw === "tags") { showTags(); return; }
     var from = null;
     var qi = raw.indexOf("?from=");
     if (qi > -1) { from = raw.slice(qi + 6); raw = raw.slice(0, qi); }

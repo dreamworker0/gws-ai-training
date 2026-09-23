@@ -39,6 +39,7 @@ python -m http.server 4173
 ```
 
 브라우저에서 <http://localhost:4173/>을 엽니다. 모바일에서는 검색과 메뉴를 접어 두고, 학습 분야는 첫 분야만 기본으로 펼칩니다.
+`태그로 찾기`에서는 강의 항목에 붙은 태그를 최대 세 개 골라 공통 항목을 볼 수 있습니다. 발표자료·영상·문서는 상단 글자 검색을 사용합니다.
 
 변경 후 다음 검사를 실행합니다.
 
@@ -46,6 +47,7 @@ python -m http.server 4173
 node scripts/design-contract.test.mjs
 node scripts/ui-behavior.test.mjs
 node scripts/graph.test.mjs
+node scripts/tag-search.test.mjs
 node scripts/routes.test.mjs
 node scripts/privacy.test.mjs
 node scripts/check.mjs

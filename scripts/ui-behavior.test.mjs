@@ -19,6 +19,7 @@ const deckIds = new Set(["calendar"]);
 assert.equal(UI.routeKind("unknown", itemIds, deckIds), "notFound");
 assert.equal(UI.routeKind("main", itemIds, deckIds), "home");
 assert.equal(UI.routeKind("a04", itemIds, deckIds), "item");
+assert.equal(UI.routeKind("tags", itemIds, deckIds), "tags");
 assert.equal(UI.routeKind("slides-a04", itemIds, deckIds), "slides");
 assert.equal(UI.routeKind("slides-missing", itemIds, deckIds), "notFound");
 assert.equal(UI.routeKind("slide-calendar-1", itemIds, deckIds), "slides");

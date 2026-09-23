@@ -94,6 +94,44 @@ var Find = (function () {
       .slice(0, n || 4);
   }
 
+  /* ── 태그로 강의 항목 찾기 ───────────────────────────── */
+  function tagMatches(picked) {
+    if (!picked || !picked.length) return [];
+    return CURRICULUM.filter(function (it) {
+      return picked.every(function (tag) { return (it.tags || []).indexOf(tag) > -1; });
+    });
+  }
+
+  function tagOptions(picked, query) {
+    picked = picked || [];
+    var counts = {};
+    CURRICULUM.forEach(function (it) {
+      (it.tags || []).forEach(function (tag) { counts[tag] = (counts[tag] || 0) + 1; });
+    });
+    var current = tagMatches(picked);
+    var key = norm(query || "");
+    return Object.keys(counts)
+      .filter(function (tag) { return norm(tag).indexOf(key) > -1; })
+      .map(function (tag) {
+        var selected = picked.indexOf(tag) > -1;
+        return {
+          tag: tag, count: counts[tag], selected: selected,
+          disabled: !selected && (picked.length >= 3 ||
+            (picked.length > 0 && !current.some(function (it) {
+              return (it.tags || []).indexOf(tag) > -1;
+            }))),
+        };
+      })
+      .sort(function (a, b) { return b.count - a.count || a.tag.localeCompare(b.tag, "ko"); });
+  }
+
+  function toggleTag(picked, tag) {
+    picked = picked || [];
+    if (picked.indexOf(tag) > -1) return picked.filter(function (t) { return t !== tag; });
+    var option = tagOptions(picked, "").filter(function (o) { return o.tag === tag; })[0];
+    return option && !option.disabled ? picked.concat(tag) : picked.slice();
+  }
+
   /* ── 관계도 ───────────────────────────────────────
      A6·B7 같은 기호는 아무도 못 알아봅니다. 그래서 **이름을 그대로** 씁니다.
      글자 길이만큼 넓어지는 알약 모양이라, 겹침도 네모끼리 밀어내 풉니다. */
@@ -288,5 +326,6 @@ var Find = (function () {
   }
 
   return { buildIndex: buildIndex, search: search, relatedItems: relatedItems,
+           tagMatches: tagMatches, tagOptions: tagOptions, toggleTag: toggleTag,
            graphTopics: graphTopics, graphListHTML: graphListHTML, graphSVG: graphSVG };
 })();

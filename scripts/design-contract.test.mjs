@@ -59,6 +59,8 @@ for (const token of [
   'id="v-count"', 'aria-live="polite"',
 ]) assert.ok(html.includes(token), `뷰어 접근성 속성 누락: ${token}`);
 assert.match(html, /id="notfoundpage"/);
+assert.match(html, /id="tagspage"[^>]*hidden/, "태그 찾기 화면이 있어야 함");
+assert.match(html, /href="#tags"[^>]*>태그로 찾기<\/a>/, "태그 찾기 진입점이 있어야 함");
 assert.match(html, /요청한 자료를 찾지 못했습니다/);
 assert.match(html, /JavaScript를 켜야 30개 주제 목록/);
 assert.match(html, /<p class="eyebrow">GWS &amp; AI 교육 아카이브<\/p>/);

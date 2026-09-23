@@ -32,6 +32,12 @@ node scripts/graph.test.mjs || {
   exit 1
 }
 
+node scripts/tag-search.test.mjs || {
+  echo ""
+  echo "태그 검색 검사가 실패해 커밋을 멈췄습니다."
+  exit 1
+}
+
 node scripts/stamp.mjs || exit 1
 node scripts/stamp.test.mjs || exit 1
 git add index.html

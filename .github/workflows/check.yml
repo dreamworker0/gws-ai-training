@@ -49,6 +49,9 @@ jobs:
       - name: 관계도 주제와 항목 연결이 성한지
         run: node scripts/graph.test.mjs
 
+      - name: 태그 교집합 검색이 성한지
+        run: node scripts/tag-search.test.mjs
+
       - name: 캐시 버전이 파일 내용과 일치하는지
         run: node scripts/stamp.test.mjs
 

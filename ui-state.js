@@ -14,6 +14,7 @@ const ArchiveUI = {
   routeKind(raw, itemIds, deckIds) {
     if (["", "top", "main", "hero", "education", "curriculum", "slides-home", "faq", "contact"].includes(raw)) return "home";
     if (raw === "graph") return "graph";
+    if (raw === "tags") return "tags";
     if (raw === "slides") return "slides";
     const itemMatch = /^slides-([a-z][a-z0-9-]*)$/.exec(raw);
     if (itemMatch) return itemIds.has(itemMatch[1]) ? "slides" : "notFound";
