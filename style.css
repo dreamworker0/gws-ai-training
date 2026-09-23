@@ -27,6 +27,8 @@
   --f-soft:    #f7dde6;
   --g:         #8a5a12;
   --g-soft:    #f4e6cd;
+  --h:         #1f6f73;
+  --h-soft:    #d7ecec;
   --warn:      #9a5b00;
   --radius:    12px;
   --maxw:      1080px;
@@ -58,6 +60,8 @@
     --f-soft:    #45222f;
     --g:         #d9b071;
     --g-soft:    #40331c;
+    --h:         #86cfd2;
+    --h-soft:    #1c3a3c;
     --warn:      var(--terracotta);
   }
 }
@@ -68,6 +72,7 @@
   --a:var(--forest); --b:var(--terracotta); --a-soft:var(--sage); --b-soft:#422b23; --warn:var(--terracotta);
   --d:#8fbcdd; --d-soft:#23384a; --e:#c0a6dd; --e-soft:#352b45;
   --f:#e3a0ba; --f-soft:#45222f; --g:#d9b071; --g-soft:#40331c;
+  --h:#86cfd2; --h-soft:#1c3a3c;
 }
 
 * { box-sizing: border-box; }
@@ -214,6 +219,7 @@ a { color: var(--brand); }
 .g-data     .tag { background: var(--d-soft); color: var(--d); }
 .g-agent    .tag { background: var(--b-soft); color: var(--b); }
 .g-build    .tag { background: var(--e-soft); color: var(--e); }
+.g-made     .tag { background: var(--h-soft); color: var(--h); }
 
 /* 항목 카드 왼쪽에 묶음 색 한 줄 — 검색 결과에서도 어느 갈래인지 보입니다. */
 .item.g-start    { border-left: 3px solid var(--brand); }
@@ -223,6 +229,7 @@ a { color: var(--brand); }
 .item.g-data     { border-left: 3px solid var(--d); }
 .item.g-agent    { border-left: 3px solid var(--b); }
 .item.g-build    { border-left: 3px solid var(--e); }
+.item.g-made     { border-left: 3px solid var(--h); }
 
 .items { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .items[hidden] { display: none; }
@@ -487,6 +494,8 @@ a.pg:hover { border-color: var(--brand); }
 .graph .gn.g-agent text { fill: var(--b); }
 .graph .gn.g-build rect { fill: var(--e-soft); stroke: var(--e); }
 .graph .gn.g-build text { fill: var(--e); }
+.graph .gn.g-made rect { fill: var(--h-soft); stroke: var(--h); }
+.graph .gn.g-made text { fill: var(--h); }
 .graph .gn:hover rect { stroke-width: 3; }
 .graph .gn:focus-visible rect { stroke-width: 3; stroke: var(--fg); }
 .graph.is-focused .ge:not(.is-active),
@@ -522,6 +531,7 @@ a.pg:hover { border-color: var(--brand); }
 .legend i.g-data  { background: var(--d-soft); border-color: var(--d); }
 .legend i.g-agent { background: var(--b-soft); border-color: var(--b); }
 .legend i.g-build { background: var(--e-soft); border-color: var(--e); }
+.legend i.g-made  { background: var(--h-soft); border-color: var(--h); }
 
 /* ── 밝게 / 어둡게 단추 ───────────────────────────── */
 .themebtn {
