@@ -25,4 +25,8 @@ const ArchiveUI = {
   returnFocusTarget(opener) {
     return opener && opener.isConnected ? opener : null;
   },
+  isEditableElement(element) {
+    return !!element && (["INPUT", "TEXTAREA", "SELECT"].includes(element.tagName) ||
+      !!element.isContentEditable);
+  },
 };

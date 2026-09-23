@@ -805,7 +805,8 @@
     if (!e.target.closest(".searchbox")) closeSearch(true);
   });
   document.addEventListener("keydown", function (e) {
-    if (e.key === "/" && $("viewer").hidden && document.activeElement !== qEl) {
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey &&
+        $("viewer").hidden && !ArchiveUI.isEditableElement(e.target)) {
       e.preventDefault();
       if (mobileMedia.matches) setMobilePanel("search");
       qEl.focus();

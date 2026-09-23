@@ -8,8 +8,12 @@ on:
   push:
     branches: [main]
     paths:
+      - "app.js"
       - "data.js"
       - "find.js"
+      - "index.html"
+      - "style.css"
+      - "ui-state.js"
       - "scripts/**"
       - ".github/workflows/check.yml"
   schedule:
