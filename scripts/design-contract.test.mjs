@@ -11,7 +11,7 @@ assert.equal(data.META.brand, "드림워크");
 assert.equal(data.META.title, "GWS & AI 교육 아카이브");
 assert.equal(data.META.tagline, "도구보다, 일하는 방식의 변화");
 assert.equal(data.META.lecturer, "교육자 김종원 · 소셜프리즘");
-assert.equal(data.META.updated, "2026-09-21");
+assert.equal(data.META.updated, "2026-09-23");
 assert.equal(data.ABOUT_DREAMWORK.name, "드림워크");
 assert.doesNotMatch(dataSource, /const\s+EDUCATION_FIELDS\s*=/);
 
