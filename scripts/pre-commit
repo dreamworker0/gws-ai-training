@@ -33,5 +33,6 @@ node scripts/graph.test.mjs || {
 }
 
 node scripts/stamp.mjs || exit 1
+node scripts/stamp.test.mjs || exit 1
 git add index.html
 exit 0

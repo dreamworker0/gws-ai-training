@@ -21,9 +21,7 @@ const PAGE = join(ROOT, "index.html");
 
 const h = createHash("sha1");
 for (const a of ASSETS) h.update(readFileSync(join(ROOT, a)));
-const stamp =
-  new Date().toISOString().slice(0, 10).replace(/-/g, "") +
-  "-" + h.digest("hex").slice(0, 7);
+const stamp = h.digest("hex").slice(0, 7);
 
 // 정규식을 쓰지 않는다 — 따옴표 안의 "파일이름" 또는 "파일이름?v=..." 를 통째로 갈아 끼운다.
 const before = readFileSync(PAGE, "utf8");
