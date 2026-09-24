@@ -1120,6 +1120,7 @@ const CURRICULUM = [
       },
     ],
     videos: [
+      { t: "ChatGPT Work 완벽 가이드, 세팅부터 자동화까지 이 영상 하나로 끝납니다", id: "-qNPPDEEExQ", date: "2026-09-22", channel: "Jay Choi | 인디해커 라이프" },
       { t: "Claude Code 왕초보 입문 튜토리얼", id: "1_bRmkUvjHA", date: "2026-02-11", channel: "AI싱크클럽" },
       { t: "비개발자를 위한 Claude Code 입문", id: "HyMgKcuhE-s", date: "2026-06-21", channel: "AI 겸임교수 이종범" },
     ],
