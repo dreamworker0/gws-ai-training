@@ -540,6 +540,7 @@ const CURRICULUM = [
     videos: [
       { t: "구글 드라이브로 문서 자료 관리하기", id: "GpaJ-0-pLkI", date: "2025-11-08", channel: "CDL(디지털리터러시협회)" },
       { t: "구글 드라이브 100% 활용법 | 기초부터 완전정복", id: "2qis_E7UblY", date: "2025-05-09", channel: "G-CREATOR" },
+      { t: "구글 드라이브+윈도우탐색기 동기화 및 폴더, 파일 정리 방법 소개 📂", id: "AY84LdZAQ9o", date: "2025-02-19", channel: "마스터키 인공지능 (MasterkeyAI)" },
     ],
     docs: [
       { t: "데스크톱용 Google Drive 사용하기", u: "https://support.google.com/drive/answer/7329379?hl=ko" },

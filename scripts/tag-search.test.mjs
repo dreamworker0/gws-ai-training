@@ -30,4 +30,15 @@ assert.deepEqual(Find.toggleTag(["협업", "클라우드"], "협업"), ["클라�
 assert.deepEqual(Find.toggleTag(["협업"], "앱 만들기"), ["협업"], "결과가 없는 조합은 추가하지 않음");
 assert.deepEqual(Find.toggleTag(["협업", "클라우드", "기초"], "메모"),
   ["협업", "클라우드", "기초"], "네 번째 태그는 추가하지 않음");
+
+const desktopDriveVideo = Find.search("윈도우탐색기");
+assert.deepEqual(
+  desktopDriveVideo.map(({ kind, label, hash }) => ({ kind, label, hash })),
+  [{
+    kind: "영상",
+    label: "구글 드라이브+윈도우탐색기 동기화 및 폴더, 파일 정리 방법 소개 📂",
+    hash: "#a02",
+  }],
+  "데스크톱용 구글 드라이브 영상은 해당 강의 항목에서 검색되어야 함",
+);
 console.log("tag search: ok");
