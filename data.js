@@ -106,6 +106,7 @@ const DECKS = [
   { id: "mail", title: "메일 전달 설정 (SPF·DKIM·DMARC)", pages: 15 },
   { id: "rec0930a05", title: "관리자 편 — 볼 수 있는 것과 없는 것 (녹음 기반)", pages: 12 },
   { id: "rec0930a03", title: "공유 방식·그룹·권한 (녹음 기반)", pages: 12 },
+  { id: "approval", title: "승인이 거절됐을 때 (조직·도메인 관계 확인 실패)", pages: 8 },
   { id: "calendar", title: "구글 캘린더", pages: 9 },
   { id: "keep", title: "구글 킵 · 내 지도", pages: 8 },
   { id: "chat", title: "Google Chat · Slack", pages: 7 },
@@ -131,6 +132,7 @@ const ITEM_SLIDES = {
     "signup:1", "signup:2", "signup:3", "signup:4", "signup:5", "signup:6",
     "signup:7", "signup:8", "signup:9", "signup:10", "signup:11", "signup:12",
     "signup:13", "signup:14",
+    "approval:1", "approval:2", "approval:3", "approval:4", "approval:5", "approval:6", "approval:7", "approval:8",
   ],
   a01: [
     "rec0922a01:1", "rec0922a01:2", "rec0922a01:3", "rec0922a01:4", "rec0922a01:5", "rec0922a01:6",
@@ -165,6 +167,14 @@ const ITEM_SLIDES = {
 
 /* 쪽 제목. 없는 쪽은 그림이 곧 내용입니다. 표기법은 위와 같습니다. */
 const SLIDE_TITLES = {
+  "approval:1": "비영리 구글 워크스페이스 승인 거절 해결 가이드",
+  "approval:2": "반복되는 승인 거절 메일",
+  "approval:3": "원인은 관리 콘솔에서 찾습니다",
+  "approval:4": "자동 심사 시스템의 인식 오류",
+  "approval:5": "해결 방법 1: 증빙 자료 준비",
+  "approval:6": "해결 방법 2: 회신 및 추가 절차 진행",
+  "approval:7": "미리 막는 방법: 홈페이지 정보 점검",
+  "approval:8": "경험을 나누는 마음",
   "rec0930a03:1": "공유 방식·그룹·권한 — 원본을 함께 쓰는 법",
   "rec0930a03:2": "첨부로 보내는 사본 공유 vs 함께 쓰는 원본 공유",
   "rec0930a03:3": "공유의 세 갈래",
