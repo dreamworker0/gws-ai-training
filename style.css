@@ -893,3 +893,29 @@ a.pg:hover { border-color: var(--brand); }
     animation-iteration-count: 1 !important;
   }
 }
+
+/* ── 항목 안 주제 나누기 (2026-10-03) ─────────────────────
+   한 항목에 주제가 여럿이면 맨 위에 바로가기, 주제마다 [슬라이드 → 글]. */
+.topic-nav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+  margin: 18px 0 6px; padding: 12px 14px;
+  background: var(--bg-alt); border: 1px solid var(--line); border-radius: var(--radius);
+}
+.topic-nav > span { font-size: 13.5px; color: var(--fg-soft); margin-right: 4px; }
+.topic-jump {
+  font: inherit; font-size: 14.5px; cursor: pointer;
+  padding: 6px 12px; border-radius: 999px;
+  background: var(--bg); color: var(--brand); border: 1px solid var(--line);
+}
+.topic-jump:hover, .topic-jump:focus-visible { background: var(--brand-soft); outline: none; }
+.topic { scroll-margin-top: 96px; margin-top: 30px; padding-top: 6px; border-top: 2px solid var(--line); }
+.topic:first-of-type { border-top: 0; }
+.topic-h { margin-top: 14px; }
+.topic-note { color: var(--fg-soft); margin: 4px 0 10px; }
+.topic .deck { margin-top: 8px; }
+/* 주제 제목은 항목 안의 큰 갈래라 일반 소제목(h3)보다 또렷하게 */
+#itempage .topic-h, .topic .topic-h {
+  font-size: 21px; font-weight: 700; color: var(--fg); letter-spacing: -0.01em;
+  text-transform: none; border: 0; padding: 0; margin: 18px 0 10px;
+}
+.topic .more { margin-bottom: 14px; }

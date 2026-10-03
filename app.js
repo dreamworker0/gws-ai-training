@@ -245,6 +245,69 @@
   var tagsPage = $("tagspage");
   var notfound = $("notfoundpage");
 
+  function lessonHtml(s) {
+    var h = "<section class='ls'>";
+    h += "<h4>" + rich(s.h) + "</h4>";
+    h += "<p>" + rich(s.p) + "</p>";
+    /* svg 는 data.js 안에서 우리가 직접 쓴 것이므로 그대로 넣습니다 */
+    if (s.svg) h += '<figure class="fig">' + s.svg + "</figure>";
+    if (s.after) h += "<p>" + rich(s.after) + "</p>";
+    if (s.said) h += '<blockquote class="said">“' + esc(s.said) + "”</blockquote>";
+    return h + "</section>";
+  }
+
+  var TOPIC_SLIDES = 4;   /* 주제마다 바로 보이는 장수 */
+  var CIRCLED = "①②③④⑤⑥⑦⑧⑨⑩";
+
+  /* 주제별 화면: 맨 위 바로가기 → 주제마다 [슬라이드 → 글].
+     슬라이드는 덱으로, 글은 lesson 의 topic(주제 제목)으로 주제에 붙는다.
+     어느 주제에도 안 걸린 것은 첫 주제로 간다(빠뜨리지 않게). */
+  function renderTopics(it, topics, sl) {
+    var groups = topics.map(function (t) { return { t: t, slides: [], lessons: [] }; });
+    sl.forEach(function (ref) {
+      var d = parseRef(ref).deck, g = groups[0];
+      groups.forEach(function (x) { if ((x.t.decks || []).indexOf(d) >= 0) g = x; });
+      g.slides.push(ref);
+    });
+    (it.lesson || []).forEach(function (s) {
+      var g = groups[0];
+      groups.forEach(function (x) { if (s.topic && s.topic === x.t.t) g = x; });
+      g.lessons.push(s);
+    });
+    var h = '<nav class="topic-nav" aria-label="이 항목의 주제"><span>이 항목의 주제</span>';
+    groups.forEach(function (g, i) {
+      h += '<button type="button" class="topic-jump" data-jump="tp-' + i + '">' +
+           CIRCLED.charAt(i) + " " + esc(g.t.t) + "</button>";
+    });
+    h += "</nav>";
+    groups.forEach(function (g, i) {
+      h += '<section class="topic" id="tp-' + i + '">';
+      h += '<h3 class="topic-h">' + CIRCLED.charAt(i) + " " + esc(g.t.t) + "</h3>";
+      if (g.t.note) h += '<p class="topic-note">' + rich(g.t.note) + "</p>";
+      if (g.slides.length) {
+        h += '<div class="deck">' + g.slides.slice(0, TOPIC_SLIDES).map(slideTile).join("") + "</div>";
+        if (g.slides.length > TOPIC_SLIDES) {
+          h += '<p class="more"><a href="' + slideHash(g.slides[TOPIC_SLIDES]) + '">이 주제 자료 ' +
+               g.slides.length + "쪽 이어서 보기 →</a></p>";
+        }
+      }
+      g.lessons.forEach(function (s) { h += lessonHtml(s); });
+      h += "</section>";
+    });
+    if (sl.length) {
+      h += '<p class="more"><a href="#slides-' + it.id + '">이 항목 자료 ' + sl.length + "쪽 모두 보기 →</a></p>";
+    }
+    return h;
+  }
+
+  /* 주제 바로가기 — 주소(#)를 바꾸지 않고 그 자리로만 내려간다(주소는 항목 라우팅에 쓰인다). */
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest && e.target.closest(".topic-jump");
+    if (!b) return;
+    var el = document.getElementById(b.getAttribute("data-jump"));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
   function renderItem(it) {
     var h = "";
     var g = GROUP_OF[it.id];
@@ -259,7 +322,12 @@
 
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
     var sl = ITEM_SLIDES[it.id] || [];
-    if (sl.length) {
+    /* 2026-10-03: 한 항목에 주제가 여럿 쌓이면(가입 방법 + 승인 거절 등) 주제별로 나눠 보여 준다.
+       ITEM_TOPICS 에 주제가 있으면 「주제마다 슬라이드 → 글」, 없으면 예전 그대로. */
+    var topics = (typeof ITEM_TOPICS !== "undefined" && ITEM_TOPICS[it.id]) || null;
+    if (topics && topics.length) {
+      h += renderTopics(it, topics, sl);
+    } else if (sl.length) {
       h += "<h3>발표자료</h3>";
       h += '<div class="deck">' + sl.slice(0, INLINE_SLIDES).map(slideTile).join("") + "</div>";
       if (sl.length > INLINE_SLIDES) {
@@ -268,18 +336,9 @@
       }
     }
 
-    if (it.lesson && it.lesson.length) {
+    if (!(topics && topics.length) && it.lesson && it.lesson.length) {
       h += "<h3>강의에서 다룬 내용</h3>";
-      it.lesson.forEach(function (s) {
-        h += "<section class='ls'>";
-        h += "<h4>" + rich(s.h) + "</h4>";
-        h += "<p>" + rich(s.p) + "</p>";
-        /* svg 는 data.js 안에서 우리가 직접 쓴 것이므로 그대로 넣습니다 */
-        if (s.svg) h += '<figure class="fig">' + s.svg + "</figure>";
-        if (s.after) h += "<p>" + rich(s.after) + "</p>";
-        if (s.said) h += '<blockquote class="said">“' + esc(s.said) + "”</blockquote>";
-        h += "</section>";
-      });
+      it.lesson.forEach(function (s) { h += lessonHtml(s); });
     }
 
     if (it.notes && it.notes.length) {
