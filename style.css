@@ -919,3 +919,36 @@ a.pg:hover { border-color: var(--brand); }
   text-transform: none; border: 0; padding: 0; margin: 18px 0 10px;
 }
 .topic .more { margin-bottom: 14px; }
+
+/* ── 첫 화면 「최근에 더한 것」 (2026-10-03) ── */
+.recent-band { padding-top: 28px; padding-bottom: 28px; }
+.recent-band h2 { margin: 4px 0 16px; }
+.recent-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.recent-card {
+  display: flex; flex-direction: column; gap: 4px; padding: 14px 16px;
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius);
+  color: var(--fg); text-decoration: none;
+}
+.recent-card:hover, .recent-card:focus-visible { border-color: var(--brand); background: var(--brand-soft); outline: none; }
+.recent-date { font-size: 13px; color: var(--fg-soft); }
+.recent-card b { font-size: 16px; }
+.recent-what { font-size: 14.5px; color: var(--fg-soft); line-height: 1.5; }
+
+/* ── 현장에서 나온 질문 ── */
+.qa { display: flex; flex-direction: column; gap: 8px; }
+.qa-item { border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); padding: 0 14px; }
+.qa-item summary { cursor: pointer; padding: 12px 0; font-weight: 600; list-style: none; }
+.qa-item summary::-webkit-details-marker { display: none; }
+.qa-item summary::before { content: "Q. "; color: var(--brand); }
+.qa-item[open] summary { border-bottom: 1px solid var(--line); }
+.qa-item p { margin: 10px 0 14px; line-height: 1.7; }
+.qa-item p::before { content: "A. "; font-weight: 700; color: var(--b); }
+
+/* ── 목차 카드: 좁은 화면에서는 칩(강의 정리·자료·영상)을 설명 아래 줄로 (2026-10-03 사용자님 지적)
+   옆 칸에 두면 설명 글이 한두 글자 폭으로 눌려 세로로 길어졌다. */
+@media (max-width: 900px) {
+  .items .item { flex-wrap: wrap; align-items: flex-start; row-gap: 8px; }
+  .items .item .ti { flex: 1 1 100%; }
+  .items .item .flags { flex-wrap: wrap; flex: 1 1 100%; }
+}
+.upcoming { margin: 14px 0 4px; padding: 10px 14px; border-radius: var(--radius); background: var(--d-soft); color: var(--fg); font-size: 14.5px; }

@@ -219,6 +219,7 @@
   closeMobilePanels();
   if ($("education-about")) {
     $("education-about").innerHTML = renderAbout(ABOUT_DREAMWORK);
+    renderRecent();
   }
 
   /* ── FAQ ────────────────────────────────────────── */
@@ -244,6 +245,36 @@
   var graph = $("graphpage");
   var tagsPage = $("tagspage");
   var notfound = $("notfoundpage");
+
+  /* ── 첫 화면 「최근에 더한 것」 (2026-10-03) ── */
+  function renderRecent() {
+    /* 여기서 정한다 — 바깥 var 로 두면 초기화 전에 불려 undefined 가 되어 전부 나왔다 */
+    var RECENT_SHOWN = 6;
+    var box = $("recent-list");
+    var list = (typeof RECENT !== "undefined" ? RECENT : []);
+    var band = $("recent");
+    if (!box || !list.length) { if (band) band.hidden = true; return; }
+    var byId = {};
+    CURRICULUM.forEach(function (it) { byId[it.id] = it; });
+    box.innerHTML = list.slice(0, RECENT_SHOWN).map(function (r) {
+      var it = byId[r.id];
+      if (!it) return "";
+      return '<a class="recent-card" href="#' + esc(r.id) + '">' +
+        '<span class="recent-date">' + esc(r.date.slice(5).replace("-", ".")) + "</span>" +
+        "<b>" + esc(it.title) + "</b>" +
+        '<span class="recent-what">' + esc(r.what) + "</span></a>";
+    }).join("");
+  }
+
+  /* ── 현장에서 나온 질문 (2026-10-03) ── */
+  function qaHtml(it) {
+    if (!it.qa || !it.qa.length) return "";
+    var h = "<h3>현장에서 나온 질문</h3><div class='qa'>";
+    it.qa.forEach(function (x) {
+      h += "<details class='qa-item'><summary>" + esc(x.q) + "</summary><p>" + rich(x.a) + "</p></details>";
+    });
+    return h + "</div>";
+  }
 
   function lessonHtml(s) {
     var h = "<section class='ls'>";
@@ -322,6 +353,14 @@
 
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
     var sl = ITEM_SLIDES[it.id] || [];
+    /* 곧 다룰 항목 안내 — 위쪽에 둬야 보인다(아래에 두면 영상·문서에 묻힌다) */
+    var upTop = (typeof UPCOMING !== "undefined") ? UPCOMING[it.id] : null;
+    if (upTop) {
+      var bare = (!it.lesson || !it.lesson.length) && !sl.length;
+      h += '<p class="upcoming">🗓️ ' + (bare
+        ? "이 항목은 <b>" + esc(upTop) + " 교육 회기</b>에서 다룰 예정입니다. 강의가 끝나는 대로 강의 정리와 슬라이드가 채워집니다."
+        : "<b>" + esc(upTop) + " 교육 회기</b>에서 더 다룰 예정입니다. 강의가 끝나면 이 항목이 더 채워집니다.") + "</p>";
+    }
     /* 2026-10-03: 한 항목에 주제가 여럿 쌓이면(가입 방법 + 승인 거절 등) 주제별로 나눠 보여 준다.
        ITEM_TOPICS 에 주제가 있으면 「주제마다 슬라이드 → 글」, 없으면 예전 그대로. */
     var topics = (typeof ITEM_TOPICS !== "undefined" && ITEM_TOPICS[it.id]) || null;
@@ -340,6 +379,8 @@
       h += "<h3>강의에서 다룬 내용</h3>";
       it.lesson.forEach(function (s) { h += lessonHtml(s); });
     }
+
+    h += qaHtml(it);
 
     if (it.notes && it.notes.length) {
       h += "<h3>강사님이 하신 말씀</h3><div class='note-box'><ul>";
@@ -390,7 +431,8 @@
       h += "</div>";
     }
 
-    if ((!it.lesson || !it.lesson.length) && !sl.length) {
+    var up = (typeof UPCOMING !== "undefined") ? UPCOMING[it.id] : null;
+    if (!up && (!it.lesson || !it.lesson.length) && !sl.length) {
       h += '<p class="empty" style="margin-top:26px">이 항목의 강의 정리는 아직 준비 중입니다. 회차가 끝나는 대로 채워집니다.</p>';
     }
 
@@ -700,6 +742,7 @@
       top: true,          /* 제목을 누르면 여기로 — 표준상 문서 맨 위를 뜻합니다 */
       main: true,
       hero: true,
+      recent: true,
       education: true,
       curriculum: true,
       "slides-home": true,
