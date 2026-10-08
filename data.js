@@ -116,6 +116,7 @@ const DECKS = [
   { id: "dxax4", title: "DX·AX 전략 — AI 고르기와 하나의 AI", pages: 9 },
   { id: "dxax5", title: "DX·AX 전략 — 개인정보·보안과 사고 대응", pages: 9 },
   { id: "dxax6", title: "DX·AX 전략 — 사람·승계·예산", pages: 9 },
+  { id: "appsec", title: "만든 앱, 내놓기 전 보안 점검", pages: 9 },
 ];
 
 /* 목록에서 감추는 쪽 — 지금은 없습니다.
@@ -134,6 +135,7 @@ const SLIDE_HIDDEN = [];
    표기법: "덱id:쪽번호"
    ─────────────────────────────────────────────────────────────────── */
 const ITEM_SLIDES = {
+  "b06-sec": ["appsec:1", "appsec:2", "appsec:3", "appsec:4", "appsec:5", "appsec:6", "appsec:7", "appsec:8", "appsec:9"],
   dxax: ["dxax1:1", "dxax1:2", "dxax1:3", "dxax1:4", "dxax1:5", "dxax1:6", "dxax1:7", "dxax1:8", "dxax2:1", "dxax2:2", "dxax2:3", "dxax2:4", "dxax2:5", "dxax2:6", "dxax2:7", "dxax2:8", "dxax3:1", "dxax3:2", "dxax3:3", "dxax3:4", "dxax3:5", "dxax3:6", "dxax3:7", "dxax3:8", "dxax3:9", "dxax4:1", "dxax4:2", "dxax4:3", "dxax4:4", "dxax4:5", "dxax4:6", "dxax4:7", "dxax4:8", "dxax4:9", "dxax5:1", "dxax5:2", "dxax5:3", "dxax5:4", "dxax5:5", "dxax5:6", "dxax5:7", "dxax5:8", "dxax5:9", "dxax6:1", "dxax6:2", "dxax6:3", "dxax6:4", "dxax6:5", "dxax6:6", "dxax6:7", "dxax6:8", "dxax6:9"],
   a00: [
     "signup:1", "signup:2", "signup:3", "signup:4", "signup:5", "signup:6",
@@ -178,7 +180,7 @@ const ITEM_SLIDES = {
    첫 화면에는 앞의 6개만 보입니다. 오래된 줄은 지우지 않아도 됩니다.
    ─────────────────────────────────────────────────────────────────── */
 const RECENT = [
-  { date: "2026-10-08", id: "b06-sec", what: "새 항목 — 만든 앱, 내놓기 전 보안 점검(점검 아홉 가지·도구 승인 세 단계)" },
+  { date: "2026-10-08", id: "b06-sec", what: "새 항목 — 만든 앱, 내놓기 전 보안 점검(점검 아홉 가지·도구 승인 세 단계) · 슬라이드 9쪽" },
   { date: "2026-10-05", id: "dxax", what: "새 항목 — 사회복지기관 DX·AX 전환 전략(기관장용) · 주제별 슬라이드 6개" },
   { date: "2026-10-03", id: "a00", what: "「승인이 거절됐을 때」 해결 순서와 슬라이드 8쪽" },
   { date: "2026-10-03", id: "a03", what: "항목 안을 주제별로 나눔 — 시트 · 구글 문서 · 공유와 그룹" },
@@ -243,6 +245,15 @@ const ITEM_TOPICS = {
 
 /* 쪽 제목. 없는 쪽은 그림이 곧 내용입니다. 표기법은 위와 같습니다. */
 const SLIDE_TITLES = {
+  "appsec:1": "만든 앱, 내놓기 전 보안 점검",
+  "appsec:2": "AI 코딩의 맹점 — 작동과 안전은 다르다",
+  "appsec:3": "점검 1~3: 기관 계정·기능 분리·도메인 제한",
+  "appsec:4": "점검 4: 로그인과 권한은 다르다",
+  "appsec:5": "점검 5~7: 관리용 함수·연동 키·개인정보 최소화",
+  "appsec:6": "점검 8: AI에게 공격자 역할 맡기기",
+  "appsec:7": "막는 통제가 아닌 도와주는 통제",
+  "appsec:8": "멈춤 권한과 반기 점검",
+  "appsec:9": "핵심 정리",
   "dxax1:1": "한눈에 보는 3년 전략",
   "dxax1:2": "격차는 도구가 아니라 자료의 연결에서",
   "dxax1:3": "성공적인 전환을 위한 다섯 가지 원칙",
