@@ -180,6 +180,7 @@ const ITEM_SLIDES = {
    첫 화면에는 앞의 6개만 보입니다. 오래된 줄은 지우지 않아도 됩니다.
    ─────────────────────────────────────────────────────────────────── */
 const RECENT = [
+  { date: "2026-10-10", id: "dxax", what: "영상 — AI보다 먼저 데이터: DX·AX 전략서, 구글 워크스페이스로 시작하는 3년" },
   { date: "2026-10-08", id: "b06-sec", what: "새 항목 — 만든 앱, 내놓기 전 보안 점검(점검 아홉 가지·도구 승인 세 단계) · 슬라이드 9쪽" },
   { date: "2026-10-05", id: "dxax", what: "새 항목 — 사회복지기관 DX·AX 전환 전략(기관장용) · 주제별 슬라이드 6개" },
   { date: "2026-10-03", id: "a00", what: "「승인이 거절됐을 때」 해결 순서와 슬라이드 8쪽" },
@@ -679,7 +680,9 @@ const CURRICULUM = [
       },
     ],
 
-    videos: [],
+    videos: [
+      { t: "AI보다 먼저 데이터 | 사회복지기관 DX·AX 전략서, 구글 워크스페이스로 시작하는 3년", id: "JbyYhRQPiUQ", date: "2026-10-10", channel: "스마트한 비영리" },
+    ],
 
     docs: [
       { t: "전략서 원문 보기 (구글 문서, 초안)", u: "https://docs.google.com/document/d/1JM8qmAkTnhmj9eCPdIph0D1YJC88VNvKyKLFcE6-aJE/edit" },
