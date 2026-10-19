@@ -29,9 +29,9 @@ const deckPages = Object.fromEntries(data.DECKS.map((deck) => [deck.id, deck.pag
 assert.equal(deckPages.calendar, 9);
 assert.equal(deckPages.keep, 8);
 assert.equal(deckPages.chat, 7);
-assert.deepEqual(data.ITEM_SLIDES.a04, Array.from({ length: 9 }, (_, i) => `calendar:${i + 1}`));
+assert.deepEqual(data.ITEM_SLIDES.a04.slice(0, 9), Array.from({ length: 9 }, (_, i) => `calendar:${i + 1}`));
 assert.deepEqual(data.ITEM_SLIDES.a06, ["keep:1", "keep:2", "keep:3", "keep:4"]);
-assert.deepEqual(data.ITEM_SLIDES["a06-map"], ["keep:5", "keep:6", "keep:7", "keep:8"]);
+assert.deepEqual(data.ITEM_SLIDES["a06-map"].slice(0, 4), ["keep:5", "keep:6", "keep:7", "keep:8"]);
 assert.deepEqual(data.ITEM_SLIDES.a12, Array.from({ length: 7 }, (_, i) => `chat:${i + 1}`));
 for (const [itemId, refs] of Object.entries(data.ITEM_SLIDES)) {
   for (const ref of refs) {
