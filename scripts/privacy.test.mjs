@@ -70,7 +70,7 @@ function realNames() {
   const ENDING = /(게|고|서|며|면|야|든|지|요)$/;
   // 모양만으로는 이름과 못 가르는 것들. 헛걸림이 나오면 여기에 한 낱말씩 더한다.
   // 「고용한」은 실제 참여자 이름이라 어미(-한)로는 거를 수 없었다.
-  const STOP = new Set(["고요한", "노력한", "정확한", "고유한", "신뢰할", "서울시", "고서부"]);
+  const STOP = new Set(["고요한", "노력한", "정확한", "고유한", "신뢰할", "서울시", "고서부", "이메일"]);
 
   for (const f of files) {
     const s = readFileSync(f, "utf8");

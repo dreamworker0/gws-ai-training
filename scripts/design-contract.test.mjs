@@ -96,7 +96,7 @@ assert.match(html, /property=["']og:type["']\s+content=["']website["']/);
 assert.match(html, /property=["']og:title["']\s+content=["']GWS &amp; AI 교육 아카이브["']/);
 assert.match(html, /property=["']og:description["']\s+content=["'][^"']+["']/);
 assert.match(html, /property=["']og:url["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/["']/);
-assert.match(html, /property=["']og:image["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/img\/dreamwork-og\.png["']/);
+assert.match(html, /property=["']og:image["']\s+content=["']https:\/\/dreamworker0\.github\.io\/gws-ai-training\/img\/dreamwork-og-v2\.png["']/);
 assert.match(html, /property=["']og:image:width["']\s+content=["']1200["']/);
 assert.match(html, /property=["']og:image:height["']\s+content=["']630["']/);
 assert.match(html, /name=["']twitter:card["']\s+content=["']summary_large_image["']/);
@@ -145,7 +145,7 @@ assert.equal(heroWebp.subarray(8, 12).toString("ascii"), "WEBP");
 assert.ok(heroWebp.length < 500_000, `히어로 WebP가 너무 큼: ${heroWebp.length}`);
 assert.match(html, /<source[^>]+srcset=["']img\/dreamwork-archive-hero\.webp["'][^>]+type=["']image\/webp["']/);
 
-const ogImage = await readFile(new URL("img/dreamwork-og.png", root));
+const ogImage = await readFile(new URL("img/dreamwork-og-v2.png", root));
 assert.deepEqual([...ogImage.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
 assert.equal(ogImage.readUInt32BE(16), 1200, "오픈 그래프 이미지 폭은 1200이어야 함");
 assert.equal(ogImage.readUInt32BE(20), 630, "오픈 그래프 이미지 높이는 630이어야 함");
