@@ -952,3 +952,15 @@ a.pg:hover { border-color: var(--brand); }
   .items .item .flags { flex-wrap: wrap; flex: 1 1 100%; }
 }
 .upcoming { margin: 14px 0 4px; padding: 10px 14px; border-radius: var(--radius); background: var(--d-soft); color: var(--fg); font-size: 14.5px; }
+
+/* 강의 뒤 보충 (2026-10-24) — 강의에서 한 말 중 틀리거나 바뀐 것 */
+.fixes { display: flex; flex-direction: column; gap: 10px; }
+.fix-item { border: 1px solid var(--line); border-left: 4px solid var(--g); border-radius: var(--radius); background: var(--g-soft); padding: 12px 16px; }
+.fix-item p { margin: 4px 0; line-height: 1.7; }
+.fix-tag { display: inline-block; min-width: 5.5em; font-weight: 700; margin-right: 6px; }
+.fix-was { color: var(--fg-soft); }
+.fix-was .fix-tag { color: var(--fg-soft); }
+.fix-now .fix-tag { color: var(--g); }
+.fix-src { font-size: .88em; color: var(--fg-soft); }
+.fix-src a { color: inherit; }
+.fix-date { white-space: nowrap; }

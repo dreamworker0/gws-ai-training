@@ -276,6 +276,25 @@
     return h + "</div>";
   }
 
+  /* ── 강의 뒤 보충 (2026-10-24) — 강의에서 한 말 중 틀리거나 바뀐 것을 근거와 함께 바로잡는다.
+        녹음 기반 자료를 조용히 고치지 않고, 고친 사실이 보이게 남긴다. ── */
+  function fixesHtml(it) {
+    if (!it.fixes || !it.fixes.length) return "";
+    var h = "<h3>✏️ 강의 뒤 보충</h3><div class='fixes'>";
+    it.fixes.forEach(function (x) {
+      h += "<div class='fix-item'>" +
+        "<p class='fix-was'><span class='fix-tag'>강의에서는</span>" + rich(x.was) + "</p>" +
+        "<p class='fix-now'><span class='fix-tag'>정확히는</span>" + rich(x.now) + "</p>";
+      if (x.src && x.src.length) {
+        h += "<p class='fix-src'>근거 · " + x.src.map(function (s) {
+          return "<a href='" + esc(s.u) + "' target='_blank' rel='noopener'>" + esc(s.t) + "</a>";
+        }).join(" · ") + (x.date ? " <span class='fix-date'>(" + esc(x.date) + " 확인)</span>" : "") + "</p>";
+      }
+      h += "</div>";
+    });
+    return h + "</div>";
+  }
+
   function lessonHtml(s) {
     var h = "<section class='ls'>";
     h += "<h4>" + rich(s.h) + "</h4>";
@@ -380,6 +399,7 @@
       it.lesson.forEach(function (s) { h += lessonHtml(s); });
     }
 
+    h += fixesHtml(it);
     h += qaHtml(it);
 
     if (it.notes && it.notes.length) {
