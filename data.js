@@ -201,6 +201,7 @@ const ITEM_SLIDES = {
    첫 화면에는 앞의 6개만 보입니다. 오래된 줄은 지우지 않아도 됩니다.
    ─────────────────────────────────────────────────────────────────── */
 const RECENT = [
+  { date: "2026-10-24", id: "b04", what: "지난 강의 녹음 31개 사실 점검 — 클로드 좌석은 1인 1석, M365 저장 공간, 다음 메일 가져오기 중단 등 13곳을 근거와 함께 보충" },
   { date: "2026-10-24", id: "dxax", what: "「개인정보는 어떻게 해요?」 강사 답변 세 줄 — 없는 업무부터·기관 계정 안에서만·이름 대신 번호로" },
   { date: "2026-10-24", id: "a02", what: "사이트 전체 사실 점검 — 요금·지원 범위·버전 보관 기간 등 10곳을 근거와 함께 바로잡음(「✏️ 강의 뒤 보충」)" },
   { date: "2026-10-24", id: "a08-vids", what: "「✏️ 강의 뒤 보충」 칸을 새로 둠 — 비즈 영상 30분·미트 시간 제한·깃허브를 만든 사람을 바로잡음" },
@@ -1083,6 +1084,10 @@ const CURRICULUM = [
       { t: "여러 구글계정을 사용할 때 계정 추가하는 방법", id: "_bYakV0iGjs", date: "2021-03-12", channel: "스마트한 비영리" },
     ],
     docs: [],
+    /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
+    fixes: [
+      { was: "브라우저는 무조건 크롬, 엣지 등 다른 브라우저는 안 된다.", now: "구글 워크스페이스는 **크롬·파이어폭스·사파리·엣지**를 공식 지원합니다. 다만 모든 기능(오프라인 등)이 되는 것은 크롬뿐이라 **크롬을 권장**합니다.", src: [{ t: "워크스페이스 지원 브라우저", u: "https://knowledge.workspace.google.com/admin/support/troubleshooting/supported-browsers-for-google-workspace?hl=ko" }], date: "2026-10-24" },
+    ],
     notes: [],
   },
 
@@ -1118,7 +1123,7 @@ const CURRICULUM = [
       },
       {
         h: "랜섬웨어에 걸렸다면 — 드라이브에 올려 둔 파일은 되살릴 수 있습니다",
-        p: "① 감염된 PC는 **바로 끄고** 더 쓰지 않습니다.\n② **다른 PC에서** 웹으로 드라이브에 로그인합니다(그 PC에는 데스크톱용 드라이브를 깔지 않습니다).\n③ 이름이 이상해진 파일의 **버전 관리**에서 맨 위(망가진 최신 버전)를 삭제하면 그 아래의 멀쩡한 버전이 올라옵니다.\n\n관리자는 관리 콘솔의 **공유 드라이브 관리 › 복원**으로 최근 삭제된 항목을 날짜를 정해 한꺼번에 되살릴 수도 있습니다. 파일이 날아갈 걱정 없이 일할 수 있다는 것, 그 안정감이 드라이브를 쓰는 이유입니다.",
+        p: "① 감염된 PC는 **바로 끄고** 더 쓰지 않습니다.\n② **다른 PC에서** 웹으로 드라이브에 로그인합니다(그 PC에는 데스크톱용 드라이브를 깔지 않습니다).\n③ 이름이 이상해진 파일의 **버전 관리**에서 맨 위(망가진 최신 버전)를 삭제하면 그 아래의 멀쩡한 버전이 올라옵니다.\n\n관리자는 관리 콘솔의 **공유 드라이브 관리 › 복원**으로 최근(휴지통을 비운 뒤 **25일 안**) 삭제된 항목을 날짜를 정해 한꺼번에 되살릴 수도 있습니다. 파일이 날아갈 걱정 없이 일할 수 있다는 것, 그 안정감이 드라이브를 쓰는 이유입니다.",
       },
       {
         h: "우물과 저수지",
@@ -1145,6 +1150,8 @@ const CURRICULUM = [
     /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
     fixes: [
       { was: "구글이 만들지 않은 파일은 데스크톱용 드라이브가 버전을 관리한다(최대 100개).", now: "버전 관리는 **드라이브 자체 기능**이라 웹에 올린 파일도 같습니다. 그리고 이전 버전은 **30일이 지나거나 100개를 넘으면 자동으로 지워집니다** — 남길 버전은 「영구 보관」을 눌러야 합니다.", src: [{ t: "드라이브 파일 버전 도움말", u: "https://support.google.com/drive/answer/2409045?hl=ko" }], date: "2026-10-24" },
+      { was: "마이크로소프트 365는 기관당 5TB, 직원당 1TB.", now: "사람마다 원드라이브 **1TB**는 맞습니다. 기관 공용(셰어포인트)은 **1TB + 라이선스당 10GB**라서 20명이면 약 1.2TB입니다. 구글 비영리판(기관 전체 100TB)이 훨씬 크다는 결론은 같습니다.", src: [{ t: "SharePoint 한도(마이크로소프트)", u: "https://learn.microsoft.com/en-us/office365/servicedescriptions/sharepoint-online-service-description/sharepoint-online-limits" }], date: "2026-10-24" },
+      { was: "업무 계정은 지운 파일을 다 복원할 수 있다.", now: "관리자가 되살릴 수 있는 것은 직원이 **휴지통을 비운 뒤 25일 안**의 파일입니다(계정을 지운 경우 20일). 그 뒤로는 별도 백업이 있어야 합니다.", src: [{ t: "관리자: 삭제된 드라이브 파일 복구", u: "https://knowledge.workspace.google.com/admin/drive/recover-deleted-files-and-folders-for-drive-users?hl=ko" }], date: "2026-10-24" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1247,6 +1254,10 @@ const CURRICULUM = [
       { t: "파일의 변경사항 찾기 — 버전 기록", u: "https://support.google.com/docs/answer/190843?hl=ko" },
       { t: "Google Drive에서 파일 공유하기 — 사람 · 그룹 · 링크", u: "https://support.google.com/docs/answer/2494822?hl=ko" },
       { t: "공유 중지, 제한 또는 변경하기 — 다운로드 · 인쇄 차단", u: "https://support.google.com/docs/answer/2494893?hl=ko" },
+    ],
+    /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
+    fixes: [
+      { was: "드라이브 「승인」으로 잠그면 작성자도 못 고치고, 상위 결재권자만 풀 수 있다.", now: "승인 중 잠금은 **선택**이고, 잠긴 파일도 **편집 권한이 있는 사람이면 누구나 잠금을 풀고** 고칠 수 있습니다. 다만 검토 중에 풀면 이미 받은 승인이 초기화되어 다시 승인받아야 합니다 — 「동결」이 아니라 「고치면 흔적이 남는 구조」입니다.", src: [{ t: "드라이브 승인 도움말", u: "https://support.google.com/drive/answer/9387535?hl=ko" }], date: "2026-10-24" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1378,7 +1389,7 @@ const CURRICULUM = [
       },
       {
         h: "기관 전체 공문을 한 대장으로",
-        p: "직원들이 각자 메일로 받은 공문도 **함께 한 대장에 모을** 수 있고, 팩스로 받은 공문은 손으로 입력해 넣으면 됩니다.\n\n📌 네이버·다음 메일로 공문을 받는 기관이라면, 먼저 **그 메일을 지메일로 가져오도록** 설정해 두세요(아래 안내 링크).",
+        p: "직원들이 각자 메일로 받은 공문도 **함께 한 대장에 모을** 수 있고, 팩스로 받은 공문은 손으로 입력해 넣으면 됩니다.\n\n📌 네이버·다음 메일로 공문을 받는 기관이라면, 그 메일 서비스에서 **지메일로 자동 전달**되도록 설정해 두세요. 지메일 쪽에서 「가져오기(POP)」로 끌어오는 방식은 구글이 중단하고 있습니다(아래 「✏️ 강의 뒤 보충」).",
       },
     ],
     videos: [
@@ -1388,7 +1399,11 @@ const CURRICULUM = [
       { t: "자동 공문 대장 프로그램 (스프레드시트 사본 만들기)", u: "https://docs.google.com/spreadsheets/d/1Oy16-zujNTW2zwaxr9eqVnUzSlH1UWYpBjOmp1_eZYk/edit?usp=sharing" },
       { t: "자동 공문 대장 설명서", u: "https://sites.google.com/view/autoofficialdocument" },
       { t: "네이버 메일을 지메일로 가져오기", u: "https://it.donga.com/30575/" },
-      { t: "다음 메일을 지메일로 가져오기", u: "https://sunstar2.tistory.com/1291" },
+      { t: "지메일 — 다른 메일 가져오기 기능 변경 안내(구글)", u: "https://support.google.com/mail/answer/16604719?hl=ko" },
+    ],
+    /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
+    fixes: [
+      { was: "다음 메일을 지메일로 연결하는 기능(포워딩)을 구글이 내년 여름에 끊는다.", now: "끊기는 것은 지메일 웹의 **「다른 계정 메일 가져오기(POP)」와 Gmailify**입니다. 2026년 1분기 이후 새로 설정할 수 없고, 쓰던 사람도 **2027년 1월까지**만 됩니다. 다음·네이버 쪽에서 지메일로 보내는 **자동 전달은 구글이 대안으로 권하는 방법**입니다.", src: [{ t: "지메일 다른 메일 가져오기 변경 안내", u: "https://support.google.com/mail/answer/16604719?hl=ko" }], date: "2026-10-24" },
     ],
     notes: [
       "영상 순서: 공문 수집(00:35) · 자동 수집(01:32) · 네이버·다음 메일 가져오기(02:24) · 프로그램 설정(03:06) · 기능 설명(09:14) · 시간 설정 자동 수집(09:51).",
@@ -1492,6 +1507,7 @@ const CURRICULUM = [
     fixes: [
       { was: "관리자가 소유권을 넘기면 직원 파일이 사라지니 직원이 알아챈다.", now: "소유권을 넘겨도 **파일은 사라지지 않고** 이전 소유자도 계속 편집할 수 있습니다. 다만 **안내 메일이 가므로** 직원이 알게 되는 것은 같습니다.", src: [{ t: "관리자 소유권 이전 도움말", u: "https://knowledge.workspace.google.com/admin/drive/transfer-drive-files-to-a-new-owner-as-an-admin" }], date: "2026-10-24" },
       { was: "MS 365는 USB 차단·바탕화면·PC 켜고 끈 시각까지 다룬다.", now: "그 기능은 **Intune이 들어 있는 요금제**(Business Premium, E3·E5 등)에서만 됩니다. Basic·Standard에는 없습니다.", src: [{ t: "Microsoft 365 Business Premium", u: "https://www.microsoft.com/microsoft-365/business/microsoft-365-business-premium" }], date: "2026-10-24" },
+      { was: "2단계 인증은 휴대폰 OTP 앱이 가장 높은 수준.", now: "구글은 **보안 키가 가장 안전**하다고 안내합니다. 구글 메시지(휴대폰 알림)와 OTP 앱은 「좋은 대안」, **문자 메시지는 권하지 않습니다**(가로채일 수 있음). 관리자는 보안 키만 쓰도록 강제할 수도 있습니다.", src: [{ t: "2단계 인증 — 관리자 도움말", u: "https://knowledge.workspace.google.com/admin/security/protect-your-business-with-2-step-verification?hl=ko" }], date: "2026-10-24" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1797,6 +1813,10 @@ const CURRICULUM = [
     ],
     docs: [
       { t: "Slack 시작하기 (한국어)", u: "https://slack.com/intl/ko-kr/help/categories/360000049043" },
+    ],
+    /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
+    fixes: [
+      { was: "슬랙은 비영리 단체면 무료.", now: "**회원 250명 이하** 워크스페이스는 Pro 플랜을 무상으로, 그보다 크면 Pro 85% 할인입니다. Business+는 규모와 상관없이 85% 할인이고, 슬랙의 비영리 승인을 받아야 합니다.", src: [{ t: "Slack 비영리 할인", u: "https://slack.com/help/articles/204368833" }], date: "2026-10-24" },
     ],
     notes: [
       "업무 연락과 개인 연락을 나누는 것이 첫 목표입니다.",
@@ -2184,6 +2204,11 @@ const CURRICULUM = [
     /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
     fixes: [
       { was: "비영리 Business Standard 인당 월 $4.2(연간 약정) · 클로드 $8.8 · 챗GPT $11", now: "비영리 Business Standard는 **연간 약정 $3.5**(월 결제 $4.2)입니다. 클로드·챗GPT 금액은 **부가세 10% 포함** 값이고 공식 표기는 클로드 $8, 챗GPT 월 $10·연간 $8입니다.", src: [{ t: "구글 비영리 요금 비교", u: "https://www.google.com/nonprofits/workspace/compare/" }, { t: "Claude for Nonprofits", u: "https://claude.com/solutions/nonprofits" }, { t: "Goodstack — OpenAI", u: "https://goodstack.org/software-discounts/openai" }], date: "2026-10-24" },
+      { was: "유료 클로드 계정 하나를 두세 명이 묶어서(동시에) 써도 된다.", now: "클로드 팀 플랜은 **한 좌석이 이름이 정해진 한 사람용**입니다. 계정을 여럿이 나눠 쓰면 약관 위반이 될 수 있으니, 필요한 인원만큼 좌석을 사세요(비영리는 최소 2석부터).", src: [{ t: "Claude Team 플랜 도움말", u: "https://support.claude.com/en/articles/9266767-what-is-the-team-plan" }, { t: "Anthropic 소비자 약관", u: "https://www.anthropic.com/legal/consumer-terms" }], date: "2026-10-24" },
+      { was: "클로드 비영리는 월 결제 10달러, 연 결제 8달러.", now: "그 숫자(월 $10·연 $8)는 **챗GPT** Business 비영리 요금입니다. 클로드 비영리 팀은 **1인당 월 $8**(최소 2석)이고, 공식 페이지에 연 결제 요금은 따로 없습니다.", src: [{ t: "Claude for Nonprofits", u: "https://claude.com/solutions/nonprofits" }, { t: "OpenAI for Nonprofits", u: "https://help.openai.com/en/articles/9359041-openai-for-nonprofits" }], date: "2026-10-24" },
+      { was: "클로드 팀 좌석은 개인 Pro보다 1.5배, 비싼 좌석은 6.5배 쓸 수 있다.", now: "공식 수치는 표준 좌석 **1.25배**, 프리미엄 좌석 **6.25배**(Pro 대비, 세션당)입니다.", src: [{ t: "Claude Team 플랜 도움말", u: "https://support.claude.com/en/articles/9266767-what-is-the-team-plan" }], date: "2026-10-24" },
+      { was: "개인 계정 AI는 유료로 써도 다 학습한다.", now: "개인 계정은 **기본으로 학습에 쓰일 수 있지만**, 제미나이는 「Gemini 앱 활동」, 챗GPT는 「모두를 위한 모델 개선」을 끄면 이후 대화는 학습에 쓰이지 않습니다. 그래도 이용자 정보는 기관 계정에서만 다루세요.", src: [{ t: "Gemini 앱 활동 도움말", u: "https://support.google.com/gemini/answer/13594961?hl=ko" }], date: "2026-10-24" },
+      { was: "구글 워크스페이스 정가는 1인당 월 13달러.", now: "Business Standard 정가는 **월 $14**이고, 첫 20명에게 12개월 동안 **$12.60**(10% 할인)이 적용됩니다. 비영리는 연 약정 $3.50입니다.", src: [{ t: "Google Workspace 요금", u: "https://workspace.google.com/pricing" }, { t: "구글 비영리 요금 비교", u: "https://www.google.com/nonprofits/workspace/compare/" }], date: "2026-10-24" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
