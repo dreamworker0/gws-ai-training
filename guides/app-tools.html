@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>업무용 앱 도구 비교</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f3; --surface:#ffffff; --surface-2:#f1efe9; --text:#1f2328; --muted:#5b6270;
+  --line:#e2dfd7; --accent:#2f6f5e; --accent-soft:#e3f0ec;
+  --good:#1f7a4d; --good-bg:#e4f4ea; --mid:#8a5a00; --mid-bg:#fbf0d9; --bad:#b0352b; --bad-bg:#fbe5e2;
+  --chatgpt:#10a37f; --claude:#c96442; --firebase:#e8920c; --gas:#3b78d8; --vercel:#6b7280; --supabase:#3ecf8e;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16181c; --surface:#1e2126; --surface-2:#262a31; --text:#e6e8eb; --muted:#a1a8b3;
+    --line:#343943; --accent:#6cc3a8; --accent-soft:#1f3a33;
+    --good:#6fd39b; --good-bg:#1b3527; --mid:#f0c26b; --mid-bg:#3a2f17; --bad:#f28b80; --bad-bg:#3d2220;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16181c; --surface:#1e2126; --surface-2:#262a31; --text:#e6e8eb; --muted:#a1a8b3;
+  --line:#343943; --accent:#6cc3a8; --accent-soft:#1f3a33;
+  --good:#6fd39b; --good-bg:#1b3527; --mid:#f0c26b; --mid-bg:#3a2f17; --bad:#f28b80; --bad-bg:#3d2220;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;line-height:1.7;font-size:16px;word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 16px 80px}
+header.top{padding:8px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px}
+.eyebrow{font-size:13px;color:var(--muted);letter-spacing:.02em}
+h1{font-size:30px;line-height:1.35;margin:6px 0 10px}
+h2{font-size:22px;margin:52px 0 14px;padding-top:8px}
+h3{font-size:18px;margin:26px 0 10px}
+p{margin:0 0 12px}
+.lead{font-size:17px;color:var(--muted);max-width:760px}
+a{color:var(--accent)}
+nav.toc{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+nav.toc a{font-size:14px;text-decoration:none;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--text)}
+nav.toc a:hover{border-color:var(--accent)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:14px 0}
+.summary{border-left:4px solid var(--accent)}
+.summary ul{margin:6px 0 0;padding-left:20px}
+.summary li{margin:6px 0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px;border-top:4px solid var(--c,var(--accent))}
+.card h3{margin:0 0 6px;font-size:17px}
+.card .who{font-size:13px;color:var(--muted);margin-bottom:8px}
+.card p{font-size:15px;margin:0}
+.c-chatgpt{--c:var(--chatgpt)} .c-claude{--c:var(--claude)} .c-firebase{--c:var(--firebase)} .c-gas{--c:var(--gas)} .c-vercel{--c:var(--vercel)} .c-supabase{--c:var(--supabase)}
+.terms{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin:0;padding:0}
+.terms div{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.terms dt{font-weight:700;font-size:15px}
+.terms dd{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:14px 0}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14.5px}
+table.wide{min-width:1080px;table-layout:fixed}
+table.wide thead th:first-child{width:150px}
+table.wide tbody th,table.wide thead th:first-child{position:sticky;left:0;z-index:1;box-shadow:1px 0 0 var(--line)}
+table.wide thead th:first-child{z-index:2;background:var(--surface-2)}
+th,td{padding:11px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+thead th{background:var(--surface-2);font-size:14px;position:sticky;top:0}
+tbody th{font-weight:700;width:150px;background:var(--surface)}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--c);margin-right:6px;vertical-align:1px}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;padding:1px 8px;border-radius:6px;margin-right:4px;white-space:nowrap}
+.g{color:var(--good);background:var(--good-bg)} .m{color:var(--mid);background:var(--mid-bg)} .b{color:var(--bad);background:var(--bad-bg)}
+.legend{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+.pc{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.pc .box{margin:0}
+.pc h3{margin-top:0}
+.pc ul{margin:0;padding-left:20px}
+.pc li{margin:7px 0}
+.pros h3{color:var(--good)} .cons h3{color:var(--bad)}
+.scenario{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:14px 0}
+.scenario h3{margin:0 0 4px}
+.scenario .ex{font-size:14px;color:var(--muted);margin-bottom:12px}
+.pick{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.pick span{font-size:14px;padding:4px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface-2)}
+.pick span.first{background:var(--accent-soft);border-color:var(--accent);font-weight:700}
+.scenario ul{margin:0;padding-left:20px}
+.scenario li{margin:5px 0;font-size:15px}
+.filter{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:14px 0 4px}
+.filter-label{font-size:14px;font-weight:700;margin-right:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:14px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);cursor:pointer;user-select:none}
+.chip input{margin:0;accent-color:var(--accent)}
+.chip:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.chip:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.filter button{font:inherit;font-size:13.5px;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
+.filter button:hover{color:var(--text);border-color:var(--accent)}
+.aside{background:var(--surface);border:1px solid var(--line);border-left:4px solid #f38020;border-radius:12px;padding:20px 22px;margin:18px 0}
+.aside h3{margin:0 0 6px}
+.aside .cols{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:12px 0}
+.aside .cols h4{margin:0 0 4px;font-size:15px}
+.aside .cols ul{margin:0;padding-left:20px}
+.aside .cols li{margin:5px 0;font-size:15px}
+.steps{counter-reset:st;list-style:none;padding:0;margin:8px 0 0;display:grid;gap:10px}
+.steps li{counter-increment:st;position:relative;padding:12px 14px 12px 52px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:15px}
+.steps li::before{content:counter(st);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:var(--surface);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+.steps .when{display:block;font-size:13px;color:var(--muted);font-weight:700}
+table.admin{table-layout:fixed}
+table.admin thead th:first-child{width:150px}
+.admin td ul{margin:0;padding-left:18px}
+.admin td li{margin:4px 0}
+.warn{background:var(--bad-bg);border:1px solid transparent;color:var(--text);border-radius:12px;padding:16px 20px;margin:14px 0}
+.warn strong{color:var(--bad)}
+ol.check{padding-left:22px;margin:6px 0 0}
+ol.check li{margin:8px 0}
+.unk li{margin:6px 0}
+.src{font-size:14px}
+.src li{margin:4px 0}
+.note{font-size:13.5px;color:var(--muted)}
+footer{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+@media (max-width:600px){
+  h1{font-size:24px} h2{font-size:20px}
+  .box,.scenario{padding:16px}
+  tbody th{width:110px}
+  table.wide thead th:first-child{width:110px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p style="margin:0 0 10px"><a href="../#b00-pick" style="color:var(--accent);text-decoration:none;font-weight:500">← 학습 사이트로 돌아가기</a></p>
+  <div class="eyebrow">2026년 11월 1일 기준 · 동료 사회복지사용 정리</div>
+  <h1>업무용 앱, 어떤 도구로 만들까?<br>ChatGPT Sites 장단점과 다른 도구 비교</h1>
+  <p class="lead">ChatGPT Sites, Claude 아티팩트, Firebase, 구글 앱스 스크립트, Vercel, Supabase를 같은 기준으로 놓고 봤습니다. 개인 계정과 기관(업무) 계정에서 무엇이 달라지는지, 우리 기관에서 자주 만드는 앱 유형별로 어떤 도구가 맞는지도 함께 정리했습니다.</p>
+  <nav class="toc" aria-label="목차">
+    <a href="#tldr">한눈에 결론</a>
+    <a href="#terms">용어 풀이</a>
+    <a href="#tools">여섯 가지 도구</a>
+    <a href="#compare">비교표</a>
+    <a href="#sites">ChatGPT Sites 장단점</a>
+    <a href="#account">개인 vs 업무 계정</a>
+    <a href="#scenario">상황별 추천</a>
+    <a href="#leave">퇴사 대비</a>
+    <a href="#admin">퇴사자 처리(관리자)</a>
+    <a href="#unknown">아직 모르는 것</a>
+    <a href="#sources">출처</a>
+  </nav>
+</header>
+
+<section id="tldr">
+  <h2>한눈에 결론</h2>
+  <div class="box summary">
+    <ul>
+      <li><strong>기관 안에서만 쓰는 간단한 관리 도구</strong>(비품 대장, 회의실 예약, 업무 현황판)는 ChatGPT Sites나 Claude 아티팩트로 빠르게 만들 수 있습니다. 둘 다 말로 설명하면 AI가 화면과 저장 기능까지 만들어 줍니다.</li>
+      <li><strong>정해진 시간에 메일을 보내거나 매달 자동으로 집계하는 일</strong>은 ChatGPT Sites와 Claude 아티팩트 모두 못 합니다. 구글 앱스 스크립트(소규모)나 기존 Cloud Run(대규모)이 맞습니다.</li>
+      <li><strong>이용자 상담 기록·사례 관리처럼 민감한 개인정보</strong>는 ChatGPT Sites와 Claude 아티팩트에 넣지 않는 쪽을 권합니다. 데이터가 어느 나라에 저장될지 고를 수 없기 때문입니다. 꼭 직접 만들어야 한다면 서울 리전을 고를 수 있는 Firebase나 Cloud Run을, 개인정보 담당자 검토를 거쳐 쓰는 편이 낫습니다.</li>
+      <li><strong>Vercel + Supabase</strong>는 Firebase와 비슷한 "개발자용" 선택지입니다. 서울 리전을 고를 수 있고 자유도가 높지만, 코드를 직접 관리해야 하고 기관 업무용이면 유료 플랜이 필요합니다(Vercel 무료 플랜은 개인·비상업용, Supabase 무료 프로젝트는 일주일 쓰지 않으면 일시정지).</li>
+      <li><strong>어떤 도구든 반드시 기관 계정으로 만드세요.</strong> 개인 계정으로 만든 앱은 그 사람이 계정을 지우거나 퇴사하면 함께 사라지거나 멈출 수 있습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="terms">
+  <h2>먼저, 용어 풀이</h2>
+  <dl class="terms">
+    <div><dt>서버리스</dt><dd>서버 컴퓨터를 직접 관리하지 않고, 요청이 올 때만 잠깐 코드가 실행되는 방식. 편하지만 오래 걸리는 작업이나 예약 작업은 제약이 많습니다.</dd></div>
+    <div><dt>D1 / R2</dt><dd>ChatGPT Sites가 쓰는 Cloudflare의 저장소. D1은 표 형태 데이터베이스(엑셀 시트와 비슷), R2는 파일 보관함입니다.</dd></div>
+    <div><dt>예약 작업(트리거)</dt><dd>"매일 아침 9시에 메일 발송"처럼 사람이 누르지 않아도 정해진 때에 저절로 돌아가는 기능.</dd></div>
+    <div><dt>데이터 저장 지역(리전)</dt><dd>데이터가 실제로 보관되는 나라·데이터센터. 개인정보 보호 측면에서 국내(서울) 보관 여부가 중요할 수 있습니다.</dd></div>
+    <div><dt>워크스페이스(기관 계정)</dt><dd>ChatGPT Business/Enterprise, Claude Team/Enterprise, Google Workspace처럼 기관이 관리하는 계정 묶음. 관리자가 사용자와 데이터를 관리할 수 있습니다.</dd></div>
+    <div><dt>Postgres(포스트그레스)</dt><dd>Supabase가 쓰는 데이터베이스 종류. 업계 표준이라 나중에 다른 곳으로 옮기기 쉽습니다.</dd></div>
+    <div><dt>시크릿</dt><dd>외부 서비스와 연결할 때 쓰는 비밀 키. 비밀번호와 같으니 화면이나 코드에 그대로 적으면 안 됩니다.</dd></div>
+  </dl>
+</section>
+
+<section id="tools">
+  <h2>여섯 가지 도구, 한 줄 소개</h2>
+  <div class="grid">
+    <div class="card c-chatgpt"><h3>ChatGPT Sites</h3><div class="who">OpenAI · 구 Codex Sites</div><p>ChatGPT에 말로 설명하면 웹앱을 만들어 인터넷 주소로 올려 줍니다. 데이터베이스와 파일 저장소가 함께 붙어 나옵니다.</p></div>
+    <div class="card c-claude"><h3>Claude 아티팩트</h3><div class="who">Anthropic</div><p>Claude와 대화하며 만든 웹페이지를 claude.ai에 올려 공유합니다. 기관 플랜에서는 공유 데이터 저장, 파일 업로드, 보는 사람 확인, Claude에게 질문하기 같은 기능을 페이지에 붙일 수 있습니다.</p></div>
+    <div class="card c-firebase"><h3>Firebase</h3><div class="who">Google · 개발자용 플랫폼</div><p>웹앱용 데이터베이스·로그인·파일 저장·호스팅을 묶은 서비스. 코드를 직접(또는 AI 도움으로) 짜야 하지만 가장 자유롭습니다.</p></div>
+    <div class="card c-gas"><h3>구글 앱스 스크립트</h3><div class="who">Google · 시트·메일 자동화</div><p>구글 시트·지메일·캘린더·드라이브를 자동으로 움직이는 스크립트. 예약 발송이나 시트 집계에 특히 강하고, 간단한 웹 화면도 만들 수 있습니다.</p></div>
+    <div class="card c-vercel"><h3>Vercel</h3><div class="who">웹사이트 배포 서비스</div><p>직접 짠 웹앱 코드를 올리면 주소를 붙여 배포해 줍니다. 화면과 간단한 서버 코드는 맡지만 데이터베이스는 따로 붙여야 합니다.</p></div>
+    <div class="card c-supabase"><h3>Supabase</h3><div class="who">데이터베이스·로그인 서비스</div><p>Postgres 데이터베이스, 로그인, 파일 저장을 한꺼번에 제공합니다. Vercel과 짝을 지어 "화면은 Vercel, 데이터는 Supabase"로 많이 씁니다.</p></div>
+  </div>
+</section>
+
+<section id="compare">
+  <h2>같은 기준으로 비교하기</h2>
+  <p class="note">기관 계정 기준입니다. 개인 계정과의 차이는 <a href="#account">아래 표</a>에 따로 정리했습니다.</p>
+  <div class="filter" role="group" aria-label="비교할 도구 고르기">
+    <span class="filter-label">비교할 도구</span>
+    <label class="chip"><input type="checkbox" value="1" checked><span class="dot" style="--c:var(--chatgpt)"></span>ChatGPT Sites</label>
+    <label class="chip"><input type="checkbox" value="2" checked><span class="dot" style="--c:var(--claude)"></span>Claude 아티팩트</label>
+    <label class="chip"><input type="checkbox" value="3" checked><span class="dot" style="--c:var(--gas)"></span>앱스 스크립트</label>
+    <label class="chip"><input type="checkbox" value="4" checked><span class="dot" style="--c:var(--firebase)"></span>Firebase</label>
+    <label class="chip"><input type="checkbox" value="5" checked><span class="dot" style="--c:var(--vercel)"></span>Vercel</label>
+    <label class="chip"><input type="checkbox" value="6" checked><span class="dot" style="--c:var(--supabase)"></span>Supabase</label>
+    <button type="button" id="filter-all">모두 보기</button>
+  </div>
+  <div class="table-wrap">
+    <table class="wide">
+      <thead>
+        <tr>
+          <th scope="col">항목</th>
+          <th scope="col"><span class="dot" style="--c:var(--chatgpt)"></span>ChatGPT Sites</th>
+          <th scope="col"><span class="dot" style="--c:var(--claude)"></span>Claude 아티팩트</th>
+          <th scope="col"><span class="dot" style="--c:var(--gas)"></span>앱스 스크립트</th>
+          <th scope="col"><span class="dot" style="--c:var(--firebase)"></span>Firebase</th>
+          <th scope="col"><span class="dot" style="--c:var(--vercel)"></span>Vercel</th>
+          <th scope="col"><span class="dot" style="--c:var(--supabase)"></span>Supabase</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">만드는 방법</th>
+          <td><span class="tag g">쉬움</span>말로 설명하면 AI가 만들고 배포까지</td>
+          <td><span class="tag g">쉬움</span>말로 설명하면 AI가 만들고 게시까지</td>
+          <td><span class="tag m">보통</span>코드 작성 필요. 시트 기반이라 익숙함</td>
+          <td><span class="tag b">어려움</span>코드 작성·배포를 직접(AI 도움 가능)</td>
+          <td><span class="tag b">어려움</span>코드 작성 필요. 깃허브에 올리면 자동 배포</td>
+          <td><span class="tag b">어려움</span>표 설계와 접근 규칙을 직접 작성</td>
+        </tr>
+        <tr>
+          <th scope="row">데이터 저장</th>
+          <td><span class="tag g">있음</span>D1 데이터베이스, 사이트당 10GB</td>
+          <td><span class="tag g">있음</span>페이지 전용 공유 DB, 사람별 개인 저장 가능</td>
+          <td><span class="tag g">있음</span>구글 시트에 저장(눈으로 바로 확인)</td>
+          <td><span class="tag g">있음</span>Firestore 등. 무료 한도 넘으면 종량 과금</td>
+          <td><span class="tag b">없음</span>자체 DB 없음. Supabase 등을 연결</td>
+          <td><span class="tag g">있음</span>Postgres. 무료 플랜은 프로젝트당 500MB</td>
+        </tr>
+        <tr>
+          <th scope="row">파일 저장</th>
+          <td><span class="tag g">있음</span>R2. 고정 한도 없음, 건당 업로드 한도는 확인 필요</td>
+          <td><span class="tag m">제한적</span>파일 1개 20MiB까지</td>
+          <td><span class="tag g">있음</span>구글 드라이브</td>
+          <td><span class="tag m">유료 연결</span>2026년 2월부터 결제 계정 연결(Blaze) 필수</td>
+          <td><span class="tag m">연결 필요</span>별도 저장소 서비스 연결</td>
+          <td><span class="tag g">있음</span>Storage 제공(무료 플랜은 용량 작음)</td>
+        </tr>
+        <tr>
+          <th scope="row">누가 볼 수 있나</th>
+          <td><span class="tag g">넓음</span>기본은 소유자·관리자만. 초대한 사람·그룹, 초대한 외부인(보기만), 워크스페이스 전체, 인터넷 전체 공개 중 선택</td>
+          <td><span class="tag m">기관 내부</span>기관 멤버 중심. 외부 공유는 관리자가 허용해야 하고, 보는 사람도 Claude 계정 필요</td>
+          <td><span class="tag g">넓음</span>본인·기관 도메인·누구나 중 선택</td>
+          <td><span class="tag g">자유</span>직접 정함(전체 공개, 로그인 등)</td>
+          <td><span class="tag g">자유</span>직접 정함. 팀 플랜은 비밀번호 보호 등</td>
+          <td><span class="tag g">자유</span>로그인·행 단위 접근 규칙으로 직접 정함</td>
+        </tr>
+        <tr>
+          <th scope="row">외부 주민이 로그인 없이 접속</th>
+          <td><span class="tag g">가능</span>전체 공개 설정</td>
+          <td><span class="tag b">어려움</span>기관 플랜은 공개 게시 없음</td>
+          <td><span class="tag g">가능</span>"누구나"로 웹앱 배포</td>
+          <td><span class="tag g">가능</span></td>
+          <td><span class="tag g">가능</span></td>
+          <td><span class="tag g">가능</span>접근 규칙을 꼼꼼히 설정해야 안전</td>
+        </tr>
+        <tr>
+          <th scope="row">예약·자동 작업</th>
+          <td><span class="tag b">불가</span>예약·장시간·백그라운드 작업 미지원</td>
+          <td><span class="tag b">불가</span>페이지를 열 때만 동작</td>
+          <td><span class="tag g">강점</span>시간 트리거. 1회 6분, 하루 합계 6시간</td>
+          <td><span class="tag g">가능</span>예약 함수(Blaze 필요)</td>
+          <td><span class="tag m">조건부</span>크론 기능. 무료 플랜은 하루 1번만</td>
+          <td><span class="tag g">가능</span>DB 안에서 예약 실행(pg_cron)</td>
+        </tr>
+        <tr>
+          <th scope="row">메일 발송</th>
+          <td><span class="tag m">외부 연동</span>메일 서비스 API를 직접 연결</td>
+          <td><span class="tag m">연결 도구</span>보는 사람의 Gmail 커넥터로 가능(그 사람 권한으로)</td>
+          <td><span class="tag g">강점</span>하루 1,500명(기관 도메인 내 2,000명)</td>
+          <td><span class="tag m">외부 연동</span>메일 서비스 연결 필요</td>
+          <td><span class="tag m">외부 연동</span>메일 서비스 연결 필요</td>
+          <td><span class="tag m">외부 연동</span>로그인 메일 외 발송은 메일 서비스 연결</td>
+        </tr>
+        <tr>
+          <th scope="row">외부 DB·공공데이터 API</th>
+          <td><span class="tag b">제약 큼</span>외부 DB 불가, 까다로운 외부 호출 어려움</td>
+          <td><span class="tag b">제약 큼</span>임의 외부 호출 차단, 등록된 커넥터만</td>
+          <td><span class="tag g">가능</span>하루 10만 회 호출</td>
+          <td><span class="tag g">자유</span></td>
+          <td><span class="tag g">자유</span></td>
+          <td><span class="tag g">자유</span>Edge Functions로 호출</td>
+        </tr>
+        <tr>
+          <th scope="row">데이터 저장 지역</th>
+          <td><span class="tag b">지정 불가</span></td>
+          <td><span class="tag b">지정 불가</span>안내 없음</td>
+          <td><span class="tag m">제한적</span>구글 워크스페이스 정책을 따름. 한국 지정은 안 됨</td>
+          <td><span class="tag g">지정 가능</span>서울(asia-northeast3) 선택 가능</td>
+          <td><span class="tag g">지정 가능</span>서버 코드 실행 지역에 서울 있음</td>
+          <td><span class="tag g">지정 가능</span>서울(ap-northeast-2) 선택 가능</td>
+        </tr>
+        <tr>
+          <th scope="row">비용</th>
+          <td><span class="tag g">현재 무료</span>2026-12-31까지 호스팅 무료, 2027년부터 허용량 초과분 과금(허용량 비공개)</td>
+          <td><span class="tag g">플랜 포함</span>별도 호스팅 요금 안내 없음</td>
+          <td><span class="tag g">무료</span>한도 안에서는 추가 비용 없음</td>
+          <td><span class="tag m">종량제</span>무료 한도 이후 과금. 예산 알림은 알림만 하고 사용을 막지 않음</td>
+          <td><span class="tag m">유료 권장</span>무료(Hobby)는 개인·비상업용만. 기관용 Pro는 사용자당 월 20달러</td>
+          <td><span class="tag m">유료 권장</span>무료 플랜 있음. Pro 월 25달러부터</td>
+        </tr>
+        <tr>
+          <th scope="row">테스트 환경</th>
+          <td><span class="tag b">없음</span>배포 주소가 곧 운영</td>
+          <td><span class="tag m">보통</span>비공개로 먼저 확인 후 공유</td>
+          <td><span class="tag g">있음</span>테스트 배포 주소 제공</td>
+          <td><span class="tag g">있음</span>프로젝트를 나눠 테스트 가능</td>
+          <td><span class="tag g">강점</span>수정할 때마다 미리보기 주소 자동 생성</td>
+          <td><span class="tag g">있음</span>프로젝트·브랜치를 나눠 테스트</td>
+        </tr>
+        <tr>
+          <th scope="row">백업·삭제 위험</th>
+          <td><span class="tag b">주의</span>삭제하면 복구 불가 → CSV 내보내기 필수</td>
+          <td><span class="tag b">주의</span>게시를 내리면 저장 데이터도 영구 삭제</td>
+          <td><span class="tag g">쉬움</span>시트 사본·버전 기록</td>
+          <td><span class="tag m">보통</span>내보내기·백업 기능 있음(설정 필요)</td>
+          <td><span class="tag g">낮음</span>코드는 깃허브에 남음</td>
+          <td><span class="tag b">주의</span>무료 플랜은 자동 백업 보관이 없고, 7일 미사용 시 일시정지</td>
+        </tr>
+        <tr>
+          <th scope="row">금지·주의 대상</th>
+          <td>결제·카드정보, 의료정보, 13세 미만 대상 서비스 금지</td>
+          <td>공유 저장소에 민감정보 입력 주의(공식 안내)</td>
+          <td>기관 구글 워크스페이스 정책을 따름</td>
+          <td>기관 보안 기준에 따라 직접 설계</td>
+          <td>기관 보안 기준에 따라 직접 설계</td>
+          <td>접근 규칙(RLS)을 빠뜨리면 데이터가 그대로 노출될 수 있음</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend"><span class="tag g">초록</span>유리함 <span class="tag m">노랑</span>조건부 <span class="tag b">빨강</span>불리함 · 표가 잘리면 옆으로 밀어서 보세요.</p>
+</section>
+
+<section id="sites">
+  <h2>ChatGPT Sites 장단점 자세히</h2>
+  <div class="pc">
+    <div class="box pros">
+      <h3>장점</h3>
+      <ul>
+        <li><strong>만들기가 가장 쉽습니다.</strong> 화면, 데이터베이스, 파일 저장, 로그인까지 한 번에 붙어 나옵니다.</li>
+        <li><strong>허락받은 사람만 쓰게 할 수 있습니다.</strong> 새 사이트는 소유자와 관리자만 볼 수 있고, "초대한 사람만"으로 두면 초대한 직원·그룹·외부인만 들어옵니다. 필요하면 기관 전체나 인터넷 전체로 넓힐 수도 있어 외부 신청 페이지도 가능합니다.</li>
+        <li><strong>로그인이 편합니다.</strong> 내부용은 기관 ChatGPT 계정으로, 외부용은 ChatGPT 로그인이나 외부 로그인 서비스로 붙일 수 있습니다.</li>
+        <li><strong>저장 공간이 넉넉합니다.</strong> 데이터베이스 사이트당 10GB, 파일 보관함은 고정 한도가 없습니다.</li>
+        <li><strong>올해 말까지 호스팅 무료</strong>라 시험 삼아 써 보기 좋습니다.</li>
+      </ul>
+    </div>
+    <div class="box cons">
+      <h3>단점·주의할 점</h3>
+      <ul>
+        <li><strong>예약·자동 작업이 안 됩니다.</strong> 매일 알림 메일, 야간 집계 같은 기능은 다른 도구가 필요합니다.</li>
+        <li><strong>데이터 저장 지역을 고를 수 없습니다.</strong> 이용자 민감정보는 넣지 않는 편이 안전합니다.</li>
+        <li><strong>테스트 환경이 따로 없습니다.</strong> 고치는 순간 바로 실제 사용자에게 반영됩니다.</li>
+        <li><strong>지우면 복구가 안 됩니다.</strong> CSV 내보내기 버튼을 만들어 두고 정기적으로 백업해야 합니다.</li>
+        <li><strong>2027년부터 비용이 생길 수 있고</strong>, 플랜별 허용량은 아직 공개되지 않았습니다(사이트별 사용량 보고는 2026-12-01부터).</li>
+        <li><strong>퇴사 시 처리가 애매합니다.</strong> 소유권 이전은 되지만, 퇴사자 계정을 지울 때 사이트가 자동으로 넘어가는지는 공식 문서에 없습니다.</li>
+        <li><strong>권한 정리를 꼼꼼히 해야 합니다.</strong> 한 사람의 초대를 지워도 그룹·워크스페이스 전체·공개 설정으로 계속 들어올 수 있습니다.</li>
+        <li>외부 데이터베이스, 일반 서버 프로그램(Node.js), 오래 걸리는 작업은 지원하지 않습니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="box">
+    <h3 style="margin-top:0">허락받은 사람만 쓰게 하는 방법</h3>
+    <ol class="check">
+      <li>사이트에서 <strong>Share</strong>를 누르고 <strong>Who has access</strong>를 "Only those invited(초대한 사람만)"로 둡니다.</li>
+      <li>이메일이나 그룹을 검색해 <strong>Viewer</strong> 권한으로 <strong>Invite</strong>를 누릅니다.</li>
+      <li>링크를 보내면서 "초대받은 그 계정으로 로그인하세요"라고 안내합니다. 다른 계정으로 로그인하면 들어오지 못합니다.</li>
+    </ol>
+    <p style="margin-top:12px"><strong>기관 밖 사람을 초대할 때</strong></p>
+    <ul>
+      <li>외부 초대는 Plus·Pro·Business·Enterprise 플랜에 차례로 열리는 중입니다. 메뉴가 안 보이면 아직 열리지 않았을 수 있습니다.</li>
+      <li>Enterprise는 관리자가 <strong>Workspace settings &gt; Permissions &amp; roles</strong>에서 "Allow members to invite external visitors to sites"를 켜야 합니다. Business는 이 스위치가 따로 없습니다.</li>
+      <li>외부 초대와 인터넷 공개는 서로 다른 설정입니다. 외부 초대를 허용해도 사이트가 인터넷에 공개되지는 않습니다. Enterprise는 공개 게시가 기본으로 꺼져 있습니다.</li>
+      <li>초대받은 외부인은 보기만 할 수 있습니다. 수정·게시는 못 하고 워크스페이스 멤버가 되지도 않습니다. 로그인하려면 ChatGPT 계정이 필요할 것으로 보입니다(공식 문서에 명시되지 않음).</li>
+    </ul>
+  </div>
+
+  <div class="aside">
+    <h3>참고: Cloudflare를 직접 쓰면?</h3>
+    <p>ChatGPT Sites는 Cloudflare의 Workers(서버리스 실행), D1(데이터베이스), R2(파일 보관함) 위에서 돌아갑니다. Cloudflare를 직접 쓰는 것은 같은 엔진을 ChatGPT 없이 쓰는 셈입니다. 그래서 Sites에서 "안 된다"고 한 것 중 상당수는 Cloudflare가 아니라 Sites의 제약입니다.</p>
+    <div class="cols">
+      <div>
+        <h4>직접 쓰면 생기는 것</h4>
+        <ul>
+          <li><strong>예약 작업:</strong> Cron Triggers로 정해진 시간에 실행(무료 계정당 5개, 유료 250개)</li>
+          <li><strong>작업 대기열(Queues)</strong>과 테스트용 환경 분리</li>
+          <li><strong>직원 전용 로그인 보호:</strong> Cloudflare Access, 50명까지 무료</li>
+          <li><strong>파일 전송비 없음:</strong> R2는 내려받기 전송 요금이 없고 10GB까지 무료</li>
+        </ul>
+      </div>
+      <div>
+        <h4>잃거나 그대로인 것</h4>
+        <ul>
+          <li><strong>말로 만드는 편리함:</strong> 코드와 배포를 직접 관리해야 합니다.</li>
+          <li><strong>무료 플랜은 빡빡함:</strong> 하루 10만 요청, 요청 1건당 CPU 시간 10ms. 조금만 무거워도 유료(Workers Paid)가 필요합니다.</li>
+          <li><strong>저장 지역은 여전히 대략적:</strong> D1은 "아시아·태평양" 같은 권역 힌트만 줄 수 있고 보장되지 않습니다. 엄격한 지정은 EU·미국 등만 되고 한국은 없습니다.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">언제 고려할까: Sites로 만든 앱이 커져서 예약 작업이 필요해지거나, 직접 운영으로 옮기고 싶을 때. D1·R2 구조가 같아서 옮기기가 비교적 쉽습니다. 다만 개발 부담은 Vercel + Supabase나 Firebase와 비슷하니, 이미 Cloud Run을 쓰는 우리 기관에서는 우선순위가 높지 않습니다.</p>
+  </div>
+
+  <h3>Claude 아티팩트와 비교하면</h3>
+  <p>두 도구는 "말로 만들고 바로 올린다"는 점에서 가장 비슷합니다. 차이는 <strong>누구에게 보여 주느냐</strong>에서 갈립니다.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">상황</th><th scope="col">ChatGPT Sites</th><th scope="col">Claude 아티팩트</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">외부 주민 대상 신청 페이지</th><td><span class="tag g">적합</span>전체 공개 가능</td><td><span class="tag b">부적합</span>기관 플랜은 공개 게시가 없음</td></tr>
+        <tr><th scope="row">허락받은 외부인만 보기</th><td><span class="tag g">적합</span>이메일로 외부 Viewer 초대(Enterprise는 관리자 허용 필요)</td><td><span class="tag m">조건부</span>관리자가 외부 공유를 켜야 하고, 보는 사람도 Claude 계정 필요</td></tr>
+        <tr><th scope="row">기관 내부 관리 도구</th><td><span class="tag g">적합</span></td><td><span class="tag g">적합</span>보는 사람 확인, 권한별 쓰기 제한, 댓글 기능</td></tr>
+        <tr><th scope="row">파일이 많은 자료실</th><td><span class="tag g">적합</span>파일 한도 넉넉</td><td><span class="tag m">조건부</span>파일당 20MiB</td></tr>
+        <tr><th scope="row">구글 캘린더·드라이브 연동</th><td><span class="tag m">조건부</span>직접 API 연결</td><td><span class="tag g">편함</span>보는 사람의 커넥터를 그 사람 권한으로 사용</td></tr>
+        <tr><th scope="row">페이지 안에서 AI에게 묻기</th><td><span class="tag m">조건부</span>별도 구현</td><td><span class="tag g">편함</span>페이지에서 Claude 호출 기능 제공</td></tr>
+        <tr><th scope="row">관리자 통제</th><td>소유권 이전, 공개 범위 관리</td><td>관리자 감사 기록, 보관 기간 설정, 일괄 조회·삭제 API(Enterprise)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="account">
+  <h2>개인 계정 vs 업무(기관) 계정</h2>
+  <p>같은 도구라도 어떤 계정으로 만들었느냐에 따라 <strong>공개 범위, 한도, 퇴사했을 때의 운명</strong>이 달라집니다.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">도구</th><th scope="col">개인 계정</th><th scope="col">업무(기관) 계정</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--chatgpt)"></span>ChatGPT Sites</th>
+          <td>
+            <span class="tag m">유료 플랜 필요</span><br>
+            본인 책임으로 운영. 계정을 지우면 사이트도 함께 사라진다고 봐야 합니다. 나중에 기관 워크스페이스로 옮겨도 사이트는 따라오지 않습니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            워크스페이스 범위로 공유 가능. 소유자·관리자가 같은 워크스페이스의 활동 중인 멤버에게 소유권을 넘길 수 있고, 넘긴 사람은 편집자로 남습니다. Enterprise는 관리자가 기능을 켜야 하고, 외부인 초대와 공개 게시도 관리자 설정을 따릅니다.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--claude)"></span>Claude 아티팩트</th>
+          <td>
+            <span class="tag m">공개 쉬움</span><br>
+            채팅에서 만든 아티팩트는 링크로 누구에게나 공개할 수 있고, Pro 이상은 이메일로 특정인을 초대할 수 있습니다. 공개용 저장 공간이 있지만 작습니다. 계정을 지우면 함께 사라집니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            기본은 기관 내부만. 외부 공유는 소유자가 허용해야 하고 보는 사람도 Claude 계정이 필요합니다. Claude Code에서 만드는 아티팩트(공유 DB·파일 업로드 등)는 Team/Enterprise 전용이며, Enterprise는 관리자가 켜야 합니다. 퇴사 시 소유권 이전 절차는 공식 문서에 없습니다.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--firebase)"></span>Firebase</th>
+          <td>
+            <span class="tag b">위험</span><br>
+            프로젝트가 개인에게 묶입니다. 결제 카드도 개인 명의가 되기 쉽고, 그 사람이 떠나면 접근과 결제가 함께 끊길 수 있습니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            기관 Google Cloud 조직 아래에 프로젝트가 생겨 관리자가 관리·복구할 수 있습니다. 기관 결제 계정을 연결하고, 기존 Cloud Run과 같은 조직에서 함께 관리할 수 있습니다.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--gas)"></span>앱스 스크립트</th>
+          <td>
+            <span class="tag b">한도 작음</span><br>
+            메일 하루 100명, 예약 작업 하루 합계 90분, 외부 호출 하루 2만 회. 웹앱을 "기관 사람만" 보게 하는 설정이 없습니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            메일 하루 1,500명(기관 도메인 내 2,000명), 예약 작업 하루 6시간, 외부 호출 하루 10만 회. 단, 1회 실행 6분 한도는 같습니다. 웹앱을 기관 도메인 사용자에게만 열 수 있습니다.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--vercel)"></span>Vercel</th>
+          <td>
+            <span class="tag b">업무용 불가</span><br>
+            무료 Hobby 플랜은 개인·비상업용으로만 쓸 수 있고, 예약 작업도 하루 1번으로 묶입니다. 개인 계정 프로젝트는 그 사람이 떠나면 관리가 끊깁니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            팀(Pro) 플랜으로 기관 팀을 만들고 멤버를 초대합니다. 비용은 사용자 수만큼 늘어납니다(사용자당 월 20달러). 프로젝트를 팀으로 옮길 수 있습니다.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--supabase)"></span>Supabase</th>
+          <td>
+            <span class="tag m">시험용</span><br>
+            무료 플랜은 활성 프로젝트 2개까지, 일주일 동안 활동이 적으면 일시정지됩니다(1년 안에는 복구 가능). 운영용으로 쓰기엔 불안합니다.
+          </td>
+          <td>
+            <span class="tag g">권장</span><br>
+            기관 이름으로 조직(Organization)을 만들고 멤버에게 역할을 나눠 줍니다. 유료 플랜은 자동 일시정지가 없고, 프로젝트를 다른 조직으로 옮길 수 있습니다.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="warn">
+    <strong>앱스 스크립트의 함정:</strong> 예약 작업(설치형 트리거)은 그것을 만든 사람의 계정으로 실행됩니다. 담당자가 퇴사해 계정이 지워지면 예약 발송이 조용히 멈출 수 있습니다. 공유 드라이브에 스크립트를 두고, 예약 작업은 공용(기능) 계정으로 만들어 두세요.
+  </div>
+</section>
+
+<section id="scenario">
+  <h2>우리 기관에서 만들 앱, 상황별 추천</h2>
+
+  <div class="scenario">
+    <h3>① 신청·접수 폼</h3>
+    <div class="ex">프로그램 신청, 자원봉사 등록, 만족도 조사</div>
+    <div class="pick"><span class="first">1순위 앱스 스크립트 + 구글 폼·시트</span><span>2순위 ChatGPT Sites</span><span>개발 인력이 있다면 Vercel + Supabase</span><span>비추천 Claude 아티팩트(외부 공개 불가)</span></div>
+    <ul>
+      <li>외부 주민이 로그인 없이 내야 한다면 구글 폼이 가장 간단하고, 접수 확인 메일은 앱스 스크립트로 붙이면 됩니다.</li>
+      <li>디자인이 중요하거나 신청 현황판까지 한 화면에 보여 주고 싶다면 ChatGPT Sites를 전체 공개로 쓸 수 있습니다.</li>
+      <li>어느 쪽이든 주민등록번호·건강 상태 같은 정보는 받지 말고 이름·연락처 등 꼭 필요한 항목만 받으세요.</li>
+    </ul>
+  </div>
+
+  <div class="scenario">
+    <h3>② 내부 관리 도구</h3>
+    <div class="ex">물품·비품 대장, 회의실 예약, 업무 현황판</div>
+    <div class="pick"><span class="first">1순위 ChatGPT Sites 또는 Claude 아티팩트</span><span>대안 앱스 스크립트 + 시트</span></div>
+    <ul>
+      <li>두 AI 도구 모두 기관 계정 로그인으로 직원만 보게 할 수 있어 가장 빨리 만들 수 있습니다.</li>
+      <li>Claude 아티팩트는 "누가 입력했는지" 표시, 권한별 수정 제한, 댓글이 쉬워 팀 내부 도구에 잘 맞습니다.</li>
+      <li>데이터를 시트로 바로 보고 싶어 하는 동료가 많다면 앱스 스크립트 + 시트가 낫습니다.</li>
+      <li>ChatGPT Sites는 CSV 내보내기를 꼭 넣고, 한 달에 한 번은 백업하세요.</li>
+    </ul>
+  </div>
+
+  <div class="scenario">
+    <h3>③ 이용자 사례 관리</h3>
+    <div class="ex">상담 기록, 케이스 관리 등 민감정보가 들어가는 앱</div>
+    <div class="pick"><span class="first">먼저 개인정보 담당자 검토</span><span>직접 만든다면 Firebase · Supabase · Cloud Run(서울 리전)</span><span>비추천 ChatGPT Sites · Claude 아티팩트</span></div>
+    <ul>
+      <li>ChatGPT Sites는 의료정보 처리를 금지하고 저장 지역도 고를 수 없습니다. Claude 아티팩트도 저장 지역 안내가 없고, 공식 도움말이 공유 저장소에 민감정보 입력을 주의하라고 안내합니다.</li>
+      <li>기존 사회복지 전산 시스템이 있다면 그쪽을 쓰는 것이 우선입니다.</li>
+      <li>직접 만들어야 한다면 서울 리전에 데이터를 두고, 접근 권한·접속 기록·백업을 설계할 수 있는 Firebase, Supabase(유료 플랜), 기존 Cloud Run이 맞습니다. Supabase는 접근 규칙(RLS)을 빠뜨리면 데이터가 외부에 그대로 보일 수 있으니 반드시 점검을 받으세요. 개발 부담이 크니 화면 시안만 AI 도구로 먼저 만들어 보는 방법도 있습니다(실제 이용자 정보 없이).</li>
+    </ul>
+  </div>
+
+  <div class="scenario">
+    <h3>④ 자동 발송·집계</h3>
+    <div class="ex">정기 알림 메일, 월별 통계 자동 집계</div>
+    <div class="pick"><span class="first">1순위 앱스 스크립트</span><span>큰 규모 Cloud Run(+예약 실행)</span><span>Supabase 예약 실행(pg_cron)</span><span>불가 ChatGPT Sites · Claude 아티팩트</span></div>
+    <ul>
+      <li>시트 데이터를 매일·매달 정해진 시간에 집계하거나 메일을 보내는 일은 앱스 스크립트가 가장 손쉽습니다.</li>
+      <li>한 번 실행이 6분을 넘거나, 하루 1,500명 넘게 보내야 하거나, 공공데이터 API를 많이 부른다면 기존 Cloud Run 쪽으로 옮기세요.</li>
+      <li>ChatGPT Sites·Claude 아티팩트로 만든 화면과 함께 쓰려면, 집계는 앱스 스크립트가 하고 결과만 화면에서 보여 주는 식으로 역할을 나누면 됩니다.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="leave">
+  <h2>퇴사·인수인계 대비 체크리스트 (만든 사람용)</h2>
+  <div class="box">
+    <ol class="check">
+      <li><strong>기관 계정으로 만들기.</strong> 개인 Gmail, 개인 ChatGPT·Claude 계정으로 업무 앱을 만들지 않습니다.</li>
+      <li><strong>소유자는 팀장이나 관리자 계정이 갖기.</strong> 사이트마다 편집자를 2명 이상 둡니다.</li>
+      <li><strong>퇴사 전에 소유권 이전.</strong> ChatGPT Sites는 같은 워크스페이스의 활동 중인 멤버에게 넘길 수 있습니다. 앱스 스크립트는 공유 드라이브로 옮기고 예약 작업을 공용 계정으로 다시 만듭니다.</li>
+      <li><strong>데이터 백업.</strong> CSV로 내려받아 기관 공유 드라이브에 보관합니다.</li>
+      <li><strong>시크릿(비밀 키) 인계.</strong> 소유권을 넘긴 뒤에도 유지되는지 확인되지 않았으니, 키 값과 발급처를 따로 안전하게 넘깁니다.</li>
+      <li><strong>이미 퇴사 처리됐다면</strong> 워크스페이스 관리자가 사이트를 찾아 소유권을 이전합니다. 보이지 않으면 OpenAI 지원팀에 문의합니다.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="admin">
+  <h2>퇴사자가 생겼을 때 관리자가 할 일</h2>
+  <p>위 체크리스트는 앱을 만든 직원이 미리 챙길 일이고, 여기는 <strong>기관 관리자(팀장·전산 담당)</strong>가 할 일입니다. 핵심은 "계정을 지우기 전에 옮기고, 지운 뒤에 확인한다"입니다.</p>
+
+  <h3>공통 순서</h3>
+  <ol class="steps">
+    <li><span class="when">퇴사 통보를 받으면</span><strong>앱 대장 확인.</strong> 퇴사자가 만들었거나 소유자로 있는 앱·사이트·스크립트·프로젝트를 모두 적습니다. 평소에 "앱 이름 · 도구 · 소유자 · 편집자 · 쓰는 시크릿" 대장을 두면 이 단계가 5분이면 끝납니다.</li>
+    <li><span class="when">마지막 출근일 전</span><strong>소유권 이전과 백업.</strong> 각 앱의 소유권을 남는 직원(가능하면 팀장·관리자 계정)에게 넘기고, 데이터를 CSV 등으로 내려받아 기관 공유 드라이브에 보관합니다.</li>
+    <li><span class="when">마지막 출근일 전</span><strong>예약 작업 옮기기.</strong> 퇴사자 계정으로 돌던 예약 발송·집계를 공용(기능) 계정이나 남는 직원 계정으로 다시 만듭니다.</li>
+    <li><span class="when">퇴사일</span><strong>계정 정리.</strong> 바로 삭제하지 말고, 구글은 먼저 <em>정지</em>, ChatGPT·Claude는 멤버에서 <em>제거</em>합니다. 로그인 연동(SCIM)을 쓰면 연동 쪽 그룹에서도 빼야 다시 추가되지 않습니다.</li>
+    <li><span class="when">퇴사일</span><strong>비밀 키 다시 발급.</strong> 퇴사자가 알던 시크릿·API 키·DB 비밀번호·액세스 토큰을 새로 만들어 앱에 넣고, 옛 키는 폐기합니다.</li>
+    <li><span class="when">퇴사일</span><strong>공유 정리.</strong> 퇴사자가 초대한 외부인, 퇴사자 개인에게 걸린 권한을 정리합니다. 한 사람을 지워도 그룹·전체 공유로 접근이 남을 수 있으니 공유 범위를 함께 봅니다.</li>
+    <li><span class="when">1~2주 뒤</span><strong>동작 확인 후 삭제.</strong> 예약 메일이 제대로 나갔는지, 사이트가 열리는지 확인한 다음 계정을 삭제합니다. 처리 내용을 기록으로 남깁니다.</li>
+  </ol>
+
+  <h3>도구별로 할 일</h3>
+  <div class="table-wrap">
+    <table class="admin">
+      <thead><tr><th scope="col">도구</th><th scope="col">계정 정리 전에</th><th scope="col">계정 정리할 때·후에</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--chatgpt)"></span>ChatGPT Sites</th>
+          <td><ul>
+            <li>퇴사자가 소유한 사이트를 찾아 같은 워크스페이스의 <strong>활동 중인 멤버</strong>에게 소유권 이전</li>
+            <li>이전한 퇴사자는 편집자로 남으니, 이후 편집자 목록에서도 제거</li>
+            <li>시크릿을 새 소유자가 다시 등록(이전 후 유지 여부 미확인)</li>
+            <li>CSV 내보내기로 데이터 백업</li>
+          </ul></td>
+          <td><ul>
+            <li><strong>Workspace settings &gt; Members</strong>에서 제거(SCIM이면 IdP 그룹에서 제거)</li>
+            <li>퇴사자가 만든 Codex 액세스 토큰 폐기, 연결된 드라이브·슬랙 등 점검</li>
+            <li>프로젝트·GPT는 워크스페이스 소유자에게 자동 이전되지만 <strong>Sites는 문서에 없음</strong> → 제거 후 사이트가 보이지 않으면 OpenAI 지원팀 문의</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--claude)"></span>Claude 아티팩트</th>
+          <td><ul>
+            <li>퇴사자의 아티팩트를 동료 계정으로 다시 게시하거나, 편집 권한을 동료에게 공유</li>
+            <li>공유 저장소 데이터를 내려받아 보관</li>
+            <li>퇴사자의 비공개 프로젝트에 있는 자료를 조직 공유 프로젝트로 옮기기</li>
+          </ul></td>
+          <td><ul>
+            <li>조직 <strong>Owner</strong>만 멤버를 제거할 수 있음</li>
+            <li>제거하면 그 사람의 채팅·비공개 프로젝트는 다른 멤버가 볼 수 없음. 조직 전체에 공유한 프로젝트는 남음</li>
+            <li>Primary Owner는 제거된 멤버의 채팅·프로젝트를 내보낼 수 있음(보관 기간 설정 영향)</li>
+            <li>아티팩트가 어떻게 되는지는 <strong>문서에 없음</strong> → 반드시 제거 전에 옮기기. Enterprise는 감사 기록으로 남은 아티팩트 확인</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--firebase)"></span>Firebase</th>
+          <td><ul>
+            <li>Google Cloud 권한(IAM)에서 남는 직원에게 <strong>소유자</strong> 역할 부여</li>
+            <li>결제 계정 관리자 변경</li>
+            <li>개인 계정 프로젝트라면 기관 조직으로 이전</li>
+          </ul></td>
+          <td><ul>
+            <li>IAM에서 퇴사자 역할 제거</li>
+            <li>퇴사자가 만든 API 키·서비스 계정 키 재발급</li>
+            <li>기관 조직 아래 프로젝트는 계정을 지워도 관리자가 계속 관리 가능</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--gas)"></span>앱스 스크립트</th>
+          <td><ul>
+            <li>스크립트와 연결된 시트를 <strong>공유 드라이브</strong>로 옮기기</li>
+            <li>예약 트리거를 공용 계정으로 다시 만들기(트리거는 만든 사람 계정으로 실행됨)</li>
+            <li>"나로 실행" 웹앱은 새 소유자 계정으로 다시 배포하고 주소가 바뀌면 안내</li>
+            <li>메일 발신자가 바뀐다는 점을 이용자에게 알리기</li>
+          </ul></td>
+          <td><ul>
+            <li>관리 콘솔에서 먼저 <strong>정지</strong>(정지 중에도 요금은 청구됨)</li>
+            <li>삭제할 때 <strong>드라이브 데이터 이전</strong>을 선택해 남는 직원에게 넘기기</li>
+            <li>삭제 후 20일 안에는 계정 복구 가능</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--vercel)"></span>Vercel</th>
+          <td><ul>
+            <li>팀 소유자 역할을 남는 직원에게 이전</li>
+            <li>퇴사자 개인 GitHub로 연결된 저장소는 기관 GitHub 조직으로 옮기기(안 하면 자동 배포가 끊김)</li>
+            <li>개인 계정 프로젝트는 기관 팀으로 이전</li>
+          </ul></td>
+          <td><ul>
+            <li>Team Settings &gt; Members에서 제거</li>
+            <li>환경 변수의 비밀 키와 액세스 토큰 재발급</li>
+          </ul></td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="dot" style="--c:var(--supabase)"></span>Supabase</th>
+          <td><ul>
+            <li>조직의 Owner 역할을 남는 직원에게 넘기기</li>
+            <li>퇴사자 개인 조직에 있는 프로젝트는 기관 조직으로 이전</li>
+          </ul></td>
+          <td><ul>
+            <li>조직 Team 설정에서 퇴사자 제거</li>
+            <li>DB 비밀번호와 비밀 키(service_role 등) 재발급. 바꾼 키를 앱 설정에도 반영</li>
+          </ul></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <strong>이미 계정이 지워졌다면:</strong> 구글 계정은 삭제 후 20일 안에 복구할 수 있습니다. ChatGPT는 관리자가 사이트 목록을 확인하고 보이지 않으면 OpenAI 지원팀에 문의하세요. Claude는 Primary Owner가 제거된 멤버의 데이터를 내보낼 수 있는지 먼저 확인하세요. 어느 경우든 시간이 지날수록 되살리기 어려우니 바로 움직이는 게 좋습니다.
+  </div>
+</section>
+
+<section id="unknown">
+  <h2>아직 확인되지 않은 것</h2>
+  <div class="box">
+    <ul class="unk">
+      <li>ChatGPT Sites: 초대받은 외부인에게 ChatGPT 계정이 꼭 필요한지(공식 문서는 "초대받은 계정으로 로그인"이라고만 안내)</li>
+      <li>ChatGPT Sites: 소유권 이전 메뉴의 정확한 위치와 절차, 소유자 계정을 지웠을 때 자동 이전 여부, 플랜별 호스팅 허용량, 업로드 1건 최대 크기, 이전 후 시크릿 유지 여부</li>
+      <li>Claude 아티팩트: 작성자가 퇴사했을 때 소유권 이전 방법, 데이터 저장 지역</li>
+      <li>앱스 스크립트: 소유권을 넘겼을 때 기존 예약 작업과 웹앱 배포가 그대로 유지되는지(테스트 프로젝트로 직접 확인 권장)</li>
+      <li>Vercel 무료 플랜의 "비상업" 범위에 비영리 기관 업무가 들어가는지는 약관 해석이 필요합니다. 기관 업무라면 처음부터 Pro로 시작하는 편이 안전합니다.</li>
+      <li>Supabase 무료 플랜 파일 저장 용량은 자료마다 수치가 달라 공식 요금 페이지 확인이 필요합니다.</li>
+      <li>Claude 아티팩트의 기능은 베타 단계라 자주 바뀝니다. 도입 전에 기관 관리자 화면에서 다시 확인하세요.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="sources">
+  <h2>출처</h2>
+  <ul class="src">
+    <li>ChatGPT Sites: <a href="https://learn.chatgpt.com/docs/sites">learn.chatgpt.com/docs/sites</a> · <a href="https://learn.chatgpt.com/docs/sites/publishing-and-sharing">공개·공유 설정</a> · <a href="https://learn.chatgpt.com/docs/enterprise/sites">Enterprise Sites</a> · <a href="https://learn.chatgpt.com/docs/enterprise/user-lifecycle">사용자 수명주기(퇴사 처리)</a></li>
+    <li>퇴사자 처리: <a href="https://support.claude.com/en/articles/12053672-what-happens-to-a-user-s-data-when-they-are-removed-from-a-team-or-enterprise-organization">Claude 조직에서 제거된 사용자 데이터</a> · <a href="https://support.google.com/a/answer/33314">Google Workspace 사용자 삭제</a> · <a href="https://knowledge.workspace.google.com/admin/users/suspend-a-user-temporarily">사용자 일시 정지</a></li>
+    <li>Cloudflare 한도: <a href="https://developers.cloudflare.com/d1/platform/limits/">D1 limits</a> · <a href="https://developers.cloudflare.com/r2/platform/limits/">R2 limits</a> · <a href="https://developers.cloudflare.com/workers/platform/limits/">Workers limits</a> · <a href="https://developers.cloudflare.com/d1/configuration/data-location/">D1 데이터 위치</a> · <a href="https://developers.cloudflare.com/r2/pricing/">R2 요금</a> · <a href="https://www.cloudflare.com/plans/zero-trust-services/">Zero Trust(Access) 요금</a></li>
+    <li>Claude 아티팩트: <a href="https://support.claude.com/en/articles/9547008-publish-and-share-artifacts">Publish and share artifacts(Claude 도움말)</a> · Claude 앱 안의 아티팩트 기능 안내(2026-11-01 확인) · <a href="https://www.digitalapplied.com/blog/claude-code-shareable-artifacts-live-web-pages-2026">Claude Code Artifacts 출시 기사(2026-06, 2차 자료)</a></li>
+    <li>Firebase: <a href="https://firebase.google.com/docs/projects/billing/firebase-pricing-plans">요금제(Spark·Blaze)</a> · <a href="https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024">Cloud Storage 변경 FAQ</a> · <a href="https://firebase.google.com/docs/firestore/locations">Firestore 위치(리전)</a></li>
+    <li>Vercel: <a href="https://vercel.com/docs/plans/hobby">Hobby 플랜(개인·비상업용)</a> · <a href="https://vercel.com/docs/cron-jobs/usage-and-pricing">크론 작업 한도</a> · <a href="https://vercel.com/docs/limits">한도</a> · <a href="https://vercel.com/pricing">요금</a></li>
+    <li>Supabase: <a href="https://supabase.com/pricing">요금</a> · <a href="https://supabase.com/docs/guides/platform/free-project-pausing">무료 프로젝트 일시정지</a> · <a href="https://www.jetadmin.io/blog/supabase-pricing-2026-guide-to-plans-limits-and-real-world-costs/">2026 요금 정리(2차 자료)</a></li>
+    <li>앱스 스크립트: <a href="https://developers.google.com/apps-script/guides/services/quotas">할당량(개인 vs Workspace)</a> · <a href="https://developers.google.com/apps-script/guides/triggers/installable">설치형 트리거</a> · <a href="https://groups.google.com/g/google-apps-script-community/c/JM31UcikAGw">소유 계정 관련 커뮤니티 논의</a></li>
+  </ul>
+</section>
+
+<footer>
+  2026년 11월 1일에 확인한 공식 문서를 바탕으로 정리했습니다. 요금·한도·정책은 바뀔 수 있으니 도입 전에 각 서비스 문서를 다시 확인하세요.
+</footer>
+
+</div>
+<script>
+(function(){
+  var table = document.querySelector('#compare table');
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#compare .filter input'));
+  var KEY = 'compare-tools-v2';
+
+  function apply(){
+    var on = boxes.filter(function(b){ return b.checked; }).map(function(b){ return +b.value; });
+    Array.prototype.forEach.call(table.rows, function(row){
+      for (var i = 1; i < row.cells.length; i++) {
+        row.cells[i].style.display = on.indexOf(i) === -1 ? 'none' : '';
+      }
+    });
+    table.style.minWidth = (150 + on.length * 170) + 'px';
+    try { localStorage.setItem(KEY, JSON.stringify(on)); } catch (e) {}
+  }
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (Array.isArray(saved) && saved.length) {
+      boxes.forEach(function(b){ b.checked = saved.indexOf(+b.value) !== -1; });
+    }
+  } catch (e) {}
+
+  boxes.forEach(function(b){
+    b.addEventListener('change', function(){
+      // 최소 한 개는 남겨 둔다
+      if (!boxes.some(function(x){ return x.checked; })) b.checked = true;
+      apply();
+    });
+  });
+  document.getElementById('filter-all').addEventListener('click', function(){
+    boxes.forEach(function(b){ b.checked = true; });
+    apply();
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
