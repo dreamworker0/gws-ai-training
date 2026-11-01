@@ -133,6 +133,7 @@ const DECKS = [
   { id: "rec1022b04b", title: "스킬 — 기관 양식을 AI에게 가르치고 나눠 주기 (녹음 기반)", pages: 14 },
   { id: "rec1023b00", title: "처음 듣는 개발 용어 — 깃허브·버셀·파이어베이스·API·CLI (녹음 기반)", pages: 9 },
   { id: "rec1026b03c", title: "문자·알림톡 자동 발송 — 시트와 발송 회사 연결 (녹음 기반)", pages: 8 },
+  { id: "rec1101b00pick", title: "업무용 앱, 어떤 도구로 만들까? — 여섯 도구 비교와 상황별 추천", pages: 11 },
 ];
 
 /* 목록에서 감추는 쪽 — 지금은 없습니다.
@@ -152,6 +153,7 @@ const SLIDE_HIDDEN = [];
    ─────────────────────────────────────────────────────────────────── */
 const ITEM_SLIDES = {
   b00: ["rec1023b00:1", "rec1023b00:2", "rec1023b00:3", "rec1023b00:4", "rec1023b00:5", "rec1023b00:6", "rec1023b00:7", "rec1023b00:8", "rec1023b00:9"],
+  "b00-pick": ["rec1101b00pick:1", "rec1101b00pick:2", "rec1101b00pick:3", "rec1101b00pick:4", "rec1101b00pick:5", "rec1101b00pick:6", "rec1101b00pick:7", "rec1101b00pick:8", "rec1101b00pick:9", "rec1101b00pick:10", "rec1101b00pick:11"],
   "b06-sec": ["appsec:1", "appsec:2", "appsec:3", "appsec:4", "appsec:5", "appsec:6", "appsec:7", "appsec:8", "appsec:9"],
   dxax: ["dxax1:1", "dxax1:2", "dxax1:3", "dxax1:4", "dxax1:5", "dxax1:6", "dxax1:7", "dxax1:8", "dxax2:1", "dxax2:2", "dxax2:3", "dxax2:4", "dxax2:5", "dxax2:6", "dxax2:7", "dxax2:8", "dxax3:1", "dxax3:2", "dxax3:3", "dxax3:4", "dxax3:5", "dxax3:6", "dxax3:7", "dxax3:8", "dxax3:9", "dxax4:1", "dxax4:2", "dxax4:3", "dxax4:4", "dxax4:5", "dxax4:6", "dxax4:7", "dxax4:8", "dxax4:9", "dxax5:1", "dxax5:2", "dxax5:3", "dxax5:4", "dxax5:5", "dxax5:6", "dxax5:7", "dxax5:8", "dxax5:9", "dxax6:1", "dxax6:2", "dxax6:3", "dxax6:4", "dxax6:5", "dxax6:6", "dxax6:7", "dxax6:8", "dxax6:9"],
   a00: [
@@ -393,6 +395,17 @@ const SLIDE_TITLES = {
   "rec1026b03c:6": "알림톡과 일반 문자의 차이",
   "rec1026b03c:7": "알림톡 템플릿 승인 과정",
   "rec1026b03c:8": "통장 입금 확인으로 자동 안내",
+  "rec1101b00pick:1": "업무용 앱, 어떤 도구로 만들까?",
+  "rec1101b00pick:2": "한눈에 보는 결론",
+  "rec1101b00pick:3": "꼭 알아야 할 핵심 용어 — 서버리스·예약 작업·데이터 저장 지역·기관 계정",
+  "rec1101b00pick:4": "여섯 가지 도구, 한 줄 소개",
+  "rec1101b00pick:5": "핵심 기준 비교표",
+  "rec1101b00pick:6": "ChatGPT Sites 장점과 주의할 점",
+  "rec1101b00pick:7": "반드시 기관 계정으로 만들어야 하는 이유",
+  "rec1101b00pick:8": "흐름도로 고르는 맞춤 도구",
+  "rec1101b00pick:9": "우리 기관 상황별 추천 도구",
+  "rec1101b00pick:10": "인수인계 및 퇴사자 관리 체크리스트",
+  "rec1101b00pick:11": "아직 확인되지 않은 것",
   "rec1019a04a:1": "구글 캘린더 핵심 실무",
   "rec1019a04a:2": "단축키와 드래그로 화면 빠르게 바꾸기",
   "rec1019a04a:3": "클릭과 글자 입력으로 빠르게 일정 넣기",
