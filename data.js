@@ -1913,6 +1913,8 @@ const CURRICULUM = [
     ],
     videos: [
       { t: "Slack 처음 쓴다면? 기본 화면 완전 정복", id: "ZwN3uqTftRg", date: "2026-05-02", channel: "심플하게 일하기 (Make it simpler)" },
+      { t: "Why Slack, 왜 슬랙인가? 소통을 넘어, 일이 실행되는 플랫폼 (슬랙 웨비나 시리즈 ①)", id: "7RxwpkQRic0", date: "2026-04-27", channel: "아이투맥스" },
+      { t: "Slack 도입은 하셨는데, 제대로 활용되고 있나요? (슬랙 웨비나 시리즈 ②)", id: "yzOImiOnGrE", date: "2026-10-02", channel: "아이투맥스" },
     ],
     docs: [
       { t: "Slack 시작하기 (한국어)", u: "https://slack.com/intl/ko-kr/help/categories/360000049043" },
