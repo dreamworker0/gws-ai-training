@@ -16,7 +16,7 @@
 :root[data-theme=dark]{--bg:#101a16;--paper:#182620;--ink:#edf3ef;--muted:#a8b9b1;--line:#31443c;--accent:#d78362;--accent-soft:#422b23;--green:#8fcdb5;--green-soft:#20342c;--shadow:none;color-scheme:dark}
 :root[data-theme=dark] .solid-button,:root[data-theme=dark] .cta,:root[data-theme=dark] .route-list button[aria-current=step],:root[data-theme=dark] .policy-tabs button[aria-selected=true]{color:#1b271c}:root[data-theme=dark] .brand-mark{background:#bd5139;color:#fff}:root[data-theme=dark] .wide-figure img,:root[data-theme=dark] .hero-figure img{border-color:var(--line)}
 @media print{.top-actions,.rail,.reading-progress,.quiz-actions,.capture-demo,.control-row,.task-foot button{display:none}.wrap{width:100%}.page-layout{display:block}.hero{padding-top:20px}.section{break-inside:avoid}body{background:#fff;color:#111;font-size:12px}.hero h1{font-size:36px}.interactive{box-shadow:none}.policy-panel[hidden]{display:block!important}.footer{margin-top:0}}
-html.embed .topbar,html.embed .reading-progress{display:none!important}html.embed .hero{padding-top:8px}html.embed .rail nav a[aria-current]{background:none;color:inherit;font-weight:inherit}
+html.embed .topbar,html.embed .reading-progress{display:none!important}html.embed .hero{padding-top:8px}html.embed .rail{position:relative;top:0;will-change:transform}
 </style>
 <script>
 try{const saved=localStorage.getItem('theme');document.documentElement.dataset.theme=saved==='dark'||saved==='light'?saved:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}catch{document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
@@ -82,7 +82,11 @@ const sections=[...document.querySelectorAll('main > section')];const links=[...
 function send(){parent.postMessage({type:'guide-height',h:R.scrollHeight},'*')}
 if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,600);
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);var el=id?document.getElementById(id):document.body;if(!el)return;e.preventDefault();parent.postMessage({type:'guide-scroll',y:el.getBoundingClientRect().top+scrollY},'*')});
-addEventListener('message',function(e){var d=e.data||{};if(d.type==='theme'&&(d.v==='dark'||d.v==='light'))R.dataset.theme=d.v});
+var rail=document.querySelector('.rail'),lay=document.querySelector('.page-layout'),secs=[].slice.call(document.querySelectorAll('main > section')),links=[].slice.call(document.querySelectorAll('.rail nav a'));
+/* 차례 고정: 부모 창이 스크롤 위치(이 페이지 기준 y)를 알려 주면 차례를 그만큼 내려 붙인다 — iframe 안에서는 sticky 가 듣지 않는다 */
+function follow(top,vh){if(rail&&lay&&getComputedStyle(lay).display==='grid'){rail.style.transform='none';var r0=rail.getBoundingClientRect().top+scrollY,lb=lay.getBoundingClientRect().bottom+scrollY;var off=Math.max(0,Math.min(top+24-r0,lb-rail.offsetHeight-r0));rail.style.transform='translateY('+off+'px)'}
+var act=secs.length?secs[0].id:'';secs.forEach(function(x){if(x.getBoundingClientRect().top+scrollY<=top+vh*.35)act=x.id});links.forEach(function(l){if(l.hash==='#'+act)l.setAttribute('aria-current','location');else l.removeAttribute('aria-current')})}
+addEventListener('message',function(e){var d=e.data||{};if(d.type==='theme'&&(d.v==='dark'||d.v==='light'))R.dataset.theme=d.v;if(d.type==='parent-scroll')follow(d.top,d.vh)});
 addEventListener('storage',function(e){if(e.key==='theme'&&(e.newValue==='dark'||e.newValue==='light'))R.dataset.theme=e.newValue});
 })();
 </script>

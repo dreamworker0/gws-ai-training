@@ -351,11 +351,26 @@
   }
 
   /* 항목 안에 띄운 그림·실습 페이지와 주고받기(높이 맞추기·차례 눌렀을 때 내려가기·화면 모드) */
+  /* 안 페이지의 「차례」가 따라 내려오도록 지금 보이는 위치를 알려 준다(위 메뉴 높이만큼 빼고) */
+  var guideTick = false;
+  function tellGuideScroll() {
+    var f = document.querySelector(".guide-frame");
+    if (!f || !f.contentWindow) return;
+    var bar = document.querySelector(".top");
+    var barH = bar ? bar.getBoundingClientRect().height : 0;
+    f.contentWindow.postMessage({ type: "parent-scroll", top: barH - f.getBoundingClientRect().top, vh: window.innerHeight - barH }, "*");
+  }
+  window.addEventListener("scroll", function () {
+    if (guideTick) return;
+    guideTick = true;
+    requestAnimationFrame(function () { guideTick = false; tellGuideScroll(); });
+  }, { passive: true });
+  window.addEventListener("resize", tellGuideScroll);
   window.addEventListener("message", function (e) {
     var d = e.data || {};
     var f = document.querySelector(".guide-frame");
     if (!f || e.source !== f.contentWindow) return;
-    if (d.type === "guide-height" && d.h > 0) f.style.height = Math.ceil(d.h) + "px";
+    if (d.type === "guide-height" && d.h > 0) { f.style.height = Math.ceil(d.h) + "px"; tellGuideScroll(); }
     if (d.type === "guide-scroll") {
       var top = f.getBoundingClientRect().top + window.scrollY + (d.y || 0) - 72;
       window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
