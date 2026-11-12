@@ -350,6 +350,18 @@
     return h;
   }
 
+  /* 항목 안에 띄운 그림·실습 페이지와 주고받기(높이 맞추기·차례 눌렀을 때 내려가기·화면 모드) */
+  window.addEventListener("message", function (e) {
+    var d = e.data || {};
+    var f = document.querySelector(".guide-frame");
+    if (!f || e.source !== f.contentWindow) return;
+    if (d.type === "guide-height" && d.h > 0) f.style.height = Math.ceil(d.h) + "px";
+    if (d.type === "guide-scroll") {
+      var top = f.getBoundingClientRect().top + window.scrollY + (d.y || 0) - 72;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    }
+  });
+
   /* 주제 바로가기 — 주소(#)를 바꾸지 않고 그 자리로만 내려간다(주소는 항목 라우팅에 쓰인다). */
   document.addEventListener("click", function (e) {
     var b = e.target.closest && e.target.closest(".topic-jump");
@@ -358,7 +370,7 @@
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
-  function renderItem(it) {
+  function renderItem(it, notes) {
     var h = "";
     var g = GROUP_OF[it.id];
     if (g) h += '<p class="kicker">' + esc(g.title) + "</p>";
@@ -371,13 +383,28 @@
     }
 
     /* 그림·실습 페이지 — 항목 맨 위에 크게 (2026-11-13 「여기까지 왔는데 어디로 가야 하는 거야?」: 공식 문서 맨 아래엔 안 보였다) */
-    if (it.pages && it.pages.length) {
-      h += '<div class="page-links">' + it.pages.map(function (pg) {
+    /* main: true 인 페이지는 항목의 본문이 된다 — 그 페이지를 바로 띄우고, 강의 정리·슬라이드는 두 번째 탭(서브)으로 (2026-11-13 「이 페이지를 메인으로, 현재 내용을 서브 페이지로」) */
+    var mainPage = (it.pages || []).filter(function (pg) { return pg.main; })[0];
+    var cards = (it.pages || []).filter(function (pg) { return !pg.main; });
+    if (cards.length) {
+      h += '<div class="page-links">' + cards.map(function (pg) {
         return '<a class="page-card" href="' + esc(pg.u) + '">' +
           '<span class="page-k">' + esc(pg.k || "그림·실습 페이지") + '</span>' +
           '<b>' + esc(pg.t) + '</b>' + (pg.d ? '<small>' + esc(pg.d) + '</small>' : '') +
           '<span class="page-go">열어 보기 →</span></a>';
       }).join("") + '</div>';
+    }
+    /* #a05 = 그림·실습 페이지가 본문, #notes-a05 = 예전 강의 정리·슬라이드(링크로 들어가 본다) — 2026-11-13 사용자님 */
+    if (mainPage && !notes) {
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">이전에 만든 강의 정리 · 슬라이드 보기 →</a>' +
+           '<a class="view-out" href="' + esc(mainPage.u) + '" target="_blank" rel="noopener">새 창으로 ↗</a></div>';
+      h += '<div class="view-main"><iframe class="guide-frame" src="' + esc(mainPage.u) + '" title="' + esc(mainPage.t) + '" loading="eager"></iframe></div>';
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">이전에 만든 강의 정리 · 슬라이드 보기 →</a></div>';
+      h += askBox(it.title, "어디까지 해보셨는지 함께 적어 주시면 답이 빨라집니다.");
+      return h;
+    }
+    if (mainPage && notes) {
+      h += '<div class="view-switch"><a href="#' + esc(it.id) + '">← 그림·실습 페이지로 돌아가기</a><span class="view-note">이전에 만든 강의 정리 · 슬라이드입니다.</span></div>';
     }
 
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
@@ -579,8 +606,8 @@
     document.title = META.title + " — " + META.subtitle;
   }
 
-  function showItem(it) {
-    $("itembody").innerHTML = renderItem(it);
+  function showItem(it, notes) {
+    $("itembody").innerHTML = renderItem(it, notes);
     $("pager").innerHTML = renderPager(it);
     installImageFallbacks(page);
     only("item");
@@ -818,6 +845,10 @@
       if (html) { showDeck(html, "발표자료 " + ms[2] + "쪽"); return; }
     }
 
+    /* #notes-a05 — 그림·실습 페이지가 본문인 항목의 예전 강의 정리·슬라이드 */
+    var mn = /^notes-([a-z][a-z0-9-]*)$/.exec(raw);
+    if (mn && findItem(mn[1])) { showItem(findItem(mn[1]), true); return; }
+
     /* #a01 — 목차 항목 */
     var it = findItem(raw);
     if (it) { showItem(it); return; }
@@ -831,7 +862,7 @@
     if (!a) return;
     var cur = location.hash.replace(/^#/, "").split("?")[0];
     var owner = findItem(cur) ? cur
-              : (/^slides-([a-z][a-z0-9-]*)$/.exec(cur) || [])[1];
+              : (/^(?:slides|notes)-([a-z][a-z0-9-]*)$/.exec(cur) || [])[1];
     if (owner) {
       e.preventDefault();
       location.hash = a.getAttribute("href").slice(1) + "?from=" + owner;
@@ -857,6 +888,8 @@
       var next = dark ? "light" : "dark";
       root.setAttribute("data-theme", next);
       try { localStorage.setItem(KEY, next); } catch (e) {}
+      var gf = document.querySelector(".guide-frame");
+      if (gf && gf.contentWindow) gf.contentWindow.postMessage({ type: "theme", v: next }, "*");
     });
   })();
 

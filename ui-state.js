@@ -18,6 +18,8 @@ const ArchiveUI = {
     if (raw === "slides") return "slides";
     const itemMatch = /^slides-([a-z][a-z0-9-]*)$/.exec(raw);
     if (itemMatch) return itemIds.has(itemMatch[1]) ? "slides" : "notFound";
+    const notesMatch = /^notes-([a-z][a-z0-9-]*)$/.exec(raw);
+    if (notesMatch) return itemIds.has(notesMatch[1]) ? "item" : "notFound";
     const deckMatch = /^slide-([a-z][a-z0-9]*)-(\d+)$/.exec(raw);
     if (deckMatch) return deckIds.has(deckMatch[1]) ? "slides" : "notFound";
     return itemIds.has(raw) ? "item" : "notFound";

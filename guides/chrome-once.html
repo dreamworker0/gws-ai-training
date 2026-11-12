@@ -16,6 +16,7 @@
 :root[data-theme=dark]{--bg:#101a16;--paper:#182620;--ink:#edf3ef;--muted:#a8b9b1;--line:#31443c;--accent:#d78362;--accent-soft:#422b23;--green:#8fcdb5;--green-soft:#20342c;--shadow:none;color-scheme:dark}
 :root[data-theme=dark] .solid-button,:root[data-theme=dark] .cta,:root[data-theme=dark] .route-list button[aria-current=step],:root[data-theme=dark] .policy-tabs button[aria-selected=true]{color:#1b271c}:root[data-theme=dark] .brand-mark{background:#bd5139;color:#fff}:root[data-theme=dark] .wide-figure img,:root[data-theme=dark] .hero-figure img{border-color:var(--line)}
 @media print{.top-actions,.rail,.reading-progress,.quiz-actions,.capture-demo,.control-row,.task-foot button{display:none}.wrap{width:100%}.page-layout{display:block}.hero{padding-top:20px}.section{break-inside:avoid}body{background:#fff;color:#111;font-size:12px}.hero h1{font-size:36px}.interactive{box-shadow:none}.policy-panel[hidden]{display:block!important}.footer{margin-top:0}}
+html.embed .topbar,html.embed .reading-progress{display:none!important}html.embed .hero{padding-top:8px}html.embed .rail nav a[aria-current]{background:none;color:inherit;font-weight:inherit}
 </style>
 <script>
 try{const saved=localStorage.getItem('theme');document.documentElement.dataset.theme=saved==='dark'||saved==='light'?saved:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}catch{document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
@@ -73,6 +74,16 @@ const tasks=[...document.querySelectorAll('[data-task]')];const taskKey='workspa
 function renderTasks(save=false){if(save){try{localStorage.setItem(taskKey,JSON.stringify(tasks.map(t=>t.checked)))}catch{canStore=false}}const count=tasks.filter(t=>t.checked).length;$('task-count').textContent=count+' / 3 완료';$('task-progress').style.width=count/3*100+'%';$('task-meter').setAttribute('aria-valuenow',String(count));$('finish-note').textContent=count===3?'세 가지 과제를 모두 마치셨습니다. 함께 쓰기 좋은 업무 환경을 만들어 주셨네요.':'한 가지씩 적용하면, 우리 기관의 내일이 조금 더 편해집니다.';$('storage-note').textContent=canStore?'체크한 내용은 이 브라우저에만 저장됩니다.':'브라우저 저장이 제한되어, 이번에 연 페이지에서만 체크됩니다.'}
 tasks.forEach(task=>task.addEventListener('change',()=>renderTasks(true)));$('tasks-reset').addEventListener('click',()=>{tasks.forEach(t=>t.checked=false);renderTasks(true)});renderTasks();
 const sections=[...document.querySelectorAll('main > section')];const links=[...document.querySelectorAll('.rail nav a')];let scheduled=false;function updateReading(){scheduled=false;const total=document.documentElement.scrollHeight-innerHeight;$('reading-progress').style.width=(total>0?Math.min(100,scrollY/total*100):0)+'%';let active=sections[0].id;for(const section of sections)if(section.getBoundingClientRect().top<innerHeight*.35)active=section.id;links.forEach(link=>{if(link.hash==='#'+active)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current')})}addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(updateReading)}},{passive:true});addEventListener('resize',updateReading);addEventListener('load',updateReading);updateReading();
+})();
+</script>
+<script>
+/* 학습 사이트 항목 안에 띄워졌을 때(2026-11-13): 사이트 머리 메뉴를 살리고, 이 페이지는 본문만 */
+(function(){if(window.self===window.top)return;var R=document.documentElement;R.classList.add('embed');
+function send(){parent.postMessage({type:'guide-height',h:R.scrollHeight},'*')}
+if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,600);
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);var el=id?document.getElementById(id):document.body;if(!el)return;e.preventDefault();parent.postMessage({type:'guide-scroll',y:el.getBoundingClientRect().top+scrollY},'*')});
+addEventListener('message',function(e){var d=e.data||{};if(d.type==='theme'&&(d.v==='dark'||d.v==='light'))R.dataset.theme=d.v});
+addEventListener('storage',function(e){if(e.key==='theme'&&(e.newValue==='dark'||e.newValue==='light'))R.dataset.theme=e.newValue});
 })();
 </script>
 </body>
