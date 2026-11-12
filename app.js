@@ -370,6 +370,16 @@
       }).join("") + "</p>";
     }
 
+    /* 그림·실습 페이지 — 항목 맨 위에 크게 (2026-11-13 「여기까지 왔는데 어디로 가야 하는 거야?」: 공식 문서 맨 아래엔 안 보였다) */
+    if (it.pages && it.pages.length) {
+      h += '<div class="page-links">' + it.pages.map(function (pg) {
+        return '<a class="page-card" href="' + esc(pg.u) + '">' +
+          '<span class="page-k">' + esc(pg.k || "그림·실습 페이지") + '</span>' +
+          '<b>' + esc(pg.t) + '</b>' + (pg.d ? '<small>' + esc(pg.d) + '</small>' : '') +
+          '<span class="page-go">열어 보기 →</span></a>';
+      }).join("") + '</div>';
+    }
+
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
     var sl = ITEM_SLIDES[it.id] || [];
     /* 곧 다룰 항목 안내 — 위쪽에 둬야 보인다(아래에 두면 영상·문서에 묻힌다) */

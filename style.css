@@ -922,6 +922,18 @@ a.pg:hover { border-color: var(--brand); }
 
 /* ── 첫 화면 「최근에 더한 것」 (2026-10-03) ── */
 .recent-band { padding-top: 28px; padding-bottom: 28px; }
+/* ── 항목 맨 위 그림·실습 페이지 카드 (2026-11-13) ── */
+.page-links { display: grid; gap: 10px; margin: 18px 0 6px; }
+.page-card {
+  display: grid; gap: 4px; padding: 16px 18px; border-radius: var(--radius);
+  border: 1.5px solid var(--b); background: var(--b-soft); color: var(--fg); text-decoration: none;
+}
+.page-card:hover, .page-card:focus-visible { border-color: var(--brand); background: var(--brand-soft); outline: none; }
+.page-k { font-size: 13px; font-weight: 700; color: var(--b); letter-spacing: .02em; }
+.page-card b { font-size: 18px; line-height: 1.4; }
+.page-card small { font-size: 14.5px; color: var(--fg-soft); line-height: 1.55; }
+.page-go { font-size: 14.5px; font-weight: 700; color: var(--brand); margin-top: 2px; }
+
 .recent-band h2 { margin: 4px 0 16px; }
 .recent-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
 .recent-card {
