@@ -441,16 +441,16 @@
     }
     /* #a05 = 그림·실습 페이지가 본문, #notes-a05 = 예전 강의 정리·슬라이드(링크로 들어가 본다) — 2026-11-13 사용자님 */
     if (mainPage && !notes) {
-      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a>' +
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드 더 보기 →</a>' +
            '<a class="view-out" href="' + esc(mainPage.u) + '" target="_blank" rel="noopener">새 창으로 ↗</a></div>';
       h += '<div class="view-main"><iframe class="guide-frame" src="' + esc(mainPage.u) + '" title="' + esc(mainPage.t) + '" loading="eager"></iframe></div>';
       h += mediaHtml(it);
-      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a></div>';
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드 더 보기 →</a></div>';
       h += askBox(it.title, "어디까지 해보셨는지 함께 적어 주시면 답이 빨라집니다.");
       return h;
     }
     if (mainPage && notes) {
-      h += '<div class="view-switch"><a href="#' + esc(it.id) + '">← 그림으로 배우기로 돌아가기</a><span class="view-note">강의 슬라이드, 요약, 추천 영상, 현장 질문을 모았습니다.</span></div>';
+      h += '<div class="view-switch"><a href="#' + esc(it.id) + '">← 그림으로 배우기로 돌아가기</a><span class="view-note">강의 슬라이드, 요약, 현장 질문을 모았습니다. 영상·공식 문서는 그림으로 배우기 아래에 있습니다.</span></div>';
     }
 
     /* 발표자료 — 이 주제에 해당하는 슬라이드 */
@@ -491,7 +491,7 @@
       h += "</ul></div>";
     }
 
-    h += mediaHtml(it);
+    if (!mainPage) h += mediaHtml(it);  /* 그림 페이지가 있으면 영상·문서는 본문 아래에만(11-13 중복 정리) */
 
     /* 관련 항목 — 태그가 겹치는 것 */
     var rel = Find.relatedItems(it, 4);
