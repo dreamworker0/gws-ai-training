@@ -385,6 +385,36 @@
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 
+  /* 영상·공식 문서 — 그림·실습 본문 아래에도 바로 보이게 (2026-11-13 「뒤로 들어가 있는 것이 아니라」) */
+  function mediaHtml(it) {
+    var h = "";
+    h += "<h3>영상으로 보기</h3>";
+    if (it.videos && it.videos.length) {
+      h += '<div class="vids">';
+      it.videos.forEach(function (v) {
+        h += '<a class="vid" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener">' +
+             '<span class="thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg">' +
+             '<span class="video-play" aria-hidden="true">▶</span></span>' +
+             '<span class="video-copy"><strong>' + esc(v.t) + '</strong>' +
+             '<span class="video-meta">' + esc(v.channel) + ' · ' + esc(v.date.replace(/-/g, ".")) +
+             '</span></span></a>';
+      });
+      h += "</div>";
+    } else {
+      h += '<p class="empty">' + (it.status === "own"
+        ? "이 항목은 강사님 현장 실습이 중심입니다."
+        : "최근 2년 안에 공개된 추천 영상을 준비하고 있습니다.") + '</p>';
+    }
+    if (it.docs && it.docs.length) {
+      h += "<h3>공식 문서</h3><ul class='docs'>";
+      it.docs.forEach(function (d) {
+        h += '<li><a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></li>";
+      });
+      h += "</ul>";
+    }
+    return h;
+  }
+
   function renderItem(it, notes) {
     var h = "";
     var g = GROUP_OF[it.id];
@@ -414,6 +444,7 @@
       h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a>' +
            '<a class="view-out" href="' + esc(mainPage.u) + '" target="_blank" rel="noopener">새 창으로 ↗</a></div>';
       h += '<div class="view-main"><iframe class="guide-frame" src="' + esc(mainPage.u) + '" title="' + esc(mainPage.t) + '" loading="eager"></iframe></div>';
+      h += mediaHtml(it);
       h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a></div>';
       h += askBox(it.title, "어디까지 해보셨는지 함께 적어 주시면 답이 빨라집니다.");
       return h;
@@ -460,31 +491,7 @@
       h += "</ul></div>";
     }
 
-    h += "<h3>영상으로 보기</h3>";
-    if (it.videos && it.videos.length) {
-      h += '<div class="vids">';
-      it.videos.forEach(function (v) {
-        h += '<a class="vid" href="https://www.youtube.com/watch?v=' + esc(v.id) + '" target="_blank" rel="noopener">' +
-             '<span class="thumb"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/' + esc(v.id) + '/mqdefault.jpg">' +
-             '<span class="video-play" aria-hidden="true">▶</span></span>' +
-             '<span class="video-copy"><strong>' + esc(v.t) + '</strong>' +
-             '<span class="video-meta">' + esc(v.channel) + ' · ' + esc(v.date.replace(/-/g, ".")) +
-             '</span></span></a>';
-      });
-      h += "</div>";
-    } else {
-      h += '<p class="empty">' + (it.status === "own"
-        ? "이 항목은 강사님 현장 실습이 중심입니다."
-        : "최근 2년 안에 공개된 추천 영상을 준비하고 있습니다.") + '</p>';
-    }
-
-    if (it.docs && it.docs.length) {
-      h += "<h3>공식 문서</h3><ul class='docs'>";
-      it.docs.forEach(function (d) {
-        h += '<li><a href="' + esc(d.u) + '" target="_blank" rel="noopener">' + esc(d.t) + "</a></li>";
-      });
-      h += "</ul>";
-    }
+    h += mediaHtml(it);
 
     /* 관련 항목 — 태그가 겹치는 것 */
     var rel = Find.relatedItems(it, 4);
