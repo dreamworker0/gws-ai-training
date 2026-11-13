@@ -411,10 +411,10 @@
     }
     /* #a05 = 그림·실습 페이지가 본문, #notes-a05 = 예전 강의 정리·슬라이드(링크로 들어가 본다) — 2026-11-13 사용자님 */
     if (mainPage && !notes) {
-      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">슬라이드와 강의 요약으로 복습하기 →</a>' +
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a>' +
            '<a class="view-out" href="' + esc(mainPage.u) + '" target="_blank" rel="noopener">새 창으로 ↗</a></div>';
       h += '<div class="view-main"><iframe class="guide-frame" src="' + esc(mainPage.u) + '" title="' + esc(mainPage.t) + '" loading="eager"></iframe></div>';
-      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">슬라이드와 강의 요약으로 복습하기 →</a></div>';
+      h += '<div class="view-switch"><a href="#notes-' + esc(it.id) + '">강의 슬라이드·영상 더 보기 →</a></div>';
       h += askBox(it.title, "어디까지 해보셨는지 함께 적어 주시면 답이 빨라집니다.");
       return h;
     }
