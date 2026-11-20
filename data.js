@@ -1374,8 +1374,8 @@ const CURRICULUM = [
       { t: "Google 문서 시작하기", u: "https://support.google.com/docs/answer/7068618?hl=ko" },
       { t: "스프레드시트에서 공동작업하기 — 동시 수정", u: "https://support.google.com/docs/answer/9331169?hl=ko" },
       { t: "파일의 변경사항 찾기 — 버전 기록", u: "https://support.google.com/docs/answer/190843?hl=ko" },
-      { t: "Google Drive에서 파일 공유하기 — 사람 · 그룹 · 링크", u: "https://support.google.com/docs/answer/2494822?hl=ko" },
-      { t: "공유 중지, 제한 또는 변경하기 — 다운로드 · 인쇄 차단", u: "https://support.google.com/docs/answer/2494893?hl=ko" },
+      { t: "Google Drive에서 파일 공유하기 — 사람 · 그룹 · 링크", u: "https://support.google.com/drive/answer/2494822?hl=ko" },
+      { t: "공유 중지, 제한 또는 변경하기 — 다운로드 · 인쇄 차단", u: "https://support.google.com/drive/answer/2494893?hl=ko" },
     ],
     /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
     fixes: [
