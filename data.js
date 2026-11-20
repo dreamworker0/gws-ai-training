@@ -211,6 +211,7 @@ const RECENT = [
   { date: "2026-11-20", id: "a05-flex", what: "「오래된 PC에, 새로운 쓰임을.」 그림·실습 페이지" },
   { date: "2026-11-20", id: "a05-mail", what: "「보낸 메일이, 제대로 닿도록.」 그림·실습 페이지" },
   { date: "2026-11-20", id: "setup", what: "「일하는 계정과 나의 일상 사이, 창 하나의 거리.」 그림·실습 페이지" },
+  { date: "2026-11-20", id: "a09", what: "강의 뒤 보충 — 지메일 수신 확인·메일 병합 조건·필터, 줌 무료 40분, 킵 공유·색 필터, 비즈 유튜브 내보내기, 랜섬웨어는 네트워크부터" },
   { date: "2026-11-20", id: "a07", what: "강의 뒤 보충 — 사이트 맞춤 URL은 CNAME, 캘린더 X는 맞춤 보기, 랜섬웨어 복원은 최근 25일" },
   { date: "2026-11-20", id: "a00", what: "「우리 기관의 첫 계정, 차근차근 시작해요.」 그림·실습 페이지" },
   { date: "2026-11-20", id: "s01", what: "「무엇을 만들 수 있나 우리의 일에서 시작하는 변화」 그림·실습 페이지" },
@@ -1251,6 +1252,7 @@ const CURRICULUM = [
       { was: "마이크로소프트 365는 기관당 5TB, 직원당 1TB.", now: "사람마다 원드라이브 **1TB**는 맞습니다. 기관 공용(셰어포인트)은 **1TB + 라이선스당 10GB**라서 20명이면 약 1.2TB입니다. 구글 비영리판(기관 전체 100TB)이 훨씬 크다는 결론은 같습니다.", src: [{ t: "SharePoint 한도(마이크로소프트)", u: "https://learn.microsoft.com/en-us/office365/servicedescriptions/sharepoint-online-service-description/sharepoint-online-limits" }], date: "2026-10-24" },
       { was: "업무 계정은 지운 파일을 다 복원할 수 있다.", now: "관리자가 되살릴 수 있는 것은 직원이 **휴지통을 비운 뒤 25일 안**의 파일입니다(계정을 지운 경우 20일). 그 뒤로는 별도 백업이 있어야 합니다.", src: [{ t: "관리자: 삭제된 드라이브 파일 복구", u: "https://knowledge.workspace.google.com/admin/drive/recover-deleted-files-and-folders-for-drive-users?hl=ko" }], date: "2026-10-24" },
       { was: "랜섬웨어에 걸려도 날짜를 골라 그 시점으로 다 되돌릴 수 있다.", now: "데스크톱용 드라이브의 **랜섬웨어 감지·일괄 복원**은 **2026년 3월에 정식 출시**된 기능이고, 되돌릴 수 있는 범위는 **최근 25일 안에 바뀐 파일**까지입니다. 이상을 감지해 동기화를 멈춰 주는 기능은 **일부 요금제**에서만 됩니다.", src: [{ t: "구글 워크스페이스 업데이트(2026-03)", u: "https://workspaceupdates.googleblog.com/2026/03/ransomware-detection-and-file-restoration-for-Google-Drive-now-generally-available.html" }, { t: "구글 도움말 — 랜섬웨어 감지·파일 복원", u: "https://knowledge.workspace.google.com/admin/drive/detect-ransomware-and-recover-files-in-drive-for-desktop" }], date: "2026-11-20" },
+      { was: "랜섬웨어가 의심되면 제일 먼저 전원부터 끈다.", now: "미국 사이버보안기관(CISA) 지침은 **네트워크(랜선·와이파이)부터 끊기**입니다. 동기화와 확산을 먼저 막고, 전원은 그다음입니다.", src: [{ t: "CISA — 랜섬웨어에 걸렸을 때", u: "https://www.cisa.gov/stopransomware/ive-been-hit-ransomware" }], date: "2026-11-20" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1762,6 +1764,10 @@ const CURRICULUM = [
     docs: [
       { t: "Google Keep 사용하기", u: "https://support.google.com/keep/answer/2888240?hl=ko" },
     ],
+    fixes: [
+      { was: "킵 메모는 개인 계정끼리 공유가 안 된다.", now: "**상대 이메일 주소를 직접 넣으면 공유됩니다.** 개인 계정에서는 이름 자동완성만 안 될 뿐입니다.", src: [{ t: "구글 킵 도움말 — 메모 공유", u: "https://support.google.com/keep/answer/6101196" }], date: "2026-11-20" },
+      { was: "색깔별로 모아 보려면 특별한 명령어를 써야 한다.", now: "킵 **검색창을 누르면 색상 필터**가 바로 나옵니다. 눌러서 같은 색 메모만 모아 볼 수 있습니다.", src: [{ t: "구글 킵 도움말 — 메모 찾기", u: "https://support.google.com/keep/answer/2888263" }], date: "2026-11-20" },
+    ],
     notes: [],
   },
   {
@@ -1829,6 +1835,7 @@ const CURRICULUM = [
     /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
     fixes: [
       { was: "개인 구글 계정으로 연 회의는 한 시간이면 끝난다.", now: "한 시간 제한은 **3명 이상 그룹 회의**일 때입니다. 둘이서 하는 1:1 통화는 개인 계정도 24시간까지 됩니다.", src: [{ t: "Google Meet 시간 제한 정리", u: "https://tldv.io/ko/blog/google-meet-time-limit/" }], date: "2026-10-24" },
+      { was: "줌 무료 회의는 49분까지다.", now: "줌 무료(Basic) 회의는 **40분**까지입니다(받아쓰기가 「사십」을 잘못 옮겼을 수도 있습니다).", src: [{ t: "줌 요금제", u: "https://zoom.us/pricing" }], date: "2026-11-20" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1857,6 +1864,7 @@ const CURRICULUM = [
     /* 강의 뒤 보충 — 강의에서 한 말 중 틀리거나 바뀐 것 (근거 확인일 포함) */
     fixes: [
       { was: "비즈로 만들 수 있는 영상은 10분까지.", now: "**2026년 2월부터 30분까지**로 늘었습니다. 다른 곳에서 찍은 영상·음성 파일은 95분(4GB)까지 불러올 수 있지만, 편집하려면 30분 안으로 잘라야 합니다.", src: [{ t: "Google Workspace 업데이트(2026-02)", u: "https://workspaceupdates.googleblog.com/2026/02/expanded-duration-limits-in-google-vids.html" }, { t: "Google Vids 한도 도움말", u: "https://support.google.com/docs/answer/16286470?hl=ko" }], date: "2026-10-24" },
+      { was: "비즈로 만든 영상은 바로 유튜브로 내보낼 수 있다.", now: "「YouTube로 내보내기」는 **2026년 4월**에 생긴 기능이고, 관리자가 **유튜브를 꺼 둔 조직에서는 메뉴가 보이지 않습니다.** 그때는 MP4로 내려받아 올리세요.", src: [{ t: "구글 워크스페이스 업데이트(2026-04)", u: "https://workspaceupdates.googleblog.com/2026/04/export-google-vids-directly-to-youtube.html" }], date: "2026-11-20" },
     ],
     /* 현장에서 나온 질문 — 녹음에서 수강생이 실제로 물은 것 */
     qa: [
@@ -1879,6 +1887,11 @@ const CURRICULUM = [
     docs: [
       { t: "Gmail 라벨 만들기", u: "https://support.google.com/mail/answer/118708?hl=ko" },
       { t: "Gmail 필터 만들기", u: "https://support.google.com/mail/answer/6579?hl=ko" },
+    ],
+    fixes: [
+      { was: "지메일은 수신 확인 기능이 없다.", now: "업무 계정은 **관리자가 관리 콘솔에서 켜면** 보낼 때 수신 확인을 요청할 수 있습니다(상대가 승인해야 표시). 비영리 에디션에서 되는지는 확인이 필요합니다. 개인 계정은 확장 프로그램을 써야 합니다.", src: [{ t: "관리자 도움말 — 수신 확인 허용", u: "https://knowledge.workspace.google.com/admin/gmail/let-users-request-read-receipts" }], date: "2026-11-20" },
+      { was: "시트를 연결하면 누구나 메일 병합을 쓸 수 있다.", now: "지메일 메일 병합의 공식 지원은 **Business Standard 이상**이고 **비영리 무료 에디션은 표에 없습니다.** 하루 **1,500명**까지 보낼 수 있습니다. 기관마다 안 될 수 있으니 미리 확인하세요.", src: [{ t: "지메일 도움말 — 메일 병합", u: "https://support.google.com/mail/answer/12921167" }], date: "2026-11-20" },
+      { was: "필터는 앞으로 올 메일에만 적용된다.", now: "필터를 만들 때 **「일치하는 대화에도 필터 적용」**을 체크하면 **이미 받은 메일에도** 적용됩니다(제3자 자료로 확인).", src: [{ t: "지메일 필터 설명(제3자)", u: "https://hiverhq.com/blog/gmail-filters" }], date: "2026-11-20" },
     ],
     notes: [],
   },
