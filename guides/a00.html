@@ -277,7 +277,7 @@
 function send(){parent.postMessage({type:'guide-height',h:R.scrollHeight},'*')}
 if(window.ResizeObserver)new ResizeObserver(send).observe(document.body);addEventListener('load',send);setTimeout(send,600);
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="#"]');if(!a)return;var id=a.getAttribute('href').slice(1);var el=id?document.getElementById(id):document.body;if(!el)return;e.preventDefault();parent.postMessage({type:'guide-scroll',y:el.getBoundingClientRect().top+scrollY},'*')});
-var rail=document.querySelector('.rail'),lay=document.querySelector('.page-layout'),secs=[].slice.call(document.querySelectorAll('main > section')),links=[].slice.call(document.querySelectorAll('.rail nav a'));
+var rail=document.querySelector('.rail');if(rail)rail.style.alignSelf='start';var lay=document.querySelector('.page-layout'),secs=[].slice.call(document.querySelectorAll('main > section')),links=[].slice.call(document.querySelectorAll('.rail nav a'));
 /* 차례 고정: 부모 창이 스크롤 위치(이 페이지 기준 y)를 알려 주면 차례를 그만큼 내려 붙인다 — iframe 안에서는 sticky 가 듣지 않는다 */
 function follow(top,vh){if(rail&&lay&&getComputedStyle(lay).display==='grid'){rail.style.transform='none';var r0=rail.getBoundingClientRect().top+scrollY,lb=lay.getBoundingClientRect().bottom+scrollY;var off=Math.max(0,Math.min(top+24-r0,lb-rail.offsetHeight-r0));rail.style.transform='translateY('+off+'px)'}
 var act=secs.length?secs[0].id:'';secs.forEach(function(x){if(x.getBoundingClientRect().top+scrollY<=top+vh*.35)act=x.id});links.forEach(function(l){if(l.hash==='#'+act)l.setAttribute('aria-current','location');else l.removeAttribute('aria-current')})}
